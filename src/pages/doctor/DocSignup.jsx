@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const DocSignup = () => {
     const navigate = useNavigate()
     const [email, setEmail] = useState("")
+    const [fullname, setFullname] = useState("")
     const [password, setPassword] = useState("")
     const [cpassword, setCpassword] = useState("")
     const [passwordError, setPasswordError] = useState("")
@@ -20,40 +20,41 @@ const DocSignup = () => {
     }
 
     return (
-        <div className="py-5 rounded-xl backdrop-blur-lg bg-white/30 shadow-lg ring-black-5 w-4/5 flex flex-col justify-center items-center">
-            <div className="text-4xl mb-4 font-bold">Sign Up!</div>
-            <div className="flex">
-                <Link className="mr-4 py-1 px-3 rounded-full bg-gradient-to-r from-blue-700 from-50% to-white/30 to-50% bg-right bg-200% hover:bg-left transition-all duration-300 hover:text-primary-white" to='/Register/patientsignup'>Patient</Link>
-                <Link className="py-1 px-3 rounded-full border-blue-700 bg-blue-700 text-primary-white" to='/Register/docsignup'>
-                    Doctor
-                </Link>
-            </div>
-
+        
             <div className="mt-8 mb-4 w-4/5 flex-col">
                 <form onSubmit={handleSignup}>
-                    <div>
-                        <label className="text-primary-blue font-semibold" htmlFor="email">Email Address</label><br />
+                <div>
                         <input 
                         className="outline w-full mt-2 mb-7 h-8 p-2 rounded-md" 
                         type="email"
                         value={email}
+                        placeholder="Enter Your Email"
                         required
                         onChange={(e) => setEmail(e.target.value)}/>
                     </div>
                     <div>
-                        <label className="text-primary-blue font-semibold" htmlFor="password">Password</label><br />
                         <input 
                         className="outline w-full mt-2 mb-7 h-8 p-2 rounded-md" 
-                        type="password"
-                        value={password}
+                        type="text"
+                        placeholder="Full Name"
+                        value={fullname}
                         required
+                        onChange={(e) => setFullname(e.target.value)}/>
+                    </div>
+                    <div>
+                        <input 
+                        className="outline mt-2 w-full mb-7 h-8 p-2 rounded-md" 
+                        type="password"
+                        placeholder="Password"
+                        required
+                        value={password}
                         onChange={(e) => setPassword(e.target.value)}/>
                     </div>
                     <div>
-                        <label className="text-primary-blue font-semibold" htmlFor="password">Confirm Password</label><br />
                         <input 
                         className="outline w-full mt-2 h-8 p-2 mb-2 rounded-md" 
                         type="password"
+                        placeholder="Confirm Password"
                         required
                         value={cpassword}
                         onChange={(e) => setCpassword(e.target.value)}/>
@@ -64,9 +65,6 @@ const DocSignup = () => {
                     </div>
                 </form>
             </div>
-
-            <div><span>Already have an account? </span><Link className="underline text-primary-blue" to='/Register/doclogin'>Log In</Link></div>
-        </div>
     )
 }
 

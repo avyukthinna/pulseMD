@@ -4,7 +4,12 @@ module.exports = {
   theme: {
     backgroundImage: {
       'home-background': "url('./images/homeBg.jpg')",
+      'we-provide':"url('./images/we-provide.jpg')",
+      'why-md':'./images/why-md.jpg',
       'gradient-to-r': 'linear-gradient(to right, var(--tw-gradient-stops))'
+    },
+    scale: {
+      '102':'1.02'
     },
     backgroundSize: {
       '200%': '200%',
@@ -15,6 +20,9 @@ module.exports = {
     textColor: {
       'primary-blue':'#0e55e7',
       'primary-white':'#FFFFFF',
+      'primary-green':'#00980f',
+      'primary-yellow': '#ecae06',
+      'primary-purple': '#930ebd',
       'error': '#cc0000'
     },
     fontFamily: {
@@ -22,8 +30,11 @@ module.exports = {
       'logo': ['Playball', 'cursive']
     },
     screens: {
-      'sm':'640px',
-      'md': '800px'
+      'sm':'400px',
+      'sm-xl':'600px',
+      'md': '768px',
+      'md-xl': '960px',
+      'lg': '1024px'
     },
     extend: {
     }

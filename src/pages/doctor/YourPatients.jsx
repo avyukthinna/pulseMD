@@ -2,9 +2,9 @@ import { useAuth } from "../../store/AuthProvider"
 import { Navigate } from "react-router-dom"
 
 const YourPatients = () => {
-    const {userRole} = useAuth()
+    const {currentUser} = useAuth()
 
-    if(userRole === 'patient'){
+    if(currentUser.role === 'patient'){
         return <Navigate to='/'/>
     }
     return (
