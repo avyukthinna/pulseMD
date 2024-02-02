@@ -26,7 +26,7 @@ const Slideshow = () => {
     }, [index]);
 
     return (
-        <div className="w-8/12 overflow-hidden mx-0 my-auto">
+        <div className="hidden sm-xl:block md:w-6/12 lg:w-7/12 overflow-hidden mx-0 my-auto">
             <div className="w-full whitespace-nowrap duration-300" style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}>
                 {slideImages.map((image, index) => (
                 <div className={`w-full inline-block`} key={index}>

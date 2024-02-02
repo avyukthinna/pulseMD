@@ -10,7 +10,7 @@ import CopyrightIcon from '@mui/icons-material/Copyright';
 
 
 const Footer = () => {
-    const {userRole} = useAuth()
+    const {currentUser,userRole} = useAuth()
 
     return (
         <div className="bg-blue-600 text-primary-white p-4 md:pb-3 md:p-7 font-poppins">
@@ -34,11 +34,11 @@ const Footer = () => {
                             <li key={link.path} className="mt-1 hover:scale-102"><Link to={link.path}>{link.page}</Link></li>
                         ))}
 
-                        {userRole === 'patient' && patientLinks.map((link) => (
+                        {currentUser.role === 'patient' && patientLinks.map((link) => (
                             <li key={link.path} className="mt-1 hover:scale-102"><Link to={link.path}>{link.page}</Link></li>
                         ))}
 
-                    {userRole === 'doctor' && doctorLinks.map((link) => (
+                    {currentUser.role === 'doctor' && doctorLinks.map((link) => (
                             <li key={link.path} className="mt-1 hover:scale-102"><Link to={link.path}>{link.page}</Link></li>
                     ))}
                     </ul>

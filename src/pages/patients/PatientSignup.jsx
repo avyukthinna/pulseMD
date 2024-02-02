@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../../store/AuthProvider";
 
 const PatientSignup = () => {
+    const {handleSignup} = useAuth()
     const navigate = useNavigate()
     const [email, setEmail] = useState("")
     const [fullname, setFullname] = useState("")
@@ -16,7 +18,8 @@ const PatientSignup = () => {
         if(password !== cpassword){
             setPasswordError("Passwords don't match!")
         } else{
-            navigate('/')
+            handleSignup(fullname,email,password,'patient')
+            navigate('/Register')
         }
     }
 

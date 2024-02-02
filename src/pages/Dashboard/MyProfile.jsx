@@ -198,6 +198,7 @@ export default function MyProfile(){
             className="w-full py-2 border-b-2 outline-none focus:border-blue-700"
                 type="number"
                 name="age"
+                required
                 placeholder="Enter Age"
                 maxLength={2}
                 value={currentUser.age}
@@ -212,6 +213,7 @@ export default function MyProfile(){
             <select
               className="w-full py-2 border-b-2 outline-none focus:border-blue-700"
               name="gender"
+              required
               value={currentUser.gender}
               onClick={() => handleFieldClick('gender')}
               onChange={handleInputChange}
@@ -229,6 +231,7 @@ export default function MyProfile(){
               className="w-full py-2 border-b-2 outline-none focus:border-blue-700"
                   type="number"
                   name="regno"
+                  required
                   placeholder="Enter Registration No."
                   maxLength={8}
                   value={currentUser.regno}
@@ -243,6 +246,7 @@ export default function MyProfile(){
               className="w-full py-2 border-b-2 outline-none focus:border-blue-700"
                   type="number"
                   name="regyear"
+                  required
                   placeholder="Enter Registration Year"
                   min={1900}
                   max={2099}
@@ -277,6 +281,7 @@ export default function MyProfile(){
             className="w-full py-2 border-b-2 outline-none focus:border-blue-700"
                 type="number"
                 name="experience"
+                required
                 placeholder="Enter Experience (in years)"
                 min={2}
                 value={currentUser.experience}
@@ -351,14 +356,14 @@ export default function MyProfile(){
           </div>
         </div>
         <div className="flex flex-col justify-between items-baseline mb-4">
-                  <label className="font-bold text-md">Profile Picture</label>
-                  <input
-                    name="image"
-                    className="py-2"
-                    type="file"
-                    onChange={handleImageChange}
-                  />
-              </div>
+            <label className="font-bold text-md">Profile Picture</label>
+            <input
+              name="image"
+              className="py-2"
+              type="file"
+              onChange={handleImageChange}
+            />
+        </div>
 
         <button className="mb-4 w-full text-primary-white p-2 bg-blue-600 hover:bg-blue-700" onClick={handleSaveChanges}>Save Changes</button>
         <button className="w-full text-primary-white p-2 bg-red-600 hover:bg-red-700" onClick={handleSaveChanges}>Delete Account</button>

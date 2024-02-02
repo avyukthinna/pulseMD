@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { Alert } from '@mui/material';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BookAppointment = ({doctor_id,starttime,endtime,currentUser}) => {
     const [open, setOpen] = useState(false)
@@ -11,6 +13,7 @@ const BookAppointment = ({doctor_id,starttime,endtime,currentUser}) => {
       date: null,
       symptoms: '',
       doctor_id:doctor_id,
+      patient_id: currentUser.id,
       isConfimed: false
     });
     
@@ -37,16 +40,18 @@ const BookAppointment = ({doctor_id,starttime,endtime,currentUser}) => {
 
     const handleBookAppointment = (e) => {
       e.preventDefault()
-      if (isTimeWithinSchedule(appointment.date)){
+      if (isTimeWithinSchedule(appointment.date) && appointment.symptoms){
         //FUNCTON TO PUSH APPOINTMENT TO DATABASE
         console.log(appointment)
 
-        alert('Booked!')
+        toast.success("Appointment Booked!")
         setErrorMessage('')
         setAppointment(prevState => ({ ...prevState, symptoms: '',date:null }));
         setOpen(false)
-      } else {
+      } else if(!isTimeWithinSchedule(appointment.date)){
         setErrorMessage("Please choose the time within the doctor's slot");
+      } else if(!appointment.symptoms){
+        setErrorMessage("Please enter your symptoms");
       }
     };
 

@@ -96,6 +96,38 @@
     transform: scaleX(1);
 }
 
+.fadein{
+  opacity: 0;
+  animation: fadeIn 0.8s forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: rotateX(-10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+.flip{
+  opacity: 0;
+  animation: flip 1s forwards;
+}
+
+@keyframes flip {
+  0% {
+    opacity: 0;
+    transform: rotateX(-50deg);
+  }
+  100% {
+    opacity: 100%;
+    transform: rotateX(0deg);
+  }
+}
+
 @media (max-width:1023px){
   .side-nav{
     display: flex;

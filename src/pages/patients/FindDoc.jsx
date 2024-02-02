@@ -29,7 +29,7 @@ const FindDoc = () => {
     if(currentUser.role === 'patient'){
         if(currentUser.isverified){
             return(
-                <div className="relative top-16 mb-24 font-poppins min-h-screen">
+                <div className="fadein relative top-16 mb-24 font-poppins min-h-screen">
                     <div className="flex flex-col items-center justify-center pt-20">
                         <div data-aos='fade-down' className="w-full text-center text-4xl font-bold">Professional care with a <span className="text-primary-blue"> personal touch</span></div>
                         <input 
@@ -62,7 +62,7 @@ const FindDoc = () => {
 
                             }
                             }).map((doctor) => {
-                                console.log(doctor)
+                                
                                
                             return (
                                 <div key={doctor.id} className="flex flex-col items-center justify-center shadow-lg p-5 w-60 m-4 duration-300 hover:scale-102">
@@ -73,7 +73,7 @@ const FindDoc = () => {
                                     <div>{doctor.degree}</div>
                                     <div>{doctor.starttime} - {doctor.endtime} hrs</div>
 
-                                    <BookAppointment doctor_id={doctor.id} starttime={doctor.starttime} endtime={doctor.endtime}/>
+                                    <BookAppointment doctor_id={doctor.id} starttime={doctor.starttime} endtime={doctor.endtime} currentUser={currentUser}/>
                                 </div>
                             )
                             })}

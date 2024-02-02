@@ -7,15 +7,17 @@ import CrisisAlertIcon from '@mui/icons-material/CrisisAlert';
 import ChildCareIcon from '@mui/icons-material/ChildCare';
 import PregnantWomanIcon from '@mui/icons-material/PregnantWoman';
 import PsychologyIcon from '@mui/icons-material/Psychology';
+import AccessibilityIcon from '@mui/icons-material/Accessibility';
+import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
 
-const docCategories = [{'display':'Orthopedics'},
+const docCategories = [{'display':'Orthopedics','icon':<AccessibilityIcon className="text-primary-yellow" fontSize="large"/>},
         {'display':'Surgery','icon':<ContentCutIcon fontSize="large"/>},
         {'display':'Cardiology', 'icon':<MonitorHeartIcon color="error" fontSize="large"/>},
         {'display':'Neurology','icon':<PsychologyIcon fontSize="large"/>},
-        {'display':'Radiology', 'icon':<CrisisAlertIcon fontSize="large"/>},
+        {'display':'Radiology', 'icon':<CrisisAlertIcon color="error" fontSize="large"/>},
         {'display':'Pediatrician','icon':<ChildCareIcon color="warning" fontSize="large"/>},
         {'display':'Gynecologist','icon':<PregnantWomanIcon fontSize="large"/>},
-        {'display':'Dermatologist'}]
+        {'display':'Dermatologist','icon':<MedicationLiquidIcon fontSize="large"/>}]
 
 const CategorySlider = () => {
     const settings = {

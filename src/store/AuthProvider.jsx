@@ -1,6 +1,8 @@
 import { useContext,createContext } from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import pf1 from '../images/test-1.jpg'
 import doc_1 from '../images/doc-prof-1.jpg'
 
 export const AuthContext = createContext()
@@ -10,8 +12,19 @@ export function useAuth() {
 }
 
 export default function AuthProvider({children}){
-    //const [currentUser, setCurrentuser] = useState({id:10, email:'john@gmail.com',password:'john1234',fullname:'John Doe', image: doc_1,age:'30',gender:'Male',bloodgroup:'A+',address:'123 Baker Street',role:'patient', isverified:true})
-    const [currentUser, setCurrentuser] = useState(
+    /*const [currentUser, setCurrentuser] = useState(
+        {id:10, 
+        email:'john@gmail.com',
+        password:'john1234',
+        fullname:'John Doe', 
+        image: pf1,age:'30',
+        gender:'Male',
+        bloodgroup:'A+',
+        address:'123 Baker Street',
+        role:'patient', 
+        isverified:true})*/
+
+    /*const [currentUser, setCurrentuser] = useState(
         {id:'1',
         email:'mark@gmail.com',
         password:'mark1234',
@@ -19,7 +32,6 @@ export default function AuthProvider({children}){
         image: doc_1,
         age:'55',
         gender:'Male',
-        bloodgroup:'O+',
         address:'123 Baker Street',
         role:'doctor',
         degree:'MBBS, MD',
@@ -29,39 +41,79 @@ export default function AuthProvider({children}){
         experience: '15',
         starttime: '09:00',
         endtime: '17:00',
-        isverified:false})
+        isverified:true})*/
 
-
-    //const [currentUser, setCurrentuser] = useState('')
-    const [userRole, setUserRole] = useState('')
+    const [currentUser, setCurrentuser] = useState('')
+    //const [userRole, setUserRole] = useState('patient')
 
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate() 
 
     //USER LOGIN/LOGOUT SIGNIN/SIGNOUT
 
-    /*function handleSignup(name,email,password,role){
+    function handleSignup(name,email,password,role){
+        toast.success("Signed Up!")
+    }
 
-    }*/
+    useEffect(() => {
+        if (sessionStorage.getItem('currentUser') !== null) {
+            setCurrentuser(JSON.parse(sessionStorage.getItem('currentUser')))
+        } 
+    },[]);
 
     function handleLogin(email,password,role){
         //DATA FETCHING FUNCTION COMES HERE
         if(role === 'patient'){
-            setUserRole('patient')
-            setCurrentuser(true)
+            //setUserRole('patient')
+            const user = {id:10, 
+                email:email,
+                password:password,
+                fullname:'John Doe', 
+                image: pf1,
+                age:'30',
+                gender:'Male',
+                bloodgroup:'A+',
+                address:'123 Baker Street',
+                role:'patient', 
+                isverified:true}
+            sessionStorage.setItem('currentUser', JSON.stringify(user));
+            setCurrentuser(user)
+            toast.success("Logged In!")
             navigate('/dashboard')
         }
 
         if(role === 'doctor'){
-            setUserRole('doctor')
-            setCurrentuser(true)
+            //setUserRole('doctor')
+            const user = {id:'1',
+            email:email,
+            password:password,
+            fullname:'Mark Doe',
+            image: doc_1,
+            age:'55',
+            gender:'Male',
+            address:'123 Baker Street',
+            role:'doctor',
+            degree:'MBBS, MD',
+            speciality: 'Pediatrician',
+            regno:'12345678',
+            regyear:'1998',
+            experience: '15',
+            starttime: '09:00',
+            endtime: '17:00',
+            isverified:true}
+        console.log(currentUser)
+        sessionStorage.setItem('currentUser', JSON.stringify(user));
+        setCurrentuser(user);
+            toast.success("Logged In!")
             navigate('/dashboard')
         }
     }
 
     function handleLogout(){
-        setUserRole('')
-        setCurrentuser({})
+        //setUserRole('')
+        sessionStorage.removeItem('currentUser');
+        setCurrentuser('');
+        console.log(currentUser)
         navigate('/Register')
     }
 
@@ -75,16 +127,20 @@ export default function AuthProvider({children}){
     };
 
     const handleSaveChanges = () => {
+        //FUNCTION UPDATE USER DETAILS IN DB
         setIsEditing(false);
+        toast.success("Details Updated!")
+        sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
         console.log('Updated user details:', currentUser);
     }
     
     const value = {
         currentUser: currentUser,
-        userRole: userRole,
+        //userRole: userRole,
         isEditing: isEditing,
         setIsEditing: setIsEditing,
         handleLogin: handleLogin,
+        handleSignup: handleSignup,
         handleSaveChanges: handleSaveChanges,
         updateUserDetails: updateUserDetails,
         handleLogout: handleLogout,

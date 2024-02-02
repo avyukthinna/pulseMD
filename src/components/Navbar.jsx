@@ -8,20 +8,18 @@ export const Links = [
 
 export const patientLinks = [
     {'page':'Home', 'path': '/'},
-    {'page':'About Us','path':'/about-us'},
     {'page':'Dashboard', 'path':'/dashboard'},
     {'page':'Find Doctors', 'path': '/find-doctors'}
 ]
 
 export const doctorLinks = [
     {'page':'Home', 'path': '/'},
-    {'page':'About Us','path':'/about-us'},
     {'page':'Dashboard', 'path':'/dashboard'},
     {'page':'Your Patients', 'path': '/your-patients'}
 ]
 
 const Navbar = () => {
-    const {currentUser,handleLogout} = useAuth()
+    const {currentUser,handleLogout,userRole} = useAuth()
     const [isSticky, setSticky] = useState(false);
     const [isOpen, setIsopen] = useState(false)
 
@@ -114,7 +112,7 @@ const Navbar = () => {
                     <div className="bar w-6 h-1 bg-black"></div>
                 </div>
 
-                {currentUser.role === '' &&
+                {/*!userRole &&
                     Links.map((link) => {
                         return <li className="inline-block mt-5 lg:mr-8 lg:mt-0" key={link.path}>
                                     <NavLink 
@@ -122,7 +120,7 @@ const Navbar = () => {
                                     to={link.path}>{link.page}</NavLink>
                                 </li>
                     })
-                }
+                */}
 
                 {currentUser.role === 'patient' &&
                     patientLinks.map((link) => {

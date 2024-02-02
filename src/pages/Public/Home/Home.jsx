@@ -14,7 +14,7 @@ const Home = () => {
     const {currentUser} = useAuth()
    
     return (
-        <div className="font-poppins">
+        <div className="font-poppins fadein">
             <div className="bg-home-background bg-cover min-h-screen bg-no-repeat">
                 <div className="relative top-52 w-fit ml-2 text-center md:ml-0 md:text-left md:left-20">
                     <p className="font-medium">Healthcare for all</p>
@@ -25,7 +25,7 @@ const Home = () => {
                     </div>
 
                     <p className="mt-5">Your Trusted Online Hub for Expert Medical Advice and Care</p>
-                    {currentUser.role !== 'doctor' && <button className='mt-2 p-3 bg-blue-600 text-primary-white hover:bg-blue-700' data-aos='fade-up'>
+                    {currentUser.role !== 'doctor' && <button className='mt-2 p-3 bg-blue-600 text-primary-white hover:bg-blue-700' data-aos='fade-left'>
                         <Link to='/find-doctors'>Book Appointment <ArrowOutwardIcon fontSize="small"/></Link>
                     </button>}
                 </div>
@@ -82,7 +82,7 @@ const Home = () => {
                     <div className="text-5xl font-bold text-center md:text-left" data-aos='fade-down'>We provide the <span className="text-primary-blue">best doctors</span></div>
                     <hr className="w-24 mt-3 border-2 border-blue-600" />
                     <div className="my-8 text-justify">At PulseMD, we take pride in providing you with the best doctors for your healthcare needs. Our carefully curated network consists of highly qualified and experienced medical professionals dedicated to delivering top-notch care. Each doctor within our platform is committed to excellence, ensuring that you receive personalized and expert guidance for your health concerns.</div>   
-                    <Link className="p-3 bg-blue-600 text-primary-white hover:bg-blue-700" to='/about-us'>Read More</Link>
+                    {/*<Link className="p-3 bg-blue-600 text-primary-white hover:bg-blue-700" to='/about-us'>Read More</Link>*/}
                 </div>  
 
                 <div className="ml-0 mt-5 sm:w-3/5 md:w-6/12 md:ml-5 lg:w-3/12" data-aos='fade-up' data-aos-delay='600'>
@@ -111,7 +111,7 @@ const Home = () => {
                         <div><CheckCircleIcon className="text-primary-blue"/> Instant Prescription</div>
                         <div><CheckCircleIcon className="text-primary-blue"/> Always Doctor</div>
                     </div>
-                    <Link className="mt-5 p-3 bg-blue-600 text-primary-white hover:bg-blue-700" to='/about-us'>Read More</Link>
+                    {/*<Link className="mt-5 p-3 bg-blue-600 text-primary-white hover:bg-blue-700" to='/about-us'>Read More</Link>*/}
                 </div>  
             </div>
         </div>

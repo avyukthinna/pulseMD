@@ -1,5 +1,7 @@
 import './App.css';
 import { Routes, Route} from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Home from './pages/Public/Home/Home';
 import AboutUs from './pages/Public/AboutUs';
 import Layout from './pages/Public/Layout';
@@ -56,6 +58,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
+      <ToastContainer theme="dark" hideProgressBar={true} newestOnTop={true} pauseOnHover={false} autoClose={3500} />
       </DataProvider>
     </AuthProvider>
    </>
