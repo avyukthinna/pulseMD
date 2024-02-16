@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import pf1 from '../images/test-1.jpg'
 import doc_1 from '../images/doc-prof-1.jpg'
+import axios from 'axios';
 
 export const AuthContext = createContext()
 
@@ -51,7 +52,20 @@ export default function AuthProvider({children}){
 
     //USER LOGIN/LOGOUT SIGNIN/SIGNOUT
 
-    function handleSignup(name,email,password,role){
+    const handleSignup = async (name,email,password,role) => {
+        try {
+            const response = await axios.post('http://localhost:3001/signup', {
+              role,
+              name,
+              email,
+              password,
+            });
+      
+            console.log(response.data); // Successful registration message
+            
+          } catch (error) {
+            console.error('Signup error:', error.response.data);
+          }
         toast.success("Signed Up!")
     }
 
