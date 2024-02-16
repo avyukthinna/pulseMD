@@ -13,7 +13,7 @@ const PatientSignup = () => {
     const [emailError, setEmailError] = useState("")
 
     const handlePatientSignup = (e) => {
-        e.preventDefault()
+        e.preventDefault() //e for EVENT. This line prevents page reload.
         if(password !== cpassword){
             setPasswordError("Passwords don't match!")
         } else{
