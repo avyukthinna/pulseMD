@@ -1,0 +1,11 @@
+Ashok Verma {
+    email: "ashok.verma@outlook.com",
+    password: "ashverma",
+    role: 'patient',
+    fullname: "Ashok Verma",
+    image: "",
+    gender: "Male",
+    bloodgroup: "A+",
+    address: 'No. 10 2nd Cross BTM Layout, Bangalure - 560025',
+    isverified: true
+}
