@@ -62,11 +62,13 @@ export default function AuthProvider({children}){
             });
       
             console.log(response.data); // Successful registration message
-            
+            navigate('/Register')
+            toast.success("Signed Up!")
           } catch (error) {
-            console.error('Signup error:', error.response.data);
+            console.log(role);
+            //console.error('Signup error:', error.response.data);
+            toast.error("Sign Up Error!")
           }
-        toast.success("Signed Up!")
     }
 
     useEffect(() => {
@@ -75,8 +77,26 @@ export default function AuthProvider({children}){
         } 
     },[]);
 
-    function handleLogin(email,password,role){
-        //DATA FETCHING FUNCTION COMES HERE
+    const handleLogin = async (email,password,role) => {
+        /*USER FETCHING FUNCTION 
+        try {
+            const response = await axios.post('http://localhost:3001/login', {
+              email, 
+              password, 
+              role
+            });
+      
+            console.log(response.data); // Successful login message
+            sessionStorage.setItem('currentUser', JSON.stringify(response.data));
+            setCurrentuser(response.data); // Set the user state upon successful login
+            toast.success("Logged In!")
+            navigate('/dashboard')
+        } catch (error) {
+            console.log(role);
+            //console.error('Login error:', error.response.data);
+            toast.error("Login Error")
+        }*/
+
         if(role === 'patient'){
             //setUserRole('patient')
             const user = {id:10, 
@@ -115,7 +135,7 @@ export default function AuthProvider({children}){
             starttime: '09:00',
             endtime: '17:00',
             isverified:true}
-        console.log(currentUser)
+
         sessionStorage.setItem('currentUser', JSON.stringify(user));
         setCurrentuser(user);
             toast.success("Logged In!")

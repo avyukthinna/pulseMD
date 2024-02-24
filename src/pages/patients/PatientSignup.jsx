@@ -4,7 +4,6 @@ import { useAuth } from "../../store/AuthProvider";
 
 const PatientSignup = () => {
     const {handleSignup} = useAuth()
-    const navigate = useNavigate()
     const [email, setEmail] = useState("")
     const [fullname, setFullname] = useState("")
     const [password, setPassword] = useState("")
@@ -18,7 +17,6 @@ const PatientSignup = () => {
             setPasswordError("Passwords don't match!")
         } else{
             handleSignup(fullname,email,password,'patient')
-            navigate('/Register')
         }
     }
 

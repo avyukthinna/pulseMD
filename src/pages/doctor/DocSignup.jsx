@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../store/AuthProvider";
 import { useState } from "react";
 
 const DocSignup = () => {
-    const navigate = useNavigate()
+    const {handleSignup} = useAuth()
     const [email, setEmail] = useState("")
     const [fullname, setFullname] = useState("")
     const [password, setPassword] = useState("")
@@ -10,19 +11,19 @@ const DocSignup = () => {
     const [passwordError, setPasswordError] = useState("")
     const [emailError, setEmailError] = useState("")
 
-    const handleSignup = (e) => {
+    const handleDocSignup = (e) => {
         e.preventDefault()
         if(password !== cpassword){
             setPasswordError("Passwords don't match!")
         } else{
-            navigate('/')
+            handleSignup(fullname,email,password,'doctor')
         }
     }
 
     return (
         
             <div className="mt-8 mb-4 w-4/5 flex-col">
-                <form onSubmit={handleSignup}>
+                <form onSubmit={handleDocSignup}>
                 <div>
                         <input 
                         className="outline w-full mt-2 mb-7 h-8 p-2 rounded-md" 

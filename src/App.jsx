@@ -34,31 +34,32 @@ function App() {
    <>
     <AuthProvider>
       <DataProvider>
-      <Routes>
-        <Route path='/' element = {<Layout/>}>
-            <Route index element={<Home/>}/>
-            <Route path='/about-us' element={<AboutUs/>}/>
-        </Route>
-
-        <Route element={<PublicRoutes/>}>
-          <Route path='/Register' element={<Register/>}>
-            <Route index element={<Login/>}/>
-            <Route path='/Register/signup' element={<Signup/>}/>
-          </Route>
-        </Route>
-
-        <Route element={<PrivateRoutes/>}>
+        <Routes>
           <Route path='/' element = {<Layout/>}>
               <Route index element={<Home/>}/>
               <Route path='/about-us' element={<AboutUs/>}/>
-              
-                <Route path='/dashboard' element={<Dashboard/>}/>
-                <Route path='/find-doctors' element={<FindDoc/>}/>
-                <Route path='/your-patients' element={<YourPatients/>}/>
           </Route>
-        </Route>
-      </Routes>
-      <ToastContainer theme="dark" hideProgressBar={true} newestOnTop={true} pauseOnHover={false} autoClose={3500} />
+
+          <Route element={<PublicRoutes/>}>
+            <Route path='/Register' element={<Register/>}>
+              <Route index element={<Login/>}/>
+              <Route path='/Register/signup' element={<Signup/>}/>
+            </Route>
+          </Route>
+
+          <Route element={<PrivateRoutes/>}>
+            <Route path='/' element = {<Layout/>}>
+                <Route index element={<Home/>}/>
+                <Route path='/about-us' element={<AboutUs/>}/>
+                
+                  <Route path='/dashboard' element={<Dashboard/>}/>
+                  <Route path='/find-doctors' element={<FindDoc/>}/>
+                  <Route path='/your-patients' element={<YourPatients/>}/>
+            </Route>
+          </Route>
+        </Routes>
+        
+        <ToastContainer theme="dark" hideProgressBar={true} newestOnTop={true} pauseOnHover={false} autoClose={3500} />
       </DataProvider>
     </AuthProvider>
    </>

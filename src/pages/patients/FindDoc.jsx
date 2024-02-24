@@ -8,12 +8,13 @@ import BookAppointment from "./BookAppointment"
 
 const FindDoc = () => {
     const {currentUser} = useAuth()
-    const {doctors} = useData()
+    const {doctors,fetchDoctors} = useData()
 
     const [search, setSearch] = useState('')
     
     useEffect(() => {
         //FETCH DOCTORS
+        fetchDoctors()
     }, [])
 
     useEffect(() => {

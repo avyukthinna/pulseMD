@@ -7,6 +7,8 @@ import doc_2 from '../images/doc-prof-2.jpg'
 import doc_3 from '../images/doc-prof-3.jpg'
 import pf1 from '../images/test-1.jpg'
 import pf2 from '../images/test-2.jpg'
+import axios from "axios";
+import { toast } from 'react-toastify';
 
 
 export const DataContext = createContext()
@@ -17,6 +19,7 @@ export function useData() {
 
 export default function DataProvider({children}){
     const {currentUser} = useAuth()
+
     const [yourPatients, setYourPatients] = useState([
         {
             fullname:'John Doe', 
@@ -62,7 +65,7 @@ export default function DataProvider({children}){
         }
     ])
 
-    const [doctors, setDoctors] = useState([
+    const [doctors, setDoctors] = useState([/*
         {
             id:'1',
             fullname:'Mark Doe',
@@ -119,11 +122,22 @@ export default function DataProvider({children}){
             starttime: '09:00',
             endtime: '17:00',
             isverified:true
-        }
+        }*/
     ])
+
+    const fetchDoctors = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/doctors/verified-doctors');
+            setDoctors(response.data);
+          } catch (error) {
+            //toast.error("Couldn't Fetch Doctors")
+            console.error('Error fetching verified doctors:', error);
+          }
+    }
 
     const value = {
         doctors: doctors,
+        fetchDoctors: fetchDoctors,
         yourPatients: yourPatients
     }
 
