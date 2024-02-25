@@ -1,10 +1,20 @@
 import { useAuth } from "../../store/AuthProvider";
 import { useState } from "react";
 import { Alert } from "@mui/material";
+import DeleteAccountDialog from "./DeleteAccountDialog";
 
 export default function MyProfile(){
     const {currentUser,updateUserDetails,handleSaveChanges, isEditing, setIsEditing} = useAuth()
     const [selectedFile, setSelectedFile] = useState(null);
+    const [open, setOpen] = useState(false);
+
+    const handleDialogOpen = () => {
+      setOpen(true);
+    };
+
+    const handleDialogClose = () => {
+    setOpen(false);
+    };
 
     const handleFieldClick = (field) => {
         setIsEditing(field);
@@ -28,6 +38,8 @@ export default function MyProfile(){
     if(currentUser.role === 'patient'){
       return (
           <div className="mt-8 flex flex-col min-h-96 justify-center" data-aos='fade-up'>
+            {!currentUser.isverified && <Alert className="mb-6" severity="warning">Kindly Complete Your Profile.</Alert>}
+              
               <div className="flex flex-col mb-4">
                 <label className="font-bold text-md">Name*</label>
                 <input
@@ -139,7 +151,9 @@ export default function MyProfile(){
               </div>
 
           <button className="mb-4 w-full text-primary-white p-2 bg-blue-600 hover:bg-blue-700" onClick={handleSaveChanges}>Save Changes</button>
-          <button className="w-full text-primary-white p-2 bg-red-600 hover:bg-red-700" onClick={handleSaveChanges}>Delete Account</button>
+          <button className="w-full text-primary-white p-2 bg-red-600 hover:bg-red-700" onClick={handleDialogOpen}>Delete Account</button>
+          
+          <DeleteAccountDialog isOpen={open} handleClose={handleDialogClose}/>
       </div>
       )
   }
@@ -366,8 +380,11 @@ export default function MyProfile(){
         </div>
 
         <button className="mb-4 w-full text-primary-white p-2 bg-blue-600 hover:bg-blue-700" onClick={handleSaveChanges}>Save Changes</button>
-        <button className="w-full text-primary-white p-2 bg-red-600 hover:bg-red-700" onClick={handleSaveChanges}>Delete Account</button>
+        <button className="w-full text-primary-white p-2 bg-red-600 hover:bg-red-700" onClick={handleDialogOpen}>Delete Account</button>
+
+        <DeleteAccountDialog isOpen={open} handleClose={handleDialogClose}/>
       </div>
     )
   }
+  
 }

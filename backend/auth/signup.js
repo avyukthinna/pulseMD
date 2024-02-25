@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcryptUtils = require("../utils/bcrypt-hashing.js");
+const e = require("express");
 
 const uri =
   "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
@@ -36,17 +37,41 @@ app.post("/signup", async (req, res) => {
       const hashedPassword = await bcryptUtils.hashString(password);
 
       console.log("hashed: ", hashedPassword);
-      const query = {
-        email: email,
-        password: hashedPassword,
-        role: role,
-        fullname: name,
-        image: "",
-        gender: "",
-        bloodgroup: "",
-        address: "",
-        isverified: false
-      };
+      let query;
+      if(dbRole == 'patient'){
+        query = {
+          email: email,
+          password: hashedPassword,
+          role: role,
+          fullname: name,
+          age: "",
+          image: "",
+          gender: "",
+          bloodgroup: "",
+          address: "",
+          isverified: false
+        } 
+      } else{
+        query = {
+          email: email,
+          password: hashedPassword,
+          role: role,
+          fullname: name,
+          image: "",
+          gender: "",
+          address: "",
+          age:"",
+          degree:"",
+          speciality:"",
+          regno:"",
+          regyear:"",
+          experience:"",
+          starttime:"",
+          endtime:"",
+          isverified: false
+        } 
+      }
+      
       const result = await collection.insertOne(query);
 
       if (result) {

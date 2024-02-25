@@ -33,7 +33,7 @@ app.post("/login", async (req, res) => {
     console.log(result);
     if (isMatch) {
       console.log(result);
-      res.status(200).json({ success: true, message: "Login successful" });
+      res.status(200).json({ success: true, message: "Login successful",user:result }); //user:result is the Fetched User Details that is sent to the frontend.
     } else {
       res.status(401).json({ success: false, message: "Invalid credentials" });
     }

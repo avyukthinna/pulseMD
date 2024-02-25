@@ -30,7 +30,7 @@ const Footer = () => {
                 <div className="my-8 md:my-0">
                     <div className="font-logo text-4xl mb-2 text-center">Links</div>
                     <ul className="text-center">
-                        {userRole === '' && Links.map((link) => (
+                        {currentUser.role === '' && Links.map((link) => (
                             <li key={link.path} className="mt-1 hover:scale-102"><Link to={link.path}>{link.page}</Link></li>
                         ))}
 

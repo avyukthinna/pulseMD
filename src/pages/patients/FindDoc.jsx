@@ -69,7 +69,7 @@ const FindDoc = () => {
                                 <div key={doctor.id} className="flex flex-col items-center justify-center shadow-lg p-5 w-60 m-4 duration-300 hover:scale-102">
                                     <Avatar alt="Remy Sharp" src={doctor.image} sx={{ width: 150, height: 150 }} />
 
-                                    <div className="font-semibold text-lg my-2">Dr. {doctor.fullname}</div>
+                                    <div className="font-semibold text-lg my-2 text-center">Dr. {doctor.fullname}</div>
                                     <div>{doctor.speciality}</div>
                                     <div>{doctor.degree}</div>
                                     <div>{doctor.starttime} - {doctor.endtime} hrs</div>
@@ -83,7 +83,7 @@ const FindDoc = () => {
             )
         } else{
             return (
-                <div className="flex items-center justify-center h-screen font-poppins text-6xl">
+                <div className="flex items-center justify-center h-screen font-poppins text-6xl fadein">
                     KINDLY COMPLETE YOUR PROFILE
                 </div>
             )

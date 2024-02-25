@@ -18,7 +18,8 @@ export default function AuthProvider({children}){
         email:'john@gmail.com',
         password:'john1234',
         fullname:'John Doe', 
-        image: pf1,age:'30',
+        image: pf1,
+        age:'30',
         gender:'Male',
         bloodgroup:'A+',
         address:'123 Baker Street',
@@ -45,7 +46,7 @@ export default function AuthProvider({children}){
         isverified:true})*/
 
     const [currentUser, setCurrentuser] = useState('')
-    //const [userRole, setUserRole] = useState('patient')
+    const [userRole, setUserRole] = useState('')
 
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate() 
@@ -66,20 +67,22 @@ export default function AuthProvider({children}){
             toast.success("Signed Up!")
           } catch (error) {
             console.log(role);
-            //console.error('Signup error:', error.response.data);
-            toast.error("Sign Up Error!")
+            console.error('Signup error:', error.response.data.message);
+            toast.error(error.response.data.message)
           }
     }
 
     useEffect(() => {
         if (sessionStorage.getItem('currentUser') !== null) {
             setCurrentuser(JSON.parse(sessionStorage.getItem('currentUser')))
+            console.log(currentUser)
+            console.log(userRole);
         } 
     },[]);
 
     const handleLogin = async (email,password,role) => {
-        /*USER FETCHING FUNCTION 
-        try {
+        //USER FETCHING FUNCTION 
+        /*try {
             const response = await axios.post('http://localhost:3001/login', {
               email, 
               password, 
@@ -87,17 +90,19 @@ export default function AuthProvider({children}){
             });
       
             console.log(response.data); // Successful login message
-            sessionStorage.setItem('currentUser', JSON.stringify(response.data));
-            setCurrentuser(response.data); // Set the user state upon successful login
+            const user = await response.data.user;
+            setUserRole('patient')
+            sessionStorage.setItem('currentUser', JSON.stringify(user));
+            setCurrentuser(user)
             toast.success("Logged In!")
             navigate('/dashboard')
         } catch (error) {
             console.log(role);
             //console.error('Login error:', error.response.data);
-            toast.error("Login Error")
+            toast.error(error.response.data.message)
         }*/
 
-        if(role === 'patient'){
+       if(role === 'patient'){
             //setUserRole('patient')
             const user = {id:10, 
                 email:email,
@@ -151,6 +156,23 @@ export default function AuthProvider({children}){
         navigate('/Register')
     }
 
+    const handleDeleteAccount = async () => {
+        try{
+            const response = await axios.delete('http://localhost:3001/deleteAccount', {
+                data:{
+                    email:  currentUser.email,  
+                    role:  currentUser.role
+                }
+            });
+
+            sessionStorage.removeItem('currentUser');
+            toast.success("Account successfully deleted!")
+            setCurrentuser('');
+        } catch(error){
+            toast.error("Error in deleting account")
+        }
+    }
+
     //USER DETAILS UPDATE
     const updateUserDetails = (updatedDetails) => {
         console.log(updatedDetails)
@@ -158,6 +180,7 @@ export default function AuthProvider({children}){
           ...prevDetails,
           ...updatedDetails
         }));
+        console.log(currentUser)
     };
 
     const handleSaveChanges = () => {
@@ -170,7 +193,7 @@ export default function AuthProvider({children}){
     
     const value = {
         currentUser: currentUser,
-        //userRole: userRole,
+        userRole: userRole,
         isEditing: isEditing,
         setIsEditing: setIsEditing,
         handleLogin: handleLogin,
@@ -178,6 +201,7 @@ export default function AuthProvider({children}){
         handleSaveChanges: handleSaveChanges,
         updateUserDetails: updateUserDetails,
         handleLogout: handleLogout,
+        handleDeleteAccount: handleDeleteAccount
     }
 
     return(

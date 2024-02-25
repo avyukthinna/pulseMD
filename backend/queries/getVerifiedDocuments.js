@@ -15,16 +15,16 @@ app.use(cors()); // Enable CORS for all routes
 app.use(bodyParser.json());
 
 app.post("/getVerifiedDocuments", async (req, res) => {
-  const { collectionName } = req.body;
-
+  const collectionName = req.body.data;
+  console.log(collectionName);
   try {
     console.log(collectionName);
     await client.connect();
 
-    const database = client.db("test");
+    const database = client.db("users");
     const collection = database.collection(collectionName);
 
-    const resultArray = await collection.find({ isVerified: true }).toArray();
+    const resultArray = await collection.find({ isverified: true }).toArray();
 
     console.log(resultArray);
 

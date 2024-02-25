@@ -1,4 +1,4 @@
-import { useContext,createContext } from "react";
+import { useContext,createContext, useCallback } from "react";
 import { useAuth } from "./AuthProvider";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -125,15 +125,15 @@ export default function DataProvider({children}){
         }*/
     ])
 
-    const fetchDoctors = async () => {
+    const fetchDoctors = useCallback(async () => {
         try {
-            const response = await axios.get('http://localhost:3001/doctors/verified-doctors');
-            setDoctors(response.data);
+            const response = await axios.post('http://localhost:3001/getVerifiedDocuments', {data:"doctor"});
+            setDoctors(response.data.data);
           } catch (error) {
             //toast.error("Couldn't Fetch Doctors")
-            console.error('Error fetching verified doctors:', error);
+            console.error('Error fetching verified doctors:', error.response.message);
           }
-    }
+    },[]) 
 
     const value = {
         doctors: doctors,
