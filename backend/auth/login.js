@@ -39,7 +39,7 @@ app.post("/login", async (req, res) => {
     }
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    res.status(500).json({ success: false, message: "User doesn't exist" });
   } finally {
     await client.close();
   }

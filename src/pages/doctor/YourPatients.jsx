@@ -59,15 +59,15 @@ const YourPatients = () => {
                                     <div>{patient.symptoms}</div>
                                 </div>
                                 <div>
-                                    <div className="font-bold text-md">Apppointment Date</div>
-                                    <div>{patient.date.toLocaleDateString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}</div>
+                                    <div className="font-bold text-md">Appointment Date</div>
+                                    <div>{patient.date}</div>
                                 </div>
                             </div>
                             <div className="text-center py-2 bg-blue-100 ">
                                 <div className="font-bold text-md">Prescriptions</div>
                                 <ul>{patient.prescriptions.map((pres) => {
                                     return (
-                                        <li className="mx-3 inline">{pres}</li>
+                                        <li className="mx-1 inline">{pres}</li>
                                     )
                                 })}</ul>
                             </div>
@@ -81,7 +81,7 @@ const YourPatients = () => {
             )
     } else{
         return (
-            <div className="fadein relative top-8 min-h-screen font-poppins font-bold flex items-center justify-center text-6xl">YOU HAVE NO<span className="text-primary-blue ml-2"> PATIENTS!</span></div>
+            <div className="fadein relative top-8 min-h-screen font-poppins font-bold flex items-center justify-center text-6xl">YOU HAVE NO<span className="text-primary-blue ml-2">NO PATIENTS YET</span></div>
         )
     }
 }

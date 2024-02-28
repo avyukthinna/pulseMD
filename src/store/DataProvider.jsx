@@ -29,7 +29,7 @@ export default function DataProvider({children}){
             bloodgroup:'A+',
             symptoms: 'Fever',
             prescriptions:['Cetrizine - 3 days','Paracetamol - 5 days'],
-            date: new Date(),
+            date:"Sun Feb 25 2024 15:15:00",
             isConfimed: true //GRAB DATA ONLY FOR THOSE RECORDS THAT ARE TRUE
         },
         {
@@ -40,7 +40,7 @@ export default function DataProvider({children}){
             bloodgroup:'O+',
             symptoms: 'Sore Throat',
             prescriptions:['Cetrizine - 3 days'],
-            date: new Date(),
+            date:"Sun Feb 25 2024 15:15:00",
             isConfimed: true //GRAB DATA ONLY FOR THOSE RECORDS THAT ARE TRUE
         },
         {
@@ -49,8 +49,8 @@ export default function DataProvider({children}){
             gender:'Male',
             bloodgroup:'O+',
             symptoms: 'Cough',
-            prescriptions:['Cetrizine - 3 days'],
-            date: new Date(),
+            prescriptions:['Cetrizine - 3 days','Cough Syrup - 5 days'],
+            date:"Sun Feb 25 2024 15:15:00",
             isConfimed: true //GRAB DATA ONLY FOR THOSE RECORDS THAT ARE TRUE
         },
         {
@@ -60,7 +60,7 @@ export default function DataProvider({children}){
             bloodgroup:'AB+',
             symptoms: 'Cough',
             prescriptions:['Cough Syrup - 7 days'],
-            date: new Date(),
+            date:"Sun Mar 25 2024 14:00:00",
             isConfimed: true //GRAB DATA ONLY FOR THOSE RECORDS THAT ARE TRUE
         }
     ])
@@ -125,18 +125,53 @@ export default function DataProvider({children}){
         }*/
     ])
 
+    const [userAppointments, setUserAppointments] = useState([
+        {
+            doctor_name:"Raj Dev",
+            date:"Wed Feb 28 2024 23:20:00",
+            symptoms:"High Fever",
+            isConfimed:true
+        },
+        {
+            doctor_name:"Jessica Martin",
+            date:"Sun Feb 25 2024 15:15:00",
+            symptoms:"High Fever",
+            isConfimed:true
+        },
+        {
+            doctor_name:"Sam Welsh",
+            date:"Thu Feb 29 2024 10:00:00",
+            symptoms:"High Fever",
+            isConfimed:false
+        },
+    ])
+
     const fetchDoctors = useCallback(async () => {
         try {
             const response = await axios.post('http://localhost:3001/getVerifiedDocuments', {data:"doctor"});
             setDoctors(response.data.data);
           } catch (error) {
-            //toast.error("Couldn't Fetch Doctors")
-            console.error('Error fetching verified doctors:', error.response.message);
+            toast.error("Couldn't Fetch Doctors")
+            //console.error('Error fetching verified doctors:', error.message);
           }
     },[]) 
 
+    const fetchUserAppointments = async(user_id,role) => {
+        try {
+            const response = await axios.post('http://localhost:3001/getAppointments', {
+                user_id,role
+            });
+            setUserAppointments(response.data.data);
+          } catch (error) {
+            //toast.error("Couldn't Fetch Appointments")
+            console.error('Error fetching appointments:', error.message);
+          }
+    }
+
     const value = {
         doctors: doctors,
+        userAppointments: userAppointments,
+        fetchUserAppointments: fetchUserAppointments,
         fetchDoctors: fetchDoctors,
         yourPatients: yourPatients
     }

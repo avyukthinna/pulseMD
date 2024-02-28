@@ -9,7 +9,8 @@ module.exports = {
       'gradient-to-r': 'linear-gradient(to right, var(--tw-gradient-stops))'
     },
     scale: {
-      '102':'1.02'
+      '102':'1.02',
+      '101':'1.01'
     },
     backgroundSize: {
       '200%': '200%',

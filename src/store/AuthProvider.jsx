@@ -82,7 +82,7 @@ export default function AuthProvider({children}){
 
     const handleLogin = async (email,password,role) => {
         //USER FETCHING FUNCTION 
-        /*try {
+        try {
             const response = await axios.post('http://localhost:3001/login', {
               email, 
               password, 
@@ -100,9 +100,9 @@ export default function AuthProvider({children}){
             console.log(role);
             //console.error('Login error:', error.response.data);
             toast.error(error.response.data.message)
-        }*/
+        }
 
-       if(role === 'patient'){
+       /*if(role === 'patient'){
             //setUserRole('patient')
             const user = {id:10, 
                 email:email,
@@ -145,7 +145,7 @@ export default function AuthProvider({children}){
         setCurrentuser(user);
             toast.success("Logged In!")
             navigate('/dashboard')
-        }
+        }*/
     }
 
     function handleLogout(){
@@ -164,9 +164,9 @@ export default function AuthProvider({children}){
                     role:  currentUser.role
                 }
             });
-
+            console.log(response.data.message)
             sessionStorage.removeItem('currentUser');
-            toast.success("Account successfully deleted!")
+            toast.success(response.data.message)
             setCurrentuser('');
         } catch(error){
             toast.error("Error in deleting account")
