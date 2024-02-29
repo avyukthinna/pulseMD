@@ -28,11 +28,11 @@ router.post("/", async (req, res) => {
         .status(200)
         .json({ success: true, message: "Login successful", user: result }); //user:result is the Fetched User Details that is sent to the frontend.
     } else {
-      res.status(401).json({ success: false, message: "Invalid credentials" });
+      res.status(401).json({ success: false, message: "Invalid password" });
     }
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    res.status(500).json({ success: false, message: "Email doesn't exist" });
   } finally {
     await client.close();
   }

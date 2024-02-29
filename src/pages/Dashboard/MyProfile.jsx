@@ -322,6 +322,7 @@ export default function MyProfile(){
               <option value="Cardiology">Cardiology</option>
               <option value="Neurology">Neurology</option>
               <option value="Orthopedics">Orthopedics</option>
+              <option value="Orthopedics">Orthodontist</option>
               <option value="Gynecology">Gynecology</option>
             </select>                   
           </div>

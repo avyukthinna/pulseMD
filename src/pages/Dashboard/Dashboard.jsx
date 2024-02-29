@@ -19,7 +19,7 @@ export const Dashboard = () => {
 
             <div className="px-8 py-5 rounded-lg shadow-xl w-full md:w-4/5 lg:w-3/5 ">
                 <div className="flex-col flex lg:flex-row justify-center">
-                    <button onClick={() => setTab('profile')} className={`${tab === 'profile' && "active-tab"} tab mb-4 lg:w-full lg:mb-0 px-3 py-2`}>My Profile</button>
+                    <button onClick={() => setTab('profile')} className={`${tab === 'profile' && "active-tab"} tab lg:w-full lg:mb-0 px-3 py-2`}>My Profile</button>
                     <button onClick={() => setTab('meetings')} className={`${tab === 'meetings' && "active-tab"} tab lg:w-full px-3 py-2 mx-3`}>Scheduled Meetings</button>
                     {currentUser.role === 'patient' && <button onClick={() => setTab('prescriptions')} className={`${tab === 'prescriptions' && "active-tab"} tab lg:w-full px-3 py-2`}>My Prescriptions</button>}
                 </div>

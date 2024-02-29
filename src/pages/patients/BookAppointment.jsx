@@ -4,16 +4,20 @@ import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { Alert } from '@mui/material';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 
-const BookAppointment = ({doctor_id,starttime,endtime,currentUser}) => {
+const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) => {
     const [open, setOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState('');
     const [appointment, setAppointment] = useState({
       date: null,
       symptoms: '',
       doctor_id:doctor_id,
-      patient_id: currentUser.id,
+      doctor_name: doctor_name,
+      patient_id: currentUser._id,
+      prescriptions: [],
+      patient_name: currentUser.fullname,
       isConfimed: false
     });
     
@@ -38,16 +42,27 @@ const BookAppointment = ({doctor_id,starttime,endtime,currentUser}) => {
       return appointmentTime >= starttime && appointmentTime <= endtime;
     };
 
-    const handleBookAppointment = (e) => {
+    const handleBookAppointment = async (e) => {
       e.preventDefault()
+
       if (isTimeWithinSchedule(appointment.date) && appointment.symptoms){
         //FUNCTON TO PUSH APPOINTMENT TO DATABASE
         console.log(appointment)
-
-        toast.success("Appointment Booked!")
-        setErrorMessage('')
-        setAppointment(prevState => ({ ...prevState, symptoms: '',date:null }));
-        setOpen(false)
+          try {
+            const response = await axios.post('/api/appointments', {
+              ...appointment
+            });
+            console.log(appointment)
+  
+            toast.success("Appointment Booked!")
+            setErrorMessage('')
+            setAppointment(prevState => ({ ...prevState, symptoms: '',date:null }));
+            setOpen(false)
+            //console.log('Appointment booked successfully:', response.data);
+          } catch (error) {
+            toast.error("Error booking appointment")
+            //console.error('Error booking appointment:');
+          } 
       } else if(!isTimeWithinSchedule(appointment.date)){
         setErrorMessage("Please choose the time within the doctor's slot");
       } else if(!appointment.symptoms){
