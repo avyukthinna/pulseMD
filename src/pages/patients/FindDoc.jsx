@@ -83,9 +83,7 @@ const FindDoc = () => {
             )
         } else{
             return (
-                <div className="flex items-center justify-center h-screen font-poppins text-6xl fadein">
-                    KINDLY COMPLETE YOUR PROFILE
-                </div>
+                <div className="text-center fadein relative top-8 min-h-screen font-poppins font-bold flex flex-col lg:flex-row items-center justify-center text-6xl">KINDLY COMPLETE YOUR<span className="text-primary-blue ml-2"> PROFILE</span></div>
             )
         }
     }

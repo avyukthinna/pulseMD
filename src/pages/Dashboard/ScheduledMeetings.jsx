@@ -52,89 +52,82 @@ export default function ScheduledMeetings(){
             patient_name:"Raj Dev",
             date:"Wed Feb 28 2024 15:15:00",
             symptoms:"Cough",
-            isConfimed:true
+            isConfirmed:true
         },
         {   
             _id:'2',
             patient_name:"Jessica Martin",
             date:"Thu Feb 29 2024 15:15:00",
             symptoms:"Sore Throat",
-            isConfimed:true
+            isConfirmed:true
         },
         {   
             _id:'3',
             patient_name:"Sam Welsh",
             date:"Thu Feb 29 2024 10:00:00",
             symptoms:"High Fever",
-            isConfimed:false
+            isConfirmed:false
         }
     ]
 
     if(currentUser.role === 'patient'){
-        return(
-            <div>
-                {!ScheduledAppointments &&
+        if(ScheduledAppointments.length === 0){
+            return (
                 <div className="flip min-h-96 mt-8 font-poppins flex items-center justify-center" data-aos="fade-up">
                     <div className="text-6xl font-medium text-center">No Meetings Scheduled</div>
-                </div>}
-
-                {ScheduledAppointments &&
-                    <div className="min-h-96 mt-6 font-poppins flex flex-col" data-aos="fade-up">
-                        {ScheduledAppointments.map((app) => {
-                            return (
-                                <div className="bg-blue-100 mb-4 rounded-md p-3 flex flex-row items-center justify-between hover:scale-101 hover:duration-200">
-                                    <div>
-                                        <div className="font-semibold text-lg text-primary-blue">Dr. {app.doctor_name}</div>
-                                        <div className="text-center" ><span className="font-semibold">Date:</span> {app.date}</div>
-                                        <div><span className="font-semibold">Your Symptoms:</span> {app.symptoms}</div>
-                                    </div>
-                                    
-                                    {app.isConfimed && <a href="https://meet.google.com/" target="blank" className=" bg-blue-700 text-primary-white py-2 px-5 shadow-xl rounded-sm hover:bg-blue-600">JOIN</a>}
-                                    {!app.isConfimed && <p className="italic text-error">Status Pending</p>}
-                                </div>
-                            )
-                        })}
-                    </div>
-                }
-                
+                </div>
+            )
+        } else{
+            return(
+            <div className="min-h-96 mt-6 font-poppins flex flex-col" data-aos="fade-up">
+                {ScheduledAppointments.map((app) => {
+                    return (
+                        <div className="bg-blue-100 mb-4 rounded-md p-3 flex flex-col sm-xl:flex-row items-center justify-between hover:scale-101 hover:duration-200">
+                            <div className="text-center sm-xl:text-left">
+                                <div className="font-semibold text-lg text-primary-blue">Dr. {app.doctor_name}</div>
+                                <div className="text-center" ><span className="font-semibold">Date:</span> {app.date}</div>
+                                <div><span className="font-semibold">Your Symptoms:</span> {app.symptoms}</div>
+                            </div>
+                            
+                            {app.isConfirmed && <a href="https://meet.google.com/" target="blank" className="bg-blue-600 text-primary-white mt-5 sm-xl:mt-0 py-2 px-5 shadow-xl rounded-sm hover:bg-blue-700">JOIN</a>}
+                            {!app.isConfirmed && <p className="italic text-error mt-2 sm-xl:mt-0">Status Pending</p>}
+                        </div>
+                    )
+                })}
             </div>
-        )
+        )}
     }
 
     if(currentUser.role === 'doctor'){
-        return(
-            <div>
-                {!DocAppoint && 
+        if(DocAppoint.length === 0){
+            return (
                 <div className="flip min-h-96 mt-8 font-poppins flex items-center justify-center" data-aos="fade-up">
                     <div className="text-6xl font-medium text-center">No Meetings Scheduled</div>
-                </div>}
-
-                {DocAppoint &&
-                    <div className="min-h-96 mt-6 font-poppins flex flex-col" data-aos="fade-up">
-                        {DocAppoint.map((app) => {
-                            return (
-                                <div className="bg-blue-100 mb-4 rounded-md p-3 flex flex-row items-center justify-between hover:scale-101 hover:duration-200">
-                                    <div> 
-                                        <div className="font-semibold text-lg text-primary-blue">{app.patient_name}</div>
-                                        <div className="text-center"><span className="font-semibold">Date:</span> {app.date}</div>  
-                                        <div><span className="font-semibold">Symptoms: </span>{app.symptoms}</div>
-                                    </div>  
-                                    
-                                                              
-                                    {app.isConfimed && <a href="https://meet.google.com/" target="blank" className=" bg-blue-700 text-primary-white py-2 px-4 shadow-xl rounded-sm hover:bg-blue-600">JOIN</a>}
-                                    {!app.isConfimed && 
-                                        <div>
-                                            <button className="bg-red-600 text-primary-white py-2 px-4 shadow-xl rounded-sm mr-2 cursor-pointer hover:bg-red-700" onClick={() => handleReject(app._id)}>Reject</button>
-                                            <button className="bg-green-600 text-primary-white py-2 px-4 shadow-xl rounded-sm cursor-pointer hover:bg-green-500" onClick={() => handleAccept(app._id)}>Accept</button>
-                                        </div>}
-                                </div>
-                            )
-                        })}
-                    </div>
-                }
-                
-            </div>
-        )
+                </div>
+            )
+        } else{
+            return(
+            <div className="min-h-96 mt-6 font-poppins flex flex-col" data-aos="fade-up">
+                {DocAppoint.map((app) => {
+                    return (
+                        <div className="bg-blue-100 mb-4 rounded-md p-3 flex flex-col sm-xl:flex-row items-center justify-between hover:scale-101 hover:duration-200">
+                            <div className="text-center sm-xl:text-left"> 
+                                <div className="font-semibold text-lg text-primary-blue">{app.patient_name}</div>
+                                <div className="text-center"><span className="font-semibold">Date:</span> {app.date}</div>  
+                                <div><span className="font-semibold">Symptoms: </span>{app.symptoms}</div>
+                            </div>  
+                                                
+                            {app.isConfirmed && <a href="https://meet.google.com/" target="blank" className=" bg-blue-600 text-primary-white mt-5 sm-xl:mt-0 py-2 px-4 shadow-xl rounded-sm hover:bg-blue-700">JOIN</a>}
+                            {!app.isConfirmed && 
+                                <div className="lg:flex lg:flex-col lg-xl:block mt-5 sm-xl:mt-0">
+                                    <button className="bg-red-600 text-primary-white lg:ml-2 lg:mb-2 lg-xl:mb-0 py-2 px-4 shadow-xl rounded-sm mr-2 cursor-pointer hover:bg-red-700" onClick={() => handleReject(app._id)}>Reject</button>
+                                    <button className="bg-green-600 text-primary-white py-2 px-4 shadow-xl rounded-sm cursor-pointer hover:bg-green-500" onClick={() => handleAccept(app._id)}>Accept</button>
+                                </div>}
+                        </div>
+                    )
+                })}
+            </div>   
+        )}
     }
 
     

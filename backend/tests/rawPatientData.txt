@@ -9,3 +9,15 @@ Ashok Verma {
     address: 'No. 10 2nd Cross BTM Layout, Bangalure - 560025',
     isverified: true
 }
+
+Rahul Dev {
+    email: "rahul@gmail.com",
+    password: "123456",
+    role: 'patient',
+    fullname: "rahul Dev",
+    image: "",
+    gender: "Male",
+    bloodgroup: "A+",
+    address: 'No. 10 2nd Cross BTM Layout, Bangalure - 560025',
+    isverified: true
+}

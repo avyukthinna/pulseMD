@@ -183,12 +183,20 @@ export default function AuthProvider({children}){
         console.log(currentUser)
     };
 
-    const handleSaveChanges = () => {
+    const handleSaveChanges = async () => {
         //FUNCTION UPDATE USER DETAILS IN DB
-        setIsEditing(false);
-        toast.success("Details Updated!")
-        sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
         console.log('Updated user details:', currentUser);
+        try{
+            const response = await axios.post('http://localhost:3001/updateProfiles', {
+                ...currentUser
+            });
+            //console.log(response.data.message)
+            sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+            setIsEditing(false);
+            toast.success("Details Updated!")
+        } catch(error){
+            toast.error("Error in updating profile")
+        }
     }
     
     const value = {

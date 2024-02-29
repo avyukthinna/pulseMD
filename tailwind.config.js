@@ -35,7 +35,8 @@ module.exports = {
       'sm-xl':'600px',
       'md': '768px',
       'md-xl': '960px',
-      'lg': '1024px'
+      'lg': '1024px',
+      'lg-xl':'1135px'
     },
     extend: {
     }
