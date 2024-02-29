@@ -23,7 +23,16 @@ router.post("/", async (req, res) => {
 
 async function updateProfileFields(user) {
   try {
-    await client.connect();
+    //await client.connect();
+    await client.connect(function(err) {
+      if (err) {
+        console.error('Error connecting to MongoDB:', err);
+        return;
+      }
+      console.log('Connected successfully to server');
+    
+      // Your update operation here...
+    });
 
     const database = client.db("users");
     const collection = database.collection(user.role);
@@ -58,7 +67,7 @@ async function updateProfileFields(user) {
       updateFields.address = user.address;
       updateFields.isverified = true;
     }
-
+    console.log(updateFields)
     // Update the document
     console.log("Update Query:", filter, { $set: updateFields });
     const result = await collection.updateOne(filter, { $set: updateFields });

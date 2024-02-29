@@ -18,7 +18,7 @@ const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) 
       patient_id: currentUser._id,
       prescriptions: [],
       patient_name: currentUser.fullname,
-      isConfimed: false
+      isConfirmed: false
     });
     
     const handleOpen = () => setOpen(true);
@@ -50,7 +50,7 @@ const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) 
         console.log(appointment)
           try {
             const response = await axios.post('/api/appointments', {
-              ...appointment
+              appointment
             });
             console.log(appointment)
   
