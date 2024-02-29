@@ -1,15 +1,8 @@
 const { MongoClient } = require("mongodb");
-const express = require("express");
-const cors = require("cors");
 
 const uri =
   "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
-
-const app = express();
-const port = 3001;
-
-app.use(cors());
 
 async function getOneDocument(toFind, Collection) {
   try {
@@ -34,9 +27,5 @@ async function getOneDocument(toFind, Collection) {
     await client.close();
   }
 }
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
 
 module.exports = { getOneDocument };

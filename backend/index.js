@@ -1,3 +1,39 @@
+
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+
+const signupRoute = require("./auth/signup.js");
+const loginRoute = require("./auth/login.js");
+const updateProfilesRoute = require("./queries/updateProfiles.js");
+const getVerifiedDocumentsRoute = require("./queries/getVerifiedDocuments.js");
+
+const app = express();
+const port = 3001;
+
+app.use(cors());
+app.use(bodyParser.json());
+
+app.use("/signup", signupRoute);
+app.use("/login", loginRoute);
+app.use("/updateProfiles", updateProfilesRoute);
+app.use("/getVerifiedDocuments", getVerifiedDocumentsRoute);
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+
+
+
+
+
+
+
+
+
+
+
 /* const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -25,27 +61,3 @@ app.use("/getVerifiedDoctors", getVerifiedDoctors);
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 }); */
-
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-
-const signupRoute = require("./auth/signup.js");
-const loginRoute = require("./auth/login.js");
-const updateProfilesRoute = require("./queries/updateProfiles.js");
-const getVerifiedDocumentsRoute = require("./queries/getVerifiedDocuments.js");
-
-const app = express();
-const port = 3001;
-
-app.use(cors());
-app.use(bodyParser.json());
-
-app.use("/signup", signupRoute);
-app.use("/login", loginRoute);
-app.use("/updateProfiles", updateProfilesRoute);
-app.use("/getVerifiedDocuments", getVerifiedDocumentsRoute);
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
