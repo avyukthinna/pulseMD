@@ -24,18 +24,27 @@ router.post("/", async (req, res) => {
 
 async function updateProfileFields(user) {
   try {
-    await client.connect();
+    //await client.connect();
+    await client.connect(function(err) {
+      if (err) {
+        console.error('Error connecting to MongoDB:', err);
+        return;
+      }
+      console.log('Connected successfully to server');
+    
+      // Your update operation here...
+    });
 
-    const database = client.db("user");
+    const database = client.db("users");
     const collection = database.collection(user.role);
-
+    
     const filter = { email: user.email }; // Filter condition
-
+    
     //If any fields sent are empty then
     const updateFields = {};
     if (user.role === "doctor") {
       // Update fields for doctors
-      updateFields.fullname = user.name;
+      updateFields.fullname = user.fullname;
       updateFields.image = user.image || ""; //If no image is sent, it is set to ""
       updateFields.gender = user.gender;
       updateFields.address = user.address;
@@ -50,7 +59,7 @@ async function updateProfileFields(user) {
       updateFields.isverified = true;
     } else if (user.role === "patient") {
       // Update fields for patients
-      updateFields.fullname = user.name;
+      updateFields.fullname = user.fullname;
       updateFields.age = user.age;
       updateFields.image = user.image || ""; //If no image is sent, it is set to ""
       updateFields.gender = user.gender;
@@ -58,10 +67,11 @@ async function updateProfileFields(user) {
       updateFields.address = user.address;
       updateFields.isverified = true;
     }
-
+    console.log(updateFields)
     // Update the document
     const result = await collection.updateOne(filter, { $set: updateFields });
-
+  
+    console.log(result)
     if (result.modifiedCount > 0) {
       console.log("Profile fields updated successfully");
     } else {

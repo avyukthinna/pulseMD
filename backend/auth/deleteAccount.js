@@ -6,7 +6,7 @@ const uri =
   "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
-router.post("/", async (req, res) => {
+router.delete("/", async (req, res) => {
   const { email, role } = req.body; // Get user's email and role from request body
   console.log(email, role);
   try {

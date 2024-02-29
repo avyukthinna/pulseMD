@@ -159,7 +159,7 @@ export default function AuthProvider({children}){
     const handleDeleteAccount = async () => {
         try{
             const response = await axios.delete('http://localhost:3001/deleteAccount', {
-                data:{
+               data:{
                     email:  currentUser.email,  
                     role:  currentUser.role
                 }
