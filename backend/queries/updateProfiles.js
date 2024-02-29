@@ -7,10 +7,12 @@ const uri =
 const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
-  const { user } = req.body;
+  console.log(req.body);
+  const { currentUser } = req.body;
 
   try {
-    await updateProfileFields(user); //function call
+    console.log(currentUser);
+    await updateProfileFields(currentUser); //function call
     res
       .status(200)
       .json({ success: true, message: "Profile updated successfully" });

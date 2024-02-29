@@ -188,13 +188,14 @@ export default function AuthProvider({children}){
         console.log('Updated user details:', currentUser);
         try{
             const response = await axios.post('http://localhost:3001/updateProfiles', {
-                ...currentUser
+                currentUser
             });
             //console.log(response.data.message)
             sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
             setIsEditing(false);
             toast.success("Details Updated!")
         } catch(error){
+            console.log(error);
             toast.error("Error in updating profile")
         }
     }
