@@ -9,7 +9,7 @@ const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
   const { email, password, role } = req.body;
-
+  console.log(email)
   try {
     console.log(email, password, role);
     await client.connect();

@@ -194,6 +194,24 @@ export default function AuthProvider({children}){
             sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
             setIsEditing(false);
             toast.success("Details Updated!")
+            try {
+                const response = await axios.post('http://localhost:3001/login', {
+                    data:{
+                        email:  currentUser.email,  
+                        password: currentUser.password,
+                        role:  currentUser.role
+                    }
+                });
+          
+                
+                const user = await response.data.user;
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                setCurrentuser(user)
+            } catch (error) {
+                
+                //console.error('Login error:', error.response.data);
+                toast.error(error.response.data.message)
+            }
         } catch(error){
             console.log(error);
             toast.error("Error in updating profile")

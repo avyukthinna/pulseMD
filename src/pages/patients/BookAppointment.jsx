@@ -49,18 +49,18 @@ const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) 
         //FUNCTON TO PUSH APPOINTMENT TO DATABASE
         console.log(appointment)
           try {
-            const response = await axios.post('/api/appointments', {
+            const response = await axios.post('http://localhost:3001/bookAppointment', {
               appointment
             });
             console.log(appointment)
   
-            toast.success("Appointment Booked!")
+            toast.success(response.data.message)
             setErrorMessage('')
             setAppointment(prevState => ({ ...prevState, symptoms: '',date:null }));
             setOpen(false)
             //console.log('Appointment booked successfully:', response.data);
           } catch (error) {
-            toast.error("Error booking appointment")
+            toast.error(error.data.message)
             //console.error('Error booking appointment:');
           } 
       } else if(!isTimeWithinSchedule(appointment.date)){
