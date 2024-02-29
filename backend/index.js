@@ -1,4 +1,3 @@
-
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -7,6 +6,7 @@ const signupRoute = require("./auth/signup.js");
 const loginRoute = require("./auth/login.js");
 const updateProfilesRoute = require("./queries/updateProfiles.js");
 const getVerifiedDocumentsRoute = require("./queries/getVerifiedDocuments.js");
+const deleteAccountRoute = require("./auth/deleteAccount.js");
 
 const app = express();
 const port = 3001;
@@ -18,21 +18,11 @@ app.use("/signup", signupRoute);
 app.use("/login", loginRoute);
 app.use("/updateProfiles", updateProfilesRoute);
 app.use("/getVerifiedDocuments", getVerifiedDocumentsRoute);
+app.use("/deleteAccount", deleteAccountRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-
-
-
-
-
-
-
-
-
-
 
 /* const express = require("express");
 const bodyParser = require("body-parser");
