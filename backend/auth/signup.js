@@ -1,23 +1,13 @@
-const { MongoClient } = require("mongodb");
 const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const { MongoClient } = require("mongodb");
 const bcryptUtils = require("../utils/bcrypt-hashing.js");
-const e = require("express");
 
+const router = express.Router();
 const uri =
   "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
-const app = express();
-const port = 3001;
-
-app.use(cors()); // Enable CORS for all routes
-app.use(bodyParser.json());
-
-//TODO: Sparate Funtion for doctor and patient sign up depending on role recieved
-
-app.post("/signup", async (req, res) => {
+router.post("/", async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
     console.log(name, email, password, role);
@@ -38,7 +28,7 @@ app.post("/signup", async (req, res) => {
 
       console.log("hashed: ", hashedPassword);
       let query;
-      if(dbRole == 'patient'){
+      if (dbRole === "patient") {
         query = {
           email: email,
           password: hashedPassword,
@@ -49,9 +39,9 @@ app.post("/signup", async (req, res) => {
           gender: "",
           bloodgroup: "",
           address: "",
-          isverified: false
-        } 
-      } else{
+          isverified: false,
+        };
+      } else {
         query = {
           email: email,
           password: hashedPassword,
@@ -60,18 +50,18 @@ app.post("/signup", async (req, res) => {
           image: "",
           gender: "",
           address: "",
-          age:"",
-          degree:"",
-          speciality:"",
-          regno:"",
-          regyear:"",
-          experience:"",
-          starttime:"",
-          endtime:"",
-          isverified: false
-        } 
+          age: "",
+          degree: "",
+          speciality: "",
+          regno: "",
+          regyear: "",
+          experience: "",
+          starttime: "",
+          endtime: "",
+          isverified: false,
+        };
       }
-      
+
       const result = await collection.insertOne(query);
 
       if (result) {
@@ -89,6 +79,4 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+module.exports = router;

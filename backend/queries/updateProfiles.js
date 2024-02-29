@@ -1,25 +1,16 @@
-const { MongoClient } = require("mongodb");
 const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const { MongoClient } = require("mongodb");
 
+const router = express.Router();
 const uri =
   "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
-const app = express();
-const port = 3001;
-
-app.use(cors()); // Enable CORS for all routes
-app.use(bodyParser.json());
-
-// TODO: Create Sperate Functions to Update Doctor and Patient.
-
-app.post("/updateProfile", async (req, res) => {
-  const { email, role, fieldsToUpdate } = req.body;
+router.post("/", async (req, res) => {
+  const { user } = req.body;
 
   try {
-    await updateProfileFields(email, role, fieldsToUpdate);
+    await updateProfileFields(user); //function call
     res
       .status(200)
       .json({ success: true, message: "Profile updated successfully" });
@@ -29,22 +20,41 @@ app.post("/updateProfile", async (req, res) => {
   }
 });
 
-async function updateProfileFields(email, role, fieldsToUpdate) {
+async function updateProfileFields(user) {
   try {
     await client.connect();
 
-    const database = client.db("test");
-    var dbRole = role === "patient" ? "patient" : "doctor";
-    const collection = database.collection(dbRole);
+    const database = client.db("user");
+    const collection = database.collection(user.role);
 
-    const filter = { email, role }; // Filter condition
+    const filter = { email: user.email }; // Filter condition
 
-    // Build the updateFields object with non-null values
+    //If any fields sent are empty then
     const updateFields = {};
-    for (const [key, value] of Object.entries(fieldsToUpdate)) {
-      if (value !== null && value !== undefined) {
-        updateFields[key] = value;
-      }
+    if (user.role === "doctor") {
+      // Update fields for doctors
+      updateFields.fullname = user.name;
+      updateFields.image = user.image || ""; //If no image is sent, it is set to ""
+      updateFields.gender = user.gender;
+      updateFields.address = user.address;
+      updateFields.age = user.age;
+      updateFields.degree = user.degree;
+      updateFields.speciality = user.speciality;
+      updateFields.regno = user.regno;
+      updateFields.regyear = user.regyear;
+      updateFields.experience = user.experience;
+      updateFields.starttime = user.starttime;
+      updateFields.endtime = user.endtime;
+      updateFields.isverified = true;
+    } else if (user.role === "patient") {
+      // Update fields for patients
+      updateFields.fullname = user.name;
+      updateFields.age = user.age;
+      updateFields.image = user.image || ""; //If no image is sent, it is set to ""
+      updateFields.gender = user.gender;
+      updateFields.bloodgroup = user.bloodgroup;
+      updateFields.address = user.address;
+      updateFields.isverified = true;
     }
 
     // Update the document
@@ -63,6 +73,4 @@ async function updateProfileFields(email, role, fieldsToUpdate) {
   }
 }
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+module.exports = router;

@@ -1,27 +1,18 @@
-const { MongoClient } = require("mongodb");
 const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors"); // Import the cors middleware
+const { MongoClient } = require("mongodb");
 const bcryptUtils = require("../utils/bcrypt-hashing.js");
 
+const router = express.Router();
 const uri =
   "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
-const app = express();
-const port = 3001;
-
-app.use(cors()); // Enable CORS for all routes
-
-app.use(bodyParser.json());
-
-app.post("/login", async (req, res) => {
+router.post("/", async (req, res) => {
   const { email, password, role } = req.body;
 
   try {
     console.log(email, password, role);
     await client.connect();
-
     const database = client.db("users");
     const collection = database.collection(role);
 
@@ -33,7 +24,9 @@ app.post("/login", async (req, res) => {
     console.log(result);
     if (isMatch) {
       console.log(result);
-      res.status(200).json({ success: true, message: "Login successful",user:result }); //user:result is the Fetched User Details that is sent to the frontend.
+      res
+        .status(200)
+        .json({ success: true, message: "Login successful", user: result }); //user:result is the Fetched User Details that is sent to the frontend.
     } else {
       res.status(401).json({ success: false, message: "Invalid credentials" });
     }
@@ -45,7 +38,4 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+module.exports = router;

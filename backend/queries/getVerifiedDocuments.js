@@ -1,22 +1,16 @@
-const { MongoClient } = require("mongodb");
 const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors"); // Import the cors middleware
+const { MongoClient } = require("mongodb");
 
+const router = express.Router();
 const uri =
   "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
-const app = express();
-const port = 3001;
 
-app.use(cors()); // Enable CORS for all routes
-
-app.use(bodyParser.json());
-
-app.post("/getVerifiedDocuments", async (req, res) => {
+router.post("/", async (req, res) => {
   const collectionName = req.body.data;
   console.log(collectionName);
+
   try {
     console.log(collectionName);
     await client.connect();
@@ -50,6 +44,4 @@ app.post("/getVerifiedDocuments", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+module.exports = router;
