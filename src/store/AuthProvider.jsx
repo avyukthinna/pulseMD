@@ -196,22 +196,16 @@ export default function AuthProvider({children}){
             setIsEditing(false);
             toast.success("Details Updated!")
             try {
-                const response = await axios.post('http://localhost:3001/login', {
-                    data:{
-                        email:  currentUser.email,  
-                        password: currentUser.password,
-                        role:  currentUser.role
-                    }
+                const response = await axios.post('http://localhost:3001/fetchUser', {
+                    currentUser
                 });
           
-                
-                const user = await response.data.user;
+                const user = await response.data;
                 sessionStorage.setItem('currentUser', JSON.stringify(user));
                 setCurrentuser(user)
             } catch (error) {
-                
-                //console.error('Login error:', error.response.data);
-                toast.error(error.response.data.message)
+                console.error('Login error:', error.response.data);
+                //toast.error(error)
             }
         } catch(error){
             console.log(error);

@@ -58,7 +58,6 @@ const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) 
             setErrorMessage('')
             setAppointment(prevState => ({ ...prevState, symptoms: '',date:null }));
             setOpen(false)
-            //console.log('Appointment booked successfully:', response.data);
           } catch (error) {
             toast.error(error.data.message)
             //console.error('Error booking appointment:');

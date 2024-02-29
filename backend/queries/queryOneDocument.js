@@ -7,16 +7,16 @@ const uri =
 const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
-  const { email, role } = req.body; // Get data from request body
-  console.log(email, role);
+  const { currentUser } = req.body; // Get data from request body
+  console.log(currentUser);
 
   try {
     await client.connect();
 
     const database = client.db("users");
-    const collection = database.collection(role);
+    const collection = database.collection(currentUser.role);
 
-    const result = await collection.findOne({ email: email });
+    const result = await collection.findOne({ email: currentUser.email });
 
     console.log(result);
     if (result) {
