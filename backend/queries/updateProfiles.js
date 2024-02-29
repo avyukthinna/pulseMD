@@ -7,7 +7,6 @@ const uri =
 const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
   const { currentUser } = req.body;
 
   try {
@@ -37,9 +36,10 @@ async function updateProfileFields(user) {
 
     const database = client.db("users");
     const collection = database.collection(user.role);
-    
+    console.log(user.email);
     const filter = { email: user.email }; // Filter condition
-    
+    console.log(filter);
+
     //If any fields sent are empty then
     const updateFields = {};
     if (user.role === "doctor") {
@@ -69,9 +69,11 @@ async function updateProfileFields(user) {
     }
     console.log(updateFields)
     // Update the document
+    console.log("Update Query:", filter, { $set: updateFields });
     const result = await collection.updateOne(filter, { $set: updateFields });
-  
-    console.log(result)
+
+    console.log("Update Result:", result);
+
     if (result.modifiedCount > 0) {
       console.log("Profile fields updated successfully");
     } else {

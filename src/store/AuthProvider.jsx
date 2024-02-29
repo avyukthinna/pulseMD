@@ -169,6 +169,7 @@ export default function AuthProvider({children}){
             toast.success(response.data.message)
             setCurrentuser('');
         } catch(error){
+            console.log(error);
             toast.error("Error in deleting account")
         }
     }
