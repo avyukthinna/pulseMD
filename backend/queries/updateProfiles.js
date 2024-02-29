@@ -7,7 +7,6 @@ const uri =
 const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
   const { currentUser } = req.body;
 
   try {
@@ -26,16 +25,17 @@ async function updateProfileFields(user) {
   try {
     await client.connect();
 
-    const database = client.db("user");
+    const database = client.db("users");
     const collection = database.collection(user.role);
-
+    console.log(user.email);
     const filter = { email: user.email }; // Filter condition
+    console.log(filter);
 
     //If any fields sent are empty then
     const updateFields = {};
     if (user.role === "doctor") {
       // Update fields for doctors
-      updateFields.fullname = user.name;
+      updateFields.fullname = user.fullname;
       updateFields.image = user.image || ""; //If no image is sent, it is set to ""
       updateFields.gender = user.gender;
       updateFields.address = user.address;
@@ -50,7 +50,7 @@ async function updateProfileFields(user) {
       updateFields.isverified = true;
     } else if (user.role === "patient") {
       // Update fields for patients
-      updateFields.fullname = user.name;
+      updateFields.fullname = user.fullname;
       updateFields.age = user.age;
       updateFields.image = user.image || ""; //If no image is sent, it is set to ""
       updateFields.gender = user.gender;
@@ -60,7 +60,10 @@ async function updateProfileFields(user) {
     }
 
     // Update the document
+    console.log("Update Query:", filter, { $set: updateFields });
     const result = await collection.updateOne(filter, { $set: updateFields });
+
+    console.log("Update Result:", result);
 
     if (result.modifiedCount > 0) {
       console.log("Profile fields updated successfully");
