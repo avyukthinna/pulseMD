@@ -170,7 +170,8 @@ export default function DataProvider({children}){
           }
     },[]) 
 
-    const fetchUserAppointments = useCallback(async (user_id,role) => {
+    const fetchUserAppointments = async (user_id,role) => {
+        console.log('called')
         try {
             const response = await axios.post('http://localhost:3001/getAppointments', {
                 user_id,role
@@ -183,14 +184,15 @@ export default function DataProvider({children}){
             console.error('Error fetching appointments:', error.message);
           }
           
-    },[])
+    }
 
     const fetchYourPatients = async (user_id) => {
         try {
-            const response = await axios.post('http://localhost:3001/getPatients', {
+            const response = await axios.post('http://localhost:3001/yourpatients', {
                 user_id
             });
-            setYourPatients(response.data.data);
+            
+            setYourPatients(response.data);
           } catch (error) {
             //toast.error("Couldn't Fetch Appointments")
             console.error('Error fetching patients:', error.message);

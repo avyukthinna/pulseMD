@@ -20,29 +20,29 @@ export default function ScheduledMeetings(){
         if(appDate > currentDate) return app;
     })
    
-    const handleAccept = async (app_id) => {
-        console.log(app_id)
+    const handleAccept = async (patient) => {
+        console.log(patient)
       //FUNCTION SENDS APPOINTMENT ID AND CONFIRMS IT
       try {
         const response = await axios.post('http://localhost:3001/acceptAppointment', {
-          app_id
+          patient
         });
         toast.success("Meeting Scheduled")
-        fetchUserAppointments(currentUser._id,currentUser.role)
+        //fetchUserAppointments(currentUser.email,currentUser.role)
       } catch (error) {
         console.error('Error');
       } 
     }
 
-    const handleReject = async (patient_id) => {
-        console.log(patient_id)
+    const handleReject = async (patient) => {
+        console.log(patient)
         //FUNCTION SENDS APPOINTMENT ID AND DELETES IT FROM DB
         try {
             const response = await axios.delete('http://localhost:3001/rejectAppointment', {
-              patient_id
+              patient
             });
             toast.success("Meeting Removed")
-            fetchUserAppointments(currentUser._id,currentUser.role)
+            //fetchUserAppointments(currentUser.email,currentUser.role)
           } catch (error) {
             console.error('Error');
           } 

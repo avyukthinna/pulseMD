@@ -22,7 +22,7 @@ const YourPatients = () => {
     useEffect(() => {
         fetchYourPatients(currentUser.email);
     }, [])
-    console.log(pastPatients)
+    console.log(yourPatients)
 
     if(currentUser.role === 'patient'){
         return <Navigate to='/'/>

@@ -9,11 +9,7 @@ const getVerifiedDocumentsRoute = require("./queries/getVerifiedDocuments.js");
 const deleteAccountRoute = require("./auth/deleteAccount.js");
 const bookAppointment = require("./queries/bookAppointment.js");
 const getAppointments = require("./queries/getAppointments.js");
-const queryOneDocument = require("./queries/queryOneDocument.js");
-const acceptAppointment = require("./queries/acceptAppointment.js");
 const rejectAppointment = require("./queries/rejectAppointment.js");
-const bookAppointment = require("./queries/bookAppointment.js");
-const getAppointments = require("./queries/getAppointments.js");
 const queryOneDocument = require("./queries/queryOneDocument.js");
 const acceptAppointment = require("./queries/acceptAppointment.js");
 const yourpatients = require("./queries/yourpatients.js");
@@ -31,8 +27,6 @@ app.use("/getVerifiedDocuments", getVerifiedDocumentsRoute);
 app.use("/deleteAccount", deleteAccountRoute);
 app.use("/bookAppointment",bookAppointment);
 app.use("/fetchUser",queryOneDocument);
-app.use("/bookAppointment",bookAppointment)
-app.use("/fetchUser",queryOneDocument)
 app.use("/getAppointments",getAppointments)
 app.use("/acceptAppointment",acceptAppointment)
 app.use("/rejectAppointment",rejectAppointment)

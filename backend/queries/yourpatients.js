@@ -8,7 +8,7 @@ const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
   const doctorIdToQuery = req.body.user_id;//`ObjectId(${req.body})`;
-
+  
   try {
     // Connect to MongoDB
     await client.connect();
@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
 
     const prescriptionsWithDoctor = await collection.aggregate([
       {
-        $match: { patient_id: doctorIdToQuery }
+        $match: { doctor_id: doctorIdToQuery }
       },
       {
         $lookup: {
