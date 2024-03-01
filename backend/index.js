@@ -10,6 +10,8 @@ const deleteAccountRoute = require("./auth/deleteAccount.js");
 const bookAppointment = require("./queries/bookAppointment.js")
 const queryOneDocument = require("./queries/queryOneDocument.js")
 
+const yourpatients = require("./queries/yourpatients.js")
+
 const app = express();
 const port = 3001;
 
@@ -21,8 +23,9 @@ app.use("/login", loginRoute);
 app.use("/updateProfiles", updateProfilesRoute);
 app.use("/getVerifiedDocuments", getVerifiedDocumentsRoute);
 app.use("/deleteAccount", deleteAccountRoute);
-app.use("/bookAppointment",bookAppointment)
-app.use("/fetchUser",queryOneDocument)
+app.use("/bookAppointment",bookAppointment);
+app.use("/fetchUser",queryOneDocument);
+app.use("/yourpatients",yourpatients);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
