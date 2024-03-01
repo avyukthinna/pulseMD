@@ -35,11 +35,8 @@ app.use("/bookAppointment",bookAppointment)
 app.use("/fetchUser",queryOneDocument)
 app.use("/getAppointments",getAppointments)
 app.use("/acceptAppointment",acceptAppointment)
-<<<<<<< HEAD
 app.use("/rejectAppointment",rejectAppointment)
-=======
 app.use("/yourpatients",yourpatients);
->>>>>>> 8bc03834c2e093f1ef8c213d9ed734a1b216eca8
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
