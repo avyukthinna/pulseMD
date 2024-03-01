@@ -26,10 +26,11 @@ app.use("/updateProfiles", updateProfilesRoute);
 app.use("/getVerifiedDocuments", getVerifiedDocumentsRoute);
 app.use("/deleteAccount", deleteAccountRoute);
 app.use("/fetchUser",queryOneDocument);
-app.use("/getAppointments",getAppointments)
-app.use("/acceptAppointment",acceptAppointment)
-app.use("/rejectAppointment",rejectAppointment)
+app.use("/getAppointments",getAppointments);
+app.use("/acceptAppointment",acceptAppointment);
+app.use("/rejectAppointment",rejectAppointment);
 app.use("/yourpatients",yourpatients);
+app.use("/bookAppointment",bookAppointment);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
