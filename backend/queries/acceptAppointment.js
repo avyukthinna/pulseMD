@@ -8,7 +8,7 @@ const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
     const { patient_id } = req.body;
-    console.log(patient_id)
+    console.log(patient_id);
 
     try{
         await client.connect();
