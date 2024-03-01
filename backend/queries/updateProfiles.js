@@ -23,16 +23,7 @@ router.post("/", async (req, res) => {
 
 async function updateProfileFields(user) {
   try {
-    //await client.connect();
-    await client.connect(function(err) {
-      if (err) {
-        console.error('Error connecting to MongoDB:', err);
-        return;
-      }
-      console.log('Connected successfully to server');
-    
-      // Your update operation here...
-    });
+    await client.connect();
 
     const database = client.db("users");
     const collection = database.collection(user.role);

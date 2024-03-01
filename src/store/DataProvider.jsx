@@ -129,7 +129,7 @@ export default function DataProvider({children}){
         }*/
     ])
 
-    const [userAppointments, setUserAppointments] = useState([
+    const [userAppointments, setUserAppointments] = useState([/*
         {
             doctor_name:"Raj Dev",
             date:"Fri Mar 1 2024 23:20:00",
@@ -158,7 +158,7 @@ export default function DataProvider({children}){
             prescriptions:['Cough Syrup - 7 days'],
             isConfirmed:false
         },
-    ])
+    */])
 
     const fetchDoctors = useCallback(async () => {
         try {
@@ -170,17 +170,20 @@ export default function DataProvider({children}){
           }
     },[]) 
 
-    const fetchUserAppointments = async(user_id,role) => {
+    const fetchUserAppointments = useCallback(async (user_id,role) => {
         try {
             const response = await axios.post('http://localhost:3001/getAppointments', {
                 user_id,role
             });
-            setUserAppointments(response.data.data);
+            const result = await response.data.data
+            console.log(result)
+            setUserAppointments(result);
           } catch (error) {
-            //toast.error("Couldn't Fetch Appointments")
+            toast.error("Couldn't Fetch Appointments")
             console.error('Error fetching appointments:', error.message);
           }
-    }
+          
+    },[])
 
     const fetchYourPatients = async (user_id) => {
         try {

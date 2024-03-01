@@ -1,5 +1,6 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
+const { cloneElement } = require("react");
 
 const router = express.Router();
 const uri =
@@ -17,9 +18,13 @@ router.post("/", async (req, res) => {
     const database = client.db("users");
     const collection = database.collection("appointments");
 
-    
-
-    const resultArray = await collection.find({ isverified: true }).toArray();
+    let resultArray
+    if(role === 'patient'){
+      resultArray = await collection.find({patient_id: user_id}).toArray()
+    } else{
+      resultArray = await collection.find({doctor_id: user_id}).toArray()
+    }
+    //const resultArray = await collection.find({ id: user_id }).toArray();
 
     console.log(resultArray);
 
@@ -27,14 +32,13 @@ router.post("/", async (req, res) => {
       // Documents are found
       res.status(200).json({
         success: true,
-        message: `Documents of ${collectionName} retrieved`,
         data: resultArray,
       });
     } else {
       // No matching documents
       res.status(404).json({
         success: false,
-        message: `No verified documents found in ${collectionName}`,
+        message: `No Meetings Scheduled`,
       });
     }
   } catch (error) {

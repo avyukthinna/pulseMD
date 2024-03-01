@@ -11,7 +11,6 @@ router.post("/", async (req, res) => {
     console.log(appointment);
   
     try {
-      console.log(appointment);
       await client.connect();
   
       const database = client.db("users");

@@ -7,25 +7,24 @@ export default function ScheduledMeetings(){
     const {userAppointments, fetchUserAppointments} = useData()
     const {currentUser} = useAuth();
 
-    const ScheduledAppointments = userAppointments.filter((app) => {
-        const appDate = new Date(app.date)
-        const currentDate = new Date()
-        if(appDate > currentDate) return app;
-    })
-
     useEffect(() => {
         //FETCH APPOINTMENTS
         fetchUserAppointments(currentUser._id,currentUser.role)
     }, [])
 
+    const ScheduledAppointments = userAppointments.filter((app) => {
+        const appDate = new Date(app.date)
+        const currentDate = new Date()
+        if(appDate > currentDate) return app;
+    })
+   
     const handleAccept = async (app_id) => {
         console.log(app_id)
       //FUNCTION SENDS APPOINTMENT ID AND CONFIRMS IT
       try {
-        const response = await axios.post('/api/appointments', {
+        const response = await axios.post('http://localhost:3001/acceptAppointment', {
           app_id
         });
-
         fetchUserAppointments(currentUser._id,currentUser.role)
       } catch (error) {
         console.error('Error');
@@ -46,7 +45,7 @@ export default function ScheduledMeetings(){
           } 
     }
 
-    const DocAppoint = [
+    /*const DocAppoint = [
         {
             _id:'1',
             patient_name:"Raj Dev",
@@ -68,7 +67,7 @@ export default function ScheduledMeetings(){
             symptoms:"High Fever",
             isConfirmed:false
         }
-    ]
+    ]*/
 
     if(currentUser.role === 'patient'){
         if(ScheduledAppointments.length === 0){
@@ -99,7 +98,7 @@ export default function ScheduledMeetings(){
     }
 
     if(currentUser.role === 'doctor'){
-        if(DocAppoint.length === 0){
+        if(ScheduledAppointments.length === 0){
             return (
                 <div className="flip min-h-96 mt-8 font-poppins flex items-center justify-center" data-aos="fade-up">
                     <div className="text-6xl font-medium text-center">No Meetings Scheduled</div>
@@ -108,7 +107,7 @@ export default function ScheduledMeetings(){
         } else{
             return(
             <div className="min-h-96 mt-6 font-poppins flex flex-col" data-aos="fade-up">
-                {DocAppoint.map((app) => {
+                {ScheduledAppointments.map((app) => {
                     return (
                         <div className="bg-blue-100 mb-4 rounded-md p-3 flex flex-col sm-xl:flex-row items-center justify-between hover:scale-101 hover:duration-200">
                             <div className="text-center sm-xl:text-left"> 
