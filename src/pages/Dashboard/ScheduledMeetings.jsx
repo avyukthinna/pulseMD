@@ -28,7 +28,7 @@ export default function ScheduledMeetings(){
           patient
         });
         toast.success("Meeting Scheduled")
-        //fetchUserAppointments(currentUser.email,currentUser.role)
+        fetchUserAppointments(currentUser.email,currentUser.role)
       } catch (error) {
         console.error('Error');
       } 
@@ -42,7 +42,7 @@ export default function ScheduledMeetings(){
               patient
             });
             toast.success("Meeting Removed")
-            //fetchUserAppointments(currentUser.email,currentUser.role)
+            fetchUserAppointments(currentUser.email,currentUser.role)
           } catch (error) {
             console.error('Error');
           } 
