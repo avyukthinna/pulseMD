@@ -7,11 +7,11 @@ const loginRoute = require("./auth/login.js");
 const updateProfilesRoute = require("./queries/updateProfiles.js");
 const getVerifiedDocumentsRoute = require("./queries/getVerifiedDocuments.js");
 const deleteAccountRoute = require("./auth/deleteAccount.js");
-const bookAppointment = require("./queries/bookAppointment.js")
-const getAppointments = require("./queries/getAppointments.js")
-const queryOneDocument = require("./queries/queryOneDocument.js")
-const acceptAppointment = require("./queries/acceptAppointment.js")s
-const yourpatients = require("./queries/yourpatients.js")
+const bookAppointment = require("./queries/bookAppointment.js");
+const getAppointments = require("./queries/getAppointments.js");
+const queryOneDocument = require("./queries/queryOneDocument.js");
+const acceptAppointment = require("./queries/acceptAppointment.js");
+const yourpatients = require("./queries/yourpatients.js");
 
 const app = express();
 const port = 3001;
