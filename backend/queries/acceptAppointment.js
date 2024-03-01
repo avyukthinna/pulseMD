@@ -7,7 +7,8 @@ const uri =
 const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
-    const {app_id} = req.body;
+    const { patient_id } = req.body;
+    console.log(patient_id)
 
     try{
         await client.connect();
@@ -17,7 +18,7 @@ router.post("/", async (req, res) => {
         const collection = database.collection("appointments");
 
         // Define the filter and update document
-        const filter = { _id: app_id };
+        const filter = { patient_id: patient_id };
         const updateDocument = {
             $set: {
               isConfirmed: true
@@ -25,7 +26,10 @@ router.post("/", async (req, res) => {
         };
         
         // Update the appointment document
-        const result = await collection.updateOne(filter, updateDocument);
+        console.log("Update Query:", filter, updateDocument);
+        const result = await collection.updateOne(filter, {$set: {
+            isConfirmed: true
+        }});
         console.log(result)
         if (result.modifiedCount > 0) {
             console.log("Appointment accepted");

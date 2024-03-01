@@ -15,7 +15,7 @@ const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) 
       symptoms: '',
       doctor_id:doctor_id,
       doctor_name: doctor_name,
-      patient_id: currentUser._id,
+      patient_id: currentUser.email,
       prescriptions: [],
       patient_name: currentUser.fullname,
       isConfirmed: false

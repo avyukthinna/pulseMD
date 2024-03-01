@@ -11,6 +11,7 @@ const bookAppointment = require("./queries/bookAppointment.js")
 const getAppointments = require("./queries/getAppointments.js")
 const queryOneDocument = require("./queries/queryOneDocument.js")
 const acceptAppointment = require("./queries/acceptAppointment.js")
+const rejectAppointment = require("./queries/rejectAppointment.js")
 
 const app = express();
 const port = 3001;
@@ -27,6 +28,7 @@ app.use("/bookAppointment",bookAppointment)
 app.use("/fetchUser",queryOneDocument)
 app.use("/getAppointments",getAppointments)
 app.use("/acceptAppointment",acceptAppointment)
+app.use("/rejectAppointment",rejectAppointment)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

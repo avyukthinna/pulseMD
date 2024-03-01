@@ -179,7 +179,7 @@ export default function DataProvider({children}){
             console.log(result)
             setUserAppointments(result);
           } catch (error) {
-            toast.error("Couldn't Fetch Appointments")
+            //toast.error("No Scheduled Appointments")
             console.error('Error fetching appointments:', error.message);
           }
           

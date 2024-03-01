@@ -1,6 +1,5 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
-const { cloneElement } = require("react");
 
 const router = express.Router();
 const uri =
@@ -37,7 +36,7 @@ router.post("/", async (req, res) => {
     } else {
       // No matching documents
       res.status(404).json({
-        success: false,
+        success: true,
         message: `No Meetings Scheduled`,
       });
     }

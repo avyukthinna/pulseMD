@@ -20,7 +20,7 @@ const YourPatients = () => {
     })
 
     useEffect(() => {
-        fetchYourPatients(currentUser._id);
+        fetchYourPatients(currentUser.email);
     }, [])
     console.log(pastPatients)
 

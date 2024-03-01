@@ -74,7 +74,7 @@ const FindDoc = () => {
                                     <div>{doctor.degree}</div>
                                     <div>{doctor.starttime} - {doctor.endtime} hrs</div>
 
-                                    <BookAppointment doctor_name={doctor.fullname} doctor_id={doctor._id} starttime={doctor.starttime} endtime={doctor.endtime} currentUser={currentUser}/>
+                                    <BookAppointment doctor_name={doctor.fullname} doctor_id={doctor.email} starttime={doctor.starttime} endtime={doctor.endtime} currentUser={currentUser}/>
                                 </div>
                             )
                             })}

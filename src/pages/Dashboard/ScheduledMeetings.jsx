@@ -2,6 +2,8 @@ import { useAuth } from "../../store/AuthProvider"
 import { useState,useEffect } from "react";
 import { useData } from "../../store/DataProvider";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 export default function ScheduledMeetings(){
     const {userAppointments, fetchUserAppointments} = useData()
@@ -9,7 +11,7 @@ export default function ScheduledMeetings(){
 
     useEffect(() => {
         //FETCH APPOINTMENTS
-        fetchUserAppointments(currentUser._id,currentUser.role)
+        fetchUserAppointments(currentUser.email,currentUser.role)
     }, [])
 
     const ScheduledAppointments = userAppointments.filter((app) => {
@@ -25,20 +27,21 @@ export default function ScheduledMeetings(){
         const response = await axios.post('http://localhost:3001/acceptAppointment', {
           app_id
         });
+        toast.success("Meeting Scheduled")
         fetchUserAppointments(currentUser._id,currentUser.role)
       } catch (error) {
         console.error('Error');
       } 
     }
 
-    const handleReject = async (app_id) => {
-        console.log(app_id)
+    const handleReject = async (patient_id) => {
+        console.log(patient_id)
         //FUNCTION SENDS APPOINTMENT ID AND DELETES IT FROM DB
         try {
-            const response = await axios.post('/api/appointments', {
-              app_id
+            const response = await axios.delete('http://localhost:3001/rejectAppointment', {
+              patient_id
             });
-    
+            toast.success("Meeting Removed")
             fetchUserAppointments(currentUser._id,currentUser.role)
           } catch (error) {
             console.error('Error');
@@ -119,8 +122,8 @@ export default function ScheduledMeetings(){
                             {app.isConfirmed && <a href="https://meet.google.com/" target="blank" className=" bg-blue-600 text-primary-white mt-5 sm-xl:mt-0 py-2 px-4 shadow-xl rounded-sm hover:bg-blue-700">JOIN</a>}
                             {!app.isConfirmed && 
                                 <div className="lg:flex lg:flex-col lg-xl:block mt-5 sm-xl:mt-0">
-                                    <button className="bg-red-600 text-primary-white lg:ml-2 lg:mb-2 lg-xl:mb-0 py-2 px-4 shadow-xl rounded-sm mr-2 cursor-pointer hover:bg-red-700" onClick={() => handleReject(app._id)}>Reject</button>
-                                    <button className="bg-green-600 text-primary-white py-2 px-4 shadow-xl rounded-sm cursor-pointer hover:bg-green-500" onClick={() => handleAccept(app._id)}>Accept</button>
+                                    <button className="bg-red-600 text-primary-white lg:ml-2 lg:mb-2 lg-xl:mb-0 py-2 px-4 shadow-xl rounded-sm mr-2 cursor-pointer hover:bg-red-700" onClick={() => handleReject(app.patient_id)}>Reject</button>
+                                    <button className="bg-green-600 text-primary-white py-2 px-4 shadow-xl rounded-sm cursor-pointer hover:bg-green-500" onClick={() => handleAccept(app.patient_id)}>Accept</button>
                                 </div>}
                         </div>
                     )
