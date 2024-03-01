@@ -7,7 +7,7 @@ const uri =
 const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
-  const doctorIdToQuery = 'ObjectId(65e0c33c2b4180dc1f05c665)';//`ObjectId(${req.body})`;
+  const doctorIdToQuery = req.body.user_id;//`ObjectId(${req.body})`;
 
   try {
     // Connect to MongoDB

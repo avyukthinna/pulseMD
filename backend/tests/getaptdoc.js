@@ -12,7 +12,7 @@ async function main() {
     // Connect to MongoDB
     await client.connect();
 
-    const doctorId = new ObjectId("65d2572b7aba68b0b4dda9c9");
+    const doctorId = 'avy@gmail.com';
 
     // Database and collections
     const database = client.db("users");
@@ -27,8 +27,8 @@ async function main() {
       {
         $lookup: {
           from: "patient",
-          localField: "patient_name",
-          foreignField: "fullname",
+          localField: "patient_id",
+          foreignField: "email",
           as: "patient"
         }
       },
@@ -40,7 +40,7 @@ async function main() {
           appointment_id: "$_id",
           date: 1,
           symptoms: 1,
-          patient_id: "$patient._id",  // Convert patient_id to ObjectId
+          patient_id: "$patient.email",  // Convert patient_id to ObjectId
           patient_name: "$patient.fullname",
           gender: "$patient.gender",
           bloodgroup: "$patient.bloodgroup",
