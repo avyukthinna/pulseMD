@@ -94,7 +94,7 @@ export default function ScheduledMeetings(){
                         <div className="bg-blue-100 mb-4 rounded-md p-3 flex flex-col sm-xl:flex-row items-center justify-between hover:scale-101 hover:duration-200">
                             <div className="text-center sm-xl:text-left">
                                 <div className="font-semibold text-lg text-primary-blue">Dr. {app.doctor_name}</div>
-                                <div className="text-center" ><span className="font-semibold">Date:</span> {app.date}</div>
+                                <div className=""><span className="font-semibold">Date:</span> {app.date}</div>
                                 <div><span className="font-semibold">Your Symptoms:</span> {app.symptoms}</div>
                             </div>
                             
@@ -122,7 +122,7 @@ export default function ScheduledMeetings(){
                         <div className="bg-blue-100 mb-4 rounded-md p-3 flex flex-col sm-xl:flex-row items-center justify-between hover:scale-101 hover:duration-200">
                             <div className="text-center sm-xl:text-left"> 
                                 <div className="font-semibold text-lg text-primary-blue">{app.patient_name}</div>
-                                <div className="text-center"><span className="font-semibold">Date:</span> {app.date}</div>  
+                                <div className=""><span className="font-semibold">Date:</span> {app.date}</div>  
                                 <div><span className="font-semibold">Symptoms: </span>{app.symptoms}</div>
                             </div>  
                                                 
