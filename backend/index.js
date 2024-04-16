@@ -14,6 +14,8 @@ const queryOneDocument = require("./queries/queryOneDocument.js");
 const acceptAppointment = require("./queries/acceptAppointment.js");
 const yourpatients = require("./queries/yourpatients.js");
 
+const addPrescriptions = require("./queries/addPrescriptions.js");
+
 const app = express();
 const port = 3001;
 
@@ -31,6 +33,8 @@ app.use("/acceptAppointment",acceptAppointment);
 app.use("/rejectAppointment",rejectAppointment);
 app.use("/yourpatients",yourpatients);
 app.use("/bookAppointment",bookAppointment);
+
+app.use("/addPrescriptions", addPrescriptions);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
