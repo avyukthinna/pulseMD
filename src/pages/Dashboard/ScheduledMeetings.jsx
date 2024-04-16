@@ -4,46 +4,53 @@ import { useData } from "../../store/DataProvider";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 export default function ScheduledMeetings(){
     const {userAppointments, fetchUserAppointments} = useData()
     const {currentUser} = useAuth();
 
     useEffect(() => {
         //FETCH APPOINTMENTS
+        console.log("fetching...");
         fetchUserAppointments(currentUser.email,currentUser.role)
     }, [])
-
+    
     const ScheduledAppointments = userAppointments.filter((app) => {
         const appDate = new Date(app.date)
         const currentDate = new Date()
         if(appDate > currentDate) return app;
     })
-   
-    const handleAccept = async (patient) => {
-        console.log(patient)
+    console.log(userAppointments);
+    console.log(ScheduledAppointments)
+
+    const handleAccept = async (patient,date) => {
+        console.log(patient,date)
       //FUNCTION SENDS APPOINTMENT ID AND CONFIRMS IT
       try {
         const response = await axios.post('http://localhost:3001/acceptAppointment', {
-          patient
+          patient,date
         });
         toast.success("Meeting Scheduled")
         fetchUserAppointments(currentUser.email,currentUser.role)
       } catch (error) {
+        toast.error("Error")
         console.error('Error');
       } 
     }
 
-    const handleReject = async (patient) => {
+    const handleReject = async (patient,date) => {
         console.log(patient)
         //FUNCTION SENDS APPOINTMENT ID AND DELETES IT FROM DB
         try {
             const response = await axios.delete('http://localhost:3001/rejectAppointment', {
-              patient
+                data:{
+                    patient_id:  patient,
+                    date: date
+                }
             });
             toast.success("Meeting Removed")
             fetchUserAppointments(currentUser.email,currentUser.role)
           } catch (error) {
+            toast.error("Error")
             console.error('Error');
           } 
     }
@@ -122,8 +129,8 @@ export default function ScheduledMeetings(){
                             {app.isConfirmed && <a href="https://meet.google.com/" target="blank" className=" bg-blue-600 text-primary-white mt-5 sm-xl:mt-0 py-2 px-4 shadow-xl rounded-sm hover:bg-blue-700">JOIN</a>}
                             {!app.isConfirmed && 
                                 <div className="lg:flex lg:flex-col lg-xl:block mt-5 sm-xl:mt-0">
-                                    <button className="bg-red-600 text-primary-white lg:ml-2 lg:mb-2 lg-xl:mb-0 py-2 px-4 shadow-xl rounded-sm mr-2 cursor-pointer hover:bg-red-700" onClick={() => handleReject(app.patient_id)}>Reject</button>
-                                    <button className="bg-green-600 text-primary-white py-2 px-4 shadow-xl rounded-sm cursor-pointer hover:bg-green-500" onClick={() => handleAccept(app.patient_id)}>Accept</button>
+                                    <button className="bg-red-600 text-primary-white lg:ml-2 lg:mb-2 lg-xl:mb-0 py-2 px-4 shadow-xl rounded-sm mr-2 cursor-pointer hover:bg-red-700" onClick={() => handleReject(app.patient_id,app.date)}>Reject</button>
+                                    <button className="bg-green-600 text-primary-white py-2 px-4 shadow-xl rounded-sm cursor-pointer hover:bg-green-500" onClick={() => handleAccept(app.patient_id,app.date)}>Accept</button>
                                 </div>}
                         </div>
                     )

@@ -1,15 +1,13 @@
 import { useData } from "../../store/DataProvider"
 import { useEffect } from "react"
 import { useAuth } from "../../store/AuthProvider"
-import { CabinSharp, Diversity1 } from "@mui/icons-material"
 
 export const Prescriptions = () => {
     const {fetchUserAppointments,userAppointments} = useData()
     const {currentUser} = useAuth();
 
     useEffect(() => {
-        //FETCH APPOINTMENTS
-        fetchUserAppointments(currentUser._id,currentUser.role)
+        fetchUserAppointments(currentUser.email,currentUser.role)
     }, [])
 
     const PastAppointments = userAppointments.filter((app) => {

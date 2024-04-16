@@ -15,7 +15,11 @@ const PatientSignup = () => {
         e.preventDefault() //e for EVENT. This line prevents page reload.
         if(password !== cpassword){
             setPasswordError("Passwords don't match!")
-        } else{
+        } else if(/[a-zA-Z]/.test(password) == 0){
+            setPasswordError("Password should contain characters");
+        } else if(/[0-9]/.test(password) == 0){
+            setPasswordError("Password should contain numbers");
+        }else{
             handleSignup(fullname,email,password,'patient')
         }
     }
@@ -46,6 +50,7 @@ const PatientSignup = () => {
                         className="outline mt-2 w-full mb-7 h-8 p-2 rounded-md" 
                         type="password"
                         placeholder="Password"
+                        minLength={8}
                         required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}/>

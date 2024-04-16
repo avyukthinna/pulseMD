@@ -13,16 +13,16 @@ const YourPatients = () => {
     const {currentUser} = useAuth()
     const {yourPatients,fetchYourPatients} = useData()
 
+    useEffect(() => {
+        fetchYourPatients(currentUser.email);
+    }, [])
+    console.log(yourPatients)
+
     const pastPatients = yourPatients.filter((patient) => {
         const appDate = new Date(patient.date)
         const currentDate = new Date()
         if(appDate < currentDate && patient.isConfirmed === true) return patient;
     })
-
-    useEffect(() => {
-        fetchYourPatients(currentUser.email);
-    }, [])
-    console.log(yourPatients)
 
     if(currentUser.role === 'patient'){
         return <Navigate to='/'/>

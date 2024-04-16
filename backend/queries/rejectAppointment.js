@@ -7,8 +7,8 @@ const uri =
 const client = new MongoClient(uri);
 
 router.delete("/", async (req, res) => {
-  const { patient } = req.body; // Get user's email and role from request body
-  console.log(patient);
+  const { patient_id, date } = req.body; // Get user's email and role from request body
+  console.log(patient_id,date);
   try {
     await client.connect();
 
@@ -17,14 +17,14 @@ router.delete("/", async (req, res) => {
     const collection = database.collection("appointments");
 
     // Delete the user account based on the provided email
-    const result = await collection.deleteOne({ patient });
+    const result = await collection.deleteOne({patient_id: patient_id, date: date });
     console.log(result);
     // Check if the user account was deleted successfully
     if (result.deletedCount === 1) {
         console.log('deleted')
       res
         .status(200)
-        .json({ success: true, message: "Account successfully deleted!" });
+        .json({ success: true, message: "Meeting Cancelled!" });
     } else {
       res
         .status(404)
