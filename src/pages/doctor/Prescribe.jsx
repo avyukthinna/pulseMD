@@ -3,7 +3,7 @@ import { Modal } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-export default function Prescribe({doctor_id,presc,patient}){
+export default function Prescribe({doctor_id,presc,patient,date}){
     const [open, setOpen] = useState(false)
     const [prescriptionInput, setPrescriptionInput] = useState(presc.join(', '));
     const [prescriptions, setPrescriptions] = useState(presc)

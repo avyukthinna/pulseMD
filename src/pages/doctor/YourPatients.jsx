@@ -72,7 +72,7 @@ const YourPatients = () => {
                                         <div>{patient.date}</div>
                                     </div>
                                 </div>
-                                <div className="text-center py-2 bg-blue-100">
+                                <div className="text-center py-3 bg-blue-100">
                                     <div className="flex flex-col lg:flex-row justify-center items-center">
                                         <div>
                                             <div className="font-bold text-md">Prescriptions</div>
