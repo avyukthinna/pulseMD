@@ -3,7 +3,7 @@ import { Modal } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-export default function Prescribe({doctor_id,presc,patient,date}){
+export default function Prescribe({patient_name,doctor_id,presc,patient,date}){
     const [open, setOpen] = useState(false)
     const [prescriptionInput, setPrescriptionInput] = useState(presc.join(', '));
     const [prescriptions, setPrescriptions] = useState(presc)
@@ -27,11 +27,8 @@ export default function Prescribe({doctor_id,presc,patient,date}){
             //const validPrescriptions = newPrescriptions.filter(prescription => prescription !== '');
             //setPrescriptions([...prescriptions, ...validPrescriptions]);
             
-            const response = await axios.post('http://localhost:3001/storePrescription',{
-              patient,
-              doctor_id,
-              prescriptions,
-              date
+            const response = await axios.post('http://localhost:3001/addPrescriptions',{
+              patient,doctor_id,prescriptions,date
             })
 
             toast.success("Prescription Sent!")
@@ -51,7 +48,7 @@ export default function Prescribe({doctor_id,presc,patient,date}){
             >
             
             <form className="flex flex-col bg-white p-5 w-96" onSubmit={handleAddPrescriptions}>
-                <p className="font-semibold text-lg">{patient}'s Prescriptions</p>
+                <p className="font-semibold text-lg">{patient_name}'s Prescriptions</p>
                 <textarea className='mt-4 border-2 p-1' value={prescriptionInput} name="prescriptions" id="" cols="30" rows="5" placeholder='Add Prescriptions' onChange={handlePrescriptionInputChange}></textarea>
   
                 <button className='mt-5 p-2 bg-blue-600 text-primary-white hover:bg-blue-700'>Confirm</button>

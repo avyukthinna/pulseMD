@@ -82,7 +82,7 @@ const YourPatients = () => {
                                                 )
                                             })}</ul>
                                         </div>
-                                        <Prescribe patient={patient.patient_name} doctor_id={patient.doctor_id} presc={patient.prescriptions} date={patient.date}></Prescribe>
+                                        <Prescribe patient_name={patient.patient_name} patient={patient.patient_id} doctor_id={patient.doctor_id} presc={patient.prescriptions} date={patient.date}></Prescribe>
                                     </div>
                                 </div>
                             </AccordionDetails>
