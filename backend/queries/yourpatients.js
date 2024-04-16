@@ -7,8 +7,8 @@ const uri =
 const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
-  const doctorIdToQuery = req.body.user_id;//`ObjectId(${req.body})`;
-  
+  const doctorIdToQuery = req.body.user_id; //`ObjectId(${req.body})`;
+  console.log(doctorIdToQuery);
   try {
     // Connect to MongoDB
     await client.connect();
@@ -17,31 +17,36 @@ router.post("/", async (req, res) => {
     const database = client.db("users");
     const collection = database.collection("appointments");
 
-    const prescriptionsWithDoctor = await collection.aggregate([
-      {
-        $match: { doctor_id: doctorIdToQuery }
-      },
-      {
-        $lookup: {
-          from: "patient",
-          localField: "patient_id",
-          foreignField: "_id",
-          as: "patient"
-        }
-      },
-      {
-        $unwind: "$patient"
-      },
-      {
-        $project: {
-          "doctor_id": 1,
-          "date": 1,
-          "patient_id": "$patient_id",
-          "patient_name": "$patient.name",
-          "isConfirmed": 1
-        }
-      }
-    ]).toArray();
+    const prescriptionsWithDoctor = await collection
+      .aggregate([
+        {
+          $match: { doctor_id: doctorIdToQuery },
+        },
+        {
+          $lookup: {
+            from: "patient",
+            localField: "patient_id",
+            foreignField: "email",
+            as: "patient",
+          },
+        },
+        {
+          $unwind: "$patient",
+        },
+        {
+          $project: {
+            doctor_id: 1,
+            date: 1,
+            patient_id: "$patient.email",
+            patient_name: "$patient.fullname",
+            patient_age: "$patient.age",
+            patient_gender: "$patient.gender",
+            isConfirmed: 1,
+            prescriptions: 1,
+          },
+        },
+      ])
+      .toArray();
 
     console.log(prescriptionsWithDoctor);
     // Send the result to the frontend
