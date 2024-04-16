@@ -7,47 +7,42 @@ const uri =
 const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
-    const { patient,date } = req.body;
-    console.log(patient)
+  const { patient, date } = req.body;
+  console.log(patient);
 
-    try{
-        await client.connect();
-  
-        // Get reference to the database and collection
-        const database = client.db("users");
-        const collection = database.collection("appointments");
+  try {
+    await client.connect();
 
-        // Define the filter and update document
-        const filter = { patient_id: patient,date: date };
-        const updateDocument = {
-            $set: {
-              isConfirmed: true
-            }
-        };
-        
-        // Update the appointment document
-        console.log("Update Query:", filter, updateDocument);
-        const result = await collection.updateOne(filter, {$set: {
-            isConfirmed: true
-        }});
-        console.log(result)
-        if (result.modifiedCount > 0) {
-            console.log("Appointment accepted");
-            res
-            .status(200)
-            .json({ success: true, message: "Meeting Accepted!" });
-        } else {
-            res
-            .status(200)
-            .json({ success: true, message: "Meeting Accepted!" });
-            console.log("Error");
-        }
-    } catch(error){
-        console.error(error);
-    }finally {
-        await client.close();
+    // Get reference to the database and collection
+    const database = client.db("users");
+    const collection = database.collection("appointments");
+
+    // Define the filter and update document
+    const filter = { patient_id: patient, date: date };
+    const updateDocument = {
+      $set: {
+        isConfirmed: true,
+      },
+    };
+
+    // Update the appointment document
+    console.log("Update Query:", filter, updateDocument);
+    const result = await collection.updateOne(filter, {
+      $set: {
+        isConfirmed: true,
+      },
+    });
+    console.log(result);
+    if (result.modifiedCount > 0) {
+      console.log("Appointment accepted");
+    } else {
+      console.log("Error");
     }
-}
-)
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.close();
+  }
+});
 
 module.exports = router;
