@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
         // Define the update operation for prescriptions
         const prescriptionsUpdate = {
             "$set": {
-                "Prescriptions": prescriptions
+                "prescriptions": prescriptions
             }
         };
 
