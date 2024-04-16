@@ -20,11 +20,11 @@ router.post("/", async (req, res) => {
         const filter = { "date": date, "doctor_id": doctor_id, "patient_id": patient };
 
         // Define the update operation for prescriptions
-		const prescriptionsUpdate = {
-			$push: {
-				"prescriptions": { $each: prescriptions }
-			}
-		};
+        const prescriptionsUpdate = {
+            "$set": {
+                "Prescriptions": prescriptions
+            }
+        };
 
         // Perform the update operation for prescriptions
 		const result = await collection.updateOne(filter, prescriptionsUpdate);
