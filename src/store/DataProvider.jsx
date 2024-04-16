@@ -20,7 +20,7 @@ export function useData() {
 export default function DataProvider({children}){
     const {currentUser} = useAuth()
 
-    const [yourPatients, setYourPatients] = useState([
+    const [yourPatients, setYourPatients] = useState([/*
         {
             app_id: '1',
             fullname:'John Doe', 
@@ -67,7 +67,7 @@ export default function DataProvider({children}){
             date:"Sun Mar 25 2024 14:00:00",
             isConfirmed: true //GRAB DATA ONLY FOR THOSE RECORDS THAT ARE TRUE
         }
-    ])
+    */])
 
     const [doctors, setDoctors] = useState([/*
         {
@@ -176,14 +176,13 @@ export default function DataProvider({children}){
             const response = await axios.post('http://localhost:3001/getAppointments', {
                 user_id,role
             });
-            const result = await response.data.data
-            console.log(result)
-            setUserAppointments(result);
+            //const result = await response.data.data
+            console.log(response.data.data)
+            setUserAppointments(response.data.data);
           } catch (error) {
             //toast.error("No Scheduled Appointments")
             console.error('Error fetching appointments:', error.message);
           }
-          
     }
 
     const fetchYourPatients = async (user_id) => {

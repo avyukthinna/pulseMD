@@ -29,7 +29,8 @@ export default function ScheduledMeetings(){
         const response = await axios.post('http://localhost:3001/acceptAppointment', {
           patient,date
         });
-        toast.success("Meeting Scheduled")
+        console.log("accept handled")
+        toast.success("Meeting Accepted")
         fetchUserAppointments(currentUser.email,currentUser.role)
       } catch (error) {
         toast.error("Error")

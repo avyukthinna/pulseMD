@@ -4,18 +4,21 @@ import {useEffect,useState } from "react"
 
 export const Links = [
     {'page':'Home', 'path': '/'},
+    {'page':'Our Team','path':'/our-team'}
 ]
 
 export const patientLinks = [
     {'page':'Home', 'path': '/'},
     {'page':'Dashboard', 'path':'/dashboard'},
-    {'page':'Find Doctors', 'path': '/find-doctors'}
+    {'page':'Find Doctors', 'path': '/find-doctors'},
+    {'page':'Our Team','path':'/our-team'}
 ]
 
 export const doctorLinks = [
     {'page':'Home', 'path': '/'},
     {'page':'Dashboard', 'path':'/dashboard'},
-    {'page':'Your Patients', 'path': '/your-patients'}
+    {'page':'Your Patients', 'path': '/your-patients'},
+    {'page':'Our Team','path':'/our-team'}
 ]
 
 const Navbar = () => {
@@ -100,7 +103,7 @@ const Navbar = () => {
             </div>
     )*/
     
-    
+    console.log(currentUser.role);
 
     return (
         <div className={`flex items-center justify-between font-poppins py-3 px-10 absolute w-full z-50 ${isSticky && 'sticky_navbar'}`}>
@@ -112,7 +115,7 @@ const Navbar = () => {
                     <div className="bar w-6 h-1 bg-black"></div>
                 </div>
 
-                {/*!userRole &&
+                {!currentUser.role &&
                     Links.map((link) => {
                         return <li className="inline-block mt-5 lg:mr-8 lg:mt-0" key={link.path}>
                                     <NavLink 
@@ -120,7 +123,7 @@ const Navbar = () => {
                                     to={link.path}>{link.page}</NavLink>
                                 </li>
                     })
-                */}
+                }
 
                 {currentUser.role === 'patient' &&
                     patientLinks.map((link) => {

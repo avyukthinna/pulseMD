@@ -33,7 +33,13 @@ router.post("/", async (req, res) => {
         console.log(result)
         if (result.modifiedCount > 0) {
             console.log("Appointment accepted");
+            res
+            .status(200)
+            .json({ success: true, message: "Meeting Accepted!" });
         } else {
+            res
+            .status(200)
+            .json({ success: true, message: "Meeting Accepted!" });
             console.log("Error");
         }
     } catch(error){

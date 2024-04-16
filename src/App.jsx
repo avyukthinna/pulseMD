@@ -3,7 +3,7 @@ import { Routes, Route} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from './pages/Public/Home/Home';
-import AboutUs from './pages/Public/AboutUs';
+import OurTeam from './pages/Public/OurTeam';
 import Layout from './pages/Public/Layout';
 import Register from './pages/Public/Register/Register';
 /*import DocLogin from './pages/doctor/DocLogin';
@@ -37,7 +37,7 @@ function App() {
         <Routes>
           <Route path='/' element = {<Layout/>}>
               <Route index element={<Home/>}/>
-              <Route path='/about-us' element={<AboutUs/>}/>
+              <Route path='/our-team' element={<OurTeam/>}/>
           </Route>
 
           <Route element={<PublicRoutes/>}>
@@ -50,7 +50,7 @@ function App() {
           <Route element={<PrivateRoutes/>}>
             <Route path='/' element = {<Layout/>}>
                 <Route index element={<Home/>}/>
-                <Route path='/about-us' element={<AboutUs/>}/>
+                <Route path='/our-team' element={<OurTeam/>}/>
                 
                   <Route path='/dashboard' element={<Dashboard/>}/>
                   <Route path='/find-doctors' element={<FindDoc/>}/>

@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useData } from "../../store/DataProvider";
 import { Modal } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 export default function Prescribe({patient_name,doctor_id,presc,patient,date}){
+    const {fetchYourPatients} = useData()
     const [open, setOpen] = useState(false)
     const [prescriptionInput, setPrescriptionInput] = useState(presc.join(', '));
     const [prescriptions, setPrescriptions] = useState(presc)
@@ -33,6 +35,7 @@ export default function Prescribe({patient_name,doctor_id,presc,patient,date}){
 
             toast.success("Prescription Sent!")
             setOpen(false)
+            fetchYourPatients(doctor_id);
         } catch(error){
             toast.error("Failed to send prescription!")
         }

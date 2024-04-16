@@ -30,7 +30,7 @@ const Footer = () => {
                 <div className="my-8 md:my-0">
                     <div className="font-logo text-4xl mb-2 text-center">Links</div>
                     <ul className="text-center">
-                        {currentUser.role === '' && Links.map((link) => (
+                        {!currentUser.role && Links.map((link) => (
                             <li key={link.path} className="mt-1 hover:scale-102"><Link to={link.path}>{link.page}</Link></li>
                         ))}
 
@@ -47,7 +47,7 @@ const Footer = () => {
                     <div className="font-logo text-4xl">Have a Question?</div>
 
                     <ul className="text-center">
-                        <li className="mt-2 hover:scale-102"><a href='https://mail.google.com/' target="blank"><EmailIcon/> pulseMD@gmail.com</a></li>
+                        <li className="mt-2 hover:scale-102"><a href='https://mail.google.com/' target="blank"><EmailIcon/> contact@pulsemd.com</a></li>
                         <li className="mt-1"><PhoneIcon/> + 1800 3433 23</li>
                     </ul>
                 </div>
