@@ -65,7 +65,7 @@ const YourPatients = () => {
                                     </div>
                                     <div className="text-center">
                                         <div className="font-bold text-md">Symptoms</div>
-                                        <div>{patient.patient_symptoms}</div>
+                                        <div>{patient.symptoms}</div>
                                     </div>
                                     <div>
                                         <div className="font-bold text-md">Appointment Date</div>
