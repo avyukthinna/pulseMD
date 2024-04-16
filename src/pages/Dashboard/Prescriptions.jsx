@@ -15,7 +15,7 @@ export const Prescriptions = () => {
         const currentDate = new Date()
         if(appDate < currentDate && app.prescriptions.length !== 0 && app.isConfirmed === true) return app;
     })
-
+    
     if(PastAppointments.length === 0){
         return (
             <div className="flip min-h-96 mt-8 font-poppins flex items-center justify-center" data-aos="fade-up">

@@ -3,7 +3,7 @@ import { Modal } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-export default function Prescribe({app_id,presc,patient}){
+export default function Prescribe({doctor_id,presc,patient,date}){
     const [open, setOpen] = useState(false)
     const [prescriptionInput, setPrescriptionInput] = useState(presc.join(', '));
     const [prescriptions, setPrescriptions] = useState(presc)
@@ -21,15 +21,17 @@ export default function Prescribe({app_id,presc,patient}){
       const handleAddPrescriptions = async (e) => {
         e.preventDefault()
         console.log(prescriptions)
-        console.log(app_id)
+        console.log(doctor_id)
         try{
             //const newPrescriptions = prescriptionInput.split(',').map(prescription => prescription.trim());
             //const validPrescriptions = newPrescriptions.filter(prescription => prescription !== '');
             //setPrescriptions([...prescriptions, ...validPrescriptions]);
             
             const response = await axios.post('http://localhost:3001/storePrescription',{
-                app_id,
-                prescriptions
+              patient,
+              doctor_id,
+              prescriptions,
+              date
             })
 
             toast.success("Prescription Sent!")
