@@ -23,7 +23,7 @@ const YourPatients = () => {
         const currentDate = new Date()
         if(appDate < currentDate && patient.isConfirmed === true) return patient;
     })
-
+    console.log(pastPatients)
     if(currentUser.role === 'patient'){
         return <Navigate to='/'/>
     }
@@ -46,8 +46,8 @@ const YourPatients = () => {
                                 <div className="flex flex-row items-center w-full">
                                     <Avatar className="mr-5" alt="Remy Sharp" src={patient.image} sx={{ width: 75, height: 75 }} />
                                     <div>
-                                        <div className="text-lg font-bold">{patient.fullname}</div>
-                                        <div><span className="font-bold ">Age: </span> {patient.age}</div>
+                                        <div className="text-lg font-bold">{patient.patient_name}</div>
+                                        <div><span className="font-bold ">Age: </span> {patient.patient_age}</div>
                                     </div>
                                 </div>
                             </AccordionSummary>
@@ -57,15 +57,15 @@ const YourPatients = () => {
                                 <div className="bg-blue-200 mt-3 py-2 gap-y-4 grid md:grid-cols-2 lg:grid-cols-4 gap-x-5 text-center">
                                     <div>
                                         <div className="font-bold text-md">Gender</div>
-                                        <div>{patient.gender}</div>
+                                        <div>{patient.patient_gender}</div>
                                     </div>
                                     <div>
                                         <div className="font-bold text-md">Blood group</div>
-                                        <div>{patient.bloodgroup}</div>
+                                        <div>{patient.patient_bloodgroup}</div>
                                     </div>
                                     <div className="text-center">
                                         <div className="font-bold text-md">Symptoms</div>
-                                        <div>{patient.symptoms}</div>
+                                        <div>{patient.patient_symptoms}</div>
                                     </div>
                                     <div>
                                         <div className="font-bold text-md">Appointment Date</div>
@@ -82,7 +82,7 @@ const YourPatients = () => {
                                                 )
                                             })}</ul>
                                         </div>
-                                        <Prescribe patient={patient.fullname} app_id={patient.app_id} presc={patient.prescriptions}></Prescribe>
+                                        <Prescribe patient={patient.patient_name} doctor_id={patient.doctor_id} presc={patient.prescriptions} date={patient.date}></Prescribe>
                                     </div>
                                 </div>
                             </AccordionDetails>
