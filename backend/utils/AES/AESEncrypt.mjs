@@ -1,16 +1,20 @@
 import {SBOX} from './SBox.mjs';
 import { RCON } from './RCON.mjs';
 
-function logStateAsMatrix(state) {
-  if (state.length !== 16) {
+function printState(state) {
+  /*if (state.length !== 16) {
     console.error("State must be an array of 16 elements.");
     return;
+  }*/
+
+  while (state.length < 16) {
+      state.push(0);
   }
   
   for (let row = 0; row < 4; row++) {
     let rowValues = [];
     for (let col = 0; col < 4; col++) {
-      rowValues.push(state[row * 4 + col]/*.toString(16).padStart(2, '0')*/);
+      rowValues.push(state[row + col*4]/*.toString(16).padStart(2, '0')*/);
     }
     console.log(rowValues.join(' '));
   }
@@ -110,24 +114,38 @@ function aesEncrypt(plaintext, key) {
   const expandedKey = keyExpansion(key);
   
   addRoundKey(state, expandedKey.slice(0, 16));
+  console.log(`\nResult after Pre-round Transformation:`);
+  printState(state);
   
   for (let round = 1; round < 10; round++) {
-    console.log(`ROUND ${round}`);
+    console.log(`\n\nROUND ${round}`);
     subBytes(state);
-    console.log(`Result after Subbytes:`);
-    logStateAsMatrix(state);
+    console.log(`\nResult after Subbytes:`);
+    printState(state);
     shiftRows(state);
-    console.log(`Result after shiftRows:`);
-    logStateAsMatrix(state);
+    console.log(`\nResult after shiftRows:`);
+    printState(state);
     mixColumns(state);
-    console.log(`Result after mixColumns:`);
-    logStateAsMatrix(state);
+    console.log(`\nResult after mixColumns:`);
+    printState(state);
     addRoundKey(state, expandedKey.slice(round * 16, (round + 1) * 16));
+    console.log(`\nResult after addRoundKey:`);
+    printState(state);
   }
   
+  console.log(`\n\nROUND 10`);
+  
   subBytes(state);
+  console.log(`\nResult after Subbytes:`);
+  printState(state);
+
   shiftRows(state);
+  console.log(`\nResult after shiftRows:`);
+  printState(state);
+
   addRoundKey(state, expandedKey.slice(160, 176));
+  console.log(`\nEncrypted Resultant Block:`);
+  printState(state);
   
   return state;
 }
@@ -151,7 +169,7 @@ const inputString = "Cryptography it seems lol";
 }*/
 
 function stringToState(input) {
-  const state = new Array(input.length).fill(0); // AES state is a 4x4 matrix (16 bytes)
+  const state = new Array(16).fill(0); // AES state is a 4x4 matrix (16 bytes)
   
   for (let i = 0; i < input.length; i++) {
     /*const charCode = input.charCodeAt(i);
@@ -174,19 +192,18 @@ function Encryption(input){
   const state = stringToState(input);
   
   console.log("Plaintext state:");
-  logStateAsMatrix(state);
+  console.log(state);
 
   const ciphertext = [];
   for (let i = 0; i < state.length; i += 16) {
     const block = state.slice(i, i + 16);
-    console.log("Block "+ parseInt((i+1)/16));
-    console.log(block);
-    logStateAsMatrix(block);
+    console.log("\n\nBlock "+ parseInt((i+1)/16));
+    printState(block);
     ciphertext.push(aesEncrypt(block, key));
   }
 
-  console.log("Ciphertext:");
-  console.log(ciphertext);
+  //console.log("Ciphertext:");
+  //console.log(ciphertext);
 
   let encryptedString = '';
   for (let block of ciphertext) {
@@ -197,6 +214,6 @@ function Encryption(input){
 }
 
 const encryptedString = Encryption(inputString);
-console.log("Encrypted String:");
+console.log("\n\nEncrypted String:");
 console.log(encryptedString);
 

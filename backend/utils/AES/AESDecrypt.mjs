@@ -1,6 +1,26 @@
 import {SBOX,INV_SBOX} from './SBox.mjs'
 import { RCON } from './RCON.mjs';
 
+function printState(state) {
+  /*if (state.length !== 16) {
+    console.error("State must be an array of 16 elements.");
+    return;
+  }*/
+
+  while (state.length < 16) {
+      state.push(0);
+  }
+  
+  for (let row = 0; row < 4; row++) {
+    let rowValues = [];
+    for (let col = 0; col < 4; col++) {
+      rowValues.push(state[row + col*4]/*.toString(16).padStart(2, '0')*/);
+    }
+    console.log(rowValues.join(' '));
+  }
+}
+
+
 function invSubBytes(state) {
   for (let i = 0; i < 16; i++) {
     state[i] = INV_SBOX[state[i]];
@@ -107,17 +127,41 @@ function aesDecrypt(ciphertext, key) {
   const expandedKey = keyExpansion(key);
   
   addRoundKey(state, expandedKey.slice(160, 176));
+  console.log(`\nResult after Pre-round Transformation:`);
+  printState(state);
   
   for (let round = 9; round > 0; round--) {
+    console.log(`\n\nROUND ${10-round}`);
+    
     invShiftRows(state);
+    console.log(`\nResult after InvShiftRows:`);
+    printState(state);
+
     invSubBytes(state);
+    console.log(`\nResult after InvSubBytes:`);
+    printState(state);
+    
     addRoundKey(state, expandedKey.slice(round * 16, (round + 1) * 16));
+    console.log(`\nResult after addRoundKey:`);
+    printState(state);
+    
     invMixColumns(state);
+    console.log(`\nResult after InvMixColumns:`);
+    printState(state);
   }
-  
+
+  console.log(`\n\nROUND 10`);
   invShiftRows(state);
+  console.log(`\nResult after InvShiftRows:`);
+  printState(state);
+  
   invSubBytes(state);
+  console.log(`\nResult after InvSubBytes:`);
+  printState(state);
+  
   addRoundKey(state, expandedKey.slice(0, 16));
+  console.log(`\nDecrypted Resultant Block:`);
+  printState(state);
   
   return state;
 }
@@ -156,24 +200,29 @@ function base64ToState(base64) {
   return atob(base64).split('').map(c => c.charCodeAt(0));
 }
 
-const inputString = "TOWP0KiQVUBpdPGpWNHw7Q==Oh//cAB3ubv4+EtMSIUXmw==";
+const inputString = "2KWP0InmVUDXpfGpVavw7Q==Oh//cAB3ubv4+EtMSIUXmw==";
 /*const state = [109, 129, 149,  66,  58,
   237, 108,  39, 108,  97,
   154,  66,   8, 213, 157,
   104, 128,   3, 163,  11, 152, 121,
   153,  26,   6, 138,  92,  45,
   181, 242, 101,  57]*/
-//const state = stringToState(inputString);
 
-console.log("Ciphertext:");
-console.log(inputString);
 
 function Decryption(inputString){
+  console.log("Ciphertext:");
+  console.log(inputString);
+  const state = stringToState(inputString);
+  console.log("Ciphertext state:");
+  console.log(state);
+
   const plaintext = [];
   for (let i = 0; i < inputString.length; i += 24) {
     const base64Block = inputString.slice(i, i + 24);
     const block = base64ToState(base64Block);
-    console.log(block);
+    console.log("\n\nBlock "+ parseInt((i+1)/24));
+    printState(block);
+
     plaintext.push(aesDecrypt(block, key));
   }
 
@@ -182,14 +231,14 @@ function Decryption(inputString){
     decryptedString += stateToString(block);
   }
 
-  console.log("Decrypted Plaintext:");
-  console.log(plaintext);
+  /*console.log("Decrypted Plaintext:");
+  console.log(plaintext);*/
 
   return decryptedString;
 }
 
 const decryptedString = Decryption(inputString);
-console.log("Decrypted string:");
+console.log("\nDecrypted string:");
 console.log(decryptedString);
 
 //const decryptedPlaintext = aesDecrypt(ciphertext, key);
