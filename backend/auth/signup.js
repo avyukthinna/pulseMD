@@ -1,10 +1,10 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
-const bcryptUtils = require("../utils/bcrypt-hashing.js");
+const { rsa_encrypt } = require('../utils/rsa');
+const { publicKey } = require('../utils/keys');
 
 const router = express.Router();
-const uri =
-  "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
@@ -14,24 +14,25 @@ router.post("/", async (req, res) => {
     await client.connect();
 
     const database = client.db("users");
-    var dbRole = role === "patient" ? "patient" : "doctor"; //selects the collections based on role recieved.
+    const dbRole = role === "patient" ? "patient" : "doctor"; //selects the collections based on role received.
 
     const collection = database.collection(dbRole);
     const userExists = await collection.findOne({ email });
 
     if (userExists) {
-      res
-        .status(409)
-        .json({ success: false, message: "Email is already in use" });
+      res.status(409).json({ success: false, message: "Email is already in use" });
     } else {
-      const hashedPassword = await bcryptUtils.hashString(password);
+      const encryptedPassword = rsa_encrypt(password, publicKey);
 
-      console.log("hashed: ", hashedPassword);
+      console.log("encrypt: ", encryptedPassword);
+
+      const base64Password = Buffer.from(encryptedPassword, 'hex').toString('base64');
+console.log("Encrypted password (base64):", base64Password);
       let query;
       if (dbRole === "patient") {
         query = {
           email: email,
-          password: hashedPassword,
+          password: encryptedPassword,
           role: role,
           fullname: name,
           age: "",
@@ -44,7 +45,7 @@ router.post("/", async (req, res) => {
       } else {
         query = {
           email: email,
-          password: hashedPassword,
+          password: encryptedPassword,
           role: role,
           fullname: name,
           image: "",
@@ -80,3 +81,5 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
+
+

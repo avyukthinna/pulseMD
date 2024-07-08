@@ -66,9 +66,22 @@ export default function AuthProvider({children}){
             navigate('/Register')
             toast.success("Signed Up!")
           } catch (error) {
-            console.log(role);
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                console.error('Signup error:', error.response.data.message);
+                toast.error(error.response.data.message)
+            } else if (error.request) {
+                // The request was made but no response was received
+                console.error('Network error:', error.request);
+                toast.error('Network error: No response received from server')
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.error('Error:', error.message);
+                toast.error('Error: Request could not be processed')
+            }
+            /*console.log(role);
             console.error('Signup error:', error.response.data.message);
-            toast.error(error.response.data.message)
+            toast.error(error.response.data.message)*/
           }
     }
 
