@@ -73,3 +73,8 @@ Sandeep Ravichandra = {
       endtime: "21:00",
       isverified: true,
 }
+
+Avinash Gaikwad = {
+      email: avinash@pulsemd.com
+      password: avinash123
+}
