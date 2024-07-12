@@ -226,7 +226,8 @@ export default function AuthProvider({children}){
             if (currentUser.role === "doctor") {
                 // Update fields for doctors
                 currentUser.fullname = Encryption(currentUser.fullname);
-                currentUser.image = currentUser.image || ""; //If no image is sent, it is set to ""
+                currentUser.email = Encryption(currentUser.email);
+                //currentUser.image = currentUser.image || ""; //If no image is sent, it is set to ""
                 currentUser.gender = Encryption(currentUser.gender);
                 currentUser.address = Encryption(currentUser.address);
                 currentUser.age = Encryption(currentUser.age);
@@ -237,7 +238,7 @@ export default function AuthProvider({children}){
                 currentUser.experience = Encryption(currentUser.experience);
                 currentUser.starttime = Encryption(currentUser.starttime);
                 currentUser.endtime = Encryption(currentUser.endtime);
-                currentUser.isverified = false;
+                currentUser.isverified = true;
               } else if (currentUser.role === "patient") {
                 // Update fields for patients
                 currentUser.fullname = Encryption(currentUser.fullname);
@@ -268,26 +269,41 @@ export default function AuthProvider({children}){
                 const user = await response.data;
 
                 try { 
-                
-
                     if(user.isverified === true) {
                         // Decrypt necessary fields
-                        user.email = Decryption(user.email);
-                        user.fullname = Decryption(user.fullname);
-                        user.age = Decryption(user.age);
-                        user.image = Decryption(user.image);
-                        user.gender = Decryption(user.gender);
-                        user.bloodgroup = Decryption(user.bloodgroup);
-                        user.address = Decryption(user.address);
+                        if(user.role === "patient"){
+                            user.email = Decryption(user.email);
+                            user.fullname = Decryption(user.fullname);
+                            user.age = Decryption(user.age);
+                            user.image = Decryption(user.image);
+                            user.gender = Decryption(user.gender);
+                            user.bloodgroup = Decryption(user.bloodgroup);
+                            user.address = Decryption(user.address);
+                        }
+                        if(user.role === "doctor"){
+                            user.fullname = Decryption(user.fullname);
+                            user.email = Decryption(user.email);
+                            user.image = Decryption(user.image);
+                            user.gender = Decryption(user.gender);
+                            user.address = Decryption(user.address);
+                            user.age = Decryption(user.age);
+                            user.degree = Decryption(user.degree);
+                            user.speciality = Decryption(user.speciality);
+                            user.regno = Decryption(user.regno);
+                            user.regyear = Decryption(user.regyear);
+                            user.experience = Decryption(user.experience);
+                            user.starttime = Decryption(user.starttime);
+                            user.endtime = Decryption(user.endtime);
+                        }
                     } else {
                         user.email = Decryption(user.email);
                         user.fullname = Decryption(user.fullname);
 
-                        user.age = Decryption(user.age);
+                        /*user.age = Decryption(user.age);
                         user.image = Decryption(user.image);
                         user.gender = Decryption(user.gender);
                         user.bloodgroup = Decryption(user.bloodgroup);
-                        user.address = Decryption(user.address);
+                        user.address = Decryption(user.address);*/
                     }
                     //console.info(user);
         

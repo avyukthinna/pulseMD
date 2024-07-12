@@ -47,7 +47,7 @@ async function updateProfileFields(user) {
       updateFields.experience = user.experience;
       updateFields.starttime = user.starttime;
       updateFields.endtime = user.endtime;
-      updateFields.isverified = false;
+      updateFields.isverified = true;
     } else if (user.role === "patient") {
       // Update fields for patients
       updateFields.fullname = user.fullname;
