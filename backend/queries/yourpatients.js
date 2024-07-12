@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
     await client.connect();
 
     // Database and collection
-    const database = client.db("users");
+    const database = client.db("users1");
     const collection = database.collection("appointments");
 
     const prescriptionsWithDoctor = await collection

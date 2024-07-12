@@ -35,7 +35,7 @@ app.use("/yourpatients",yourpatients);
 app.use("/bookAppointment",bookAppointment);
 
 app.use("/addPrescriptions", addPrescriptions);
-
+// console.log = function() {}
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

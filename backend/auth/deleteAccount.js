@@ -12,7 +12,7 @@ router.delete("/", async (req, res) => {
   try {
     await client.connect();
 
-    const database = client.db("users");
+    const database = client.db("users1");
 
     // Determine the collection based on user's role
     const collectionName = role === "patient" ? "patient" : "doctor";

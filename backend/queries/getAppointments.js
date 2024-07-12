@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
   try {
     await client.connect();
 
-    const database = client.db("users");
+    const database = client.db("users1");
     const collection = database.collection("appointments");
 
     let resultArray

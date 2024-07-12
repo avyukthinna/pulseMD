@@ -1,5 +1,9 @@
-import {SBOX} from './SBox.mjs';
-import { RCON } from './RCON.mjs';
+// import {SBOX} from './SBox.js';
+// import { RCON } from './RCON.js';
+const {SBOX,INV_SBOX} =  require('./SBox.js');
+const RCON = require('./RCON.js')
+
+// console.log = function() {} //to Enable and disable console.log
 
 function printState(state) {
   /*if (state.length !== 16) {
@@ -158,7 +162,7 @@ const key = [
 ];
 
 // Example usage
-const inputString = "Cryptography it seems lol";
+//const inputString = "Cryptography it seems lol";
 
 /*function stateToString(state) {
   let result = '';
@@ -213,7 +217,11 @@ function Encryption(input){
   return encryptedString;
 }
 
-const encryptedString = Encryption(inputString);
-console.log("\n\nEncrypted String:");
-console.log(encryptedString);
+// const encryptedString = Encryption(inputString);
+// console.log("\n\nEncrypted String:");
+//console.log(encryptedString);
+
+module.exports = {
+  Encryption,
+}
 

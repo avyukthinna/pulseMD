@@ -1,5 +1,6 @@
-import {SBOX,INV_SBOX} from './SBox.mjs'
-import { RCON } from './RCON.mjs';
+const {SBOX,INV_SBOX} =  require('./SBox.js');
+//import { RCON } from './RCON.js';
+const RCON = require('./RCON.js')
 
 function printState(state) {
   /*if (state.length !== 16) {
@@ -200,7 +201,7 @@ function base64ToState(base64) {
   return atob(base64).split('').map(c => c.charCodeAt(0));
 }
 
-const inputString = "2KWP0InmVUDXpfGpVavw7Q==Oh//cAB3ubv4+EtMSIUXmw==";
+//const inputString = "2KWP0InmVUDXpfGpVavw7Q==Oh//cAB3ubv4+EtMSIUXmw==";
 /*const state = [109, 129, 149,  66,  58,
   237, 108,  39, 108,  97,
   154,  66,   8, 213, 157,
@@ -210,11 +211,11 @@ const inputString = "2KWP0InmVUDXpfGpVavw7Q==Oh//cAB3ubv4+EtMSIUXmw==";
 
 
 function Decryption(inputString){
-  console.log("Ciphertext:");
-  console.log(inputString);
+  console.log("Ciphertext: "+inputString);
+  // console.log(inputString);
   const state = stringToState(inputString);
-  console.log("Ciphertext state:");
-  console.log(state);
+  console.log("Ciphertext state: ", state);
+  // console.log(state);
 
   const plaintext = [];
   for (let i = 0; i < inputString.length; i += 24) {
@@ -234,11 +235,16 @@ function Decryption(inputString){
   /*console.log("Decrypted Plaintext:");
   console.log(plaintext);*/
 
+  console.log("Plaintext: "+decryptedString);
   return decryptedString;
 }
 
-const decryptedString = Decryption(inputString);
-console.log("\nDecrypted string:");
-console.log(decryptedString);
+// const decryptedString = Decryption(inputString);
+// console.log("\nDecrypted string:");
+// console.log(decryptedString);
 
 //const decryptedPlaintext = aesDecrypt(ciphertext, key);
+
+module.exports = {
+  Decryption,
+};

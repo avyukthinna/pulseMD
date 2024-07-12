@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 import pf1 from '../images/test-1.jpg'
 import doc_1 from '../images/doc-prof-1.jpg'
 import axios from 'axios';
+const {Encryption} = require('../utils/AES/AESEncrypt');
+const {Decryption} = require('../utils/AES/AESDecrypt');
 
 export const AuthContext = createContext()
 
@@ -54,6 +56,9 @@ export default function AuthProvider({children}){
     //USER LOGIN/LOGOUT SIGNIN/SIGNOUT
 
     const handleSignup = async (name,email,password,role) => {
+        name = Encryption(name);
+        email = Encryption(email);
+        password = Encryption(password);
         try {
             const response = await axios.post('http://localhost:3001/signup', {
               role,
@@ -82,18 +87,47 @@ export default function AuthProvider({children}){
 
     const handleLogin = async (email,password,role) => {
         //USER FETCHING FUNCTION 
+        email = Encryption(email);
+        password = Encryption(password);
         try {
             const response = await axios.post('http://localhost:3001/login', {
               email, 
               password, 
               role
             });
+            
       
             console.log(response.data); // Successful login message
             const user = await response.data.user;
+            //console.info(user);
+
+            try { 
+                
+
+            if(user.isverified === true) {
+                // Decrypt necessary fields
+                user.email = Decryption(user.email);
+                user.fullname = Decryption(user.fullname);
+                user.age = Decryption(user.age);
+                user.image = Decryption(user.image);
+                user.gender = Decryption(user.gender);
+                user.bloodgroup = Decryption(user.bloodgroup);
+                user.address = Decryption(user.address);
+            } else {
+                user.email = Decryption(user.email);
+                user.fullname = Decryption(user.fullname);
+            }
+            //console.info(user);
+
+            } catch(e) {
+                console.error(e)
+            }
+
+            console.info('nameeeeeeee:'+(user.fullname === 'B'));
+
             setUserRole('patient')
             sessionStorage.setItem('currentUser', JSON.stringify(user));
-            setCurrentuser(user)
+            setCurrentuser(user);
             toast.success("Logged In!")
             navigate('/dashboard')
         } catch (error) {
@@ -186,8 +220,36 @@ export default function AuthProvider({children}){
 
     const handleSaveChanges = async () => {
         //FUNCTION UPDATE USER DETAILS IN DB
-        console.log('Updated user details:', currentUser);
+        console.info('Updated user details:', currentUser);
         try{
+
+            if (currentUser.role === "doctor") {
+                // Update fields for doctors
+                currentUser.fullname = Encryption(currentUser.fullname);
+                currentUser.image = currentUser.image || ""; //If no image is sent, it is set to ""
+                currentUser.gender = Encryption(currentUser.gender);
+                currentUser.address = Encryption(currentUser.address);
+                currentUser.age = Encryption(currentUser.age);
+                currentUser.degree = Encryption(currentUser.degree);
+                currentUser.speciality = Encryption(currentUser.speciality);
+                currentUser.regno = Encryption(currentUser.regno);
+                currentUser.regyear = Encryption(currentUser.regyear);
+                currentUser.experience = Encryption(currentUser.experience);
+                currentUser.starttime = Encryption(currentUser.starttime);
+                currentUser.endtime = Encryption(currentUser.endtime);
+                currentUser.isverified = false;
+              } else if (currentUser.role === "patient") {
+                // Update fields for patients
+                currentUser.fullname = Encryption(currentUser.fullname);
+                currentUser.email = Encryption(currentUser.email);
+                currentUser.age = Encryption(currentUser.age);
+                //currentUser.image = currentUser.image || ""; //If no image is sent, it is set to ""
+                currentUser.gender = Encryption(currentUser.gender);
+                currentUser.bloodgroup = Encryption(currentUser.bloodgroup);
+                currentUser.address = Encryption(currentUser.address);
+                currentUser.isverified = true;
+              }
+
             const response = await axios.post('http://localhost:3001/updateProfiles', {
                 currentUser
             });
@@ -195,12 +257,44 @@ export default function AuthProvider({children}){
             sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
             setIsEditing(false);
             toast.success("Details Updated!")
+            console.info(currentUser);
+            // currentUser.email = Encryption(currentUser.email);
+            // currentUser.name = Encryption(currentUser.name);
             try {
                 const response = await axios.post('http://localhost:3001/fetchUser', {
                     currentUser
                 });
           
                 const user = await response.data;
+
+                try { 
+                
+
+                    if(user.isverified === true) {
+                        // Decrypt necessary fields
+                        user.email = Decryption(user.email);
+                        user.fullname = Decryption(user.fullname);
+                        user.age = Decryption(user.age);
+                        user.image = Decryption(user.image);
+                        user.gender = Decryption(user.gender);
+                        user.bloodgroup = Decryption(user.bloodgroup);
+                        user.address = Decryption(user.address);
+                    } else {
+                        user.email = Decryption(user.email);
+                        user.fullname = Decryption(user.fullname);
+
+                        user.age = Decryption(user.age);
+                        user.image = Decryption(user.image);
+                        user.gender = Decryption(user.gender);
+                        user.bloodgroup = Decryption(user.bloodgroup);
+                        user.address = Decryption(user.address);
+                    }
+                    //console.info(user);
+        
+                    } catch(e) {
+                        console.error(e)
+                    }
+
                 sessionStorage.setItem('currentUser', JSON.stringify(user));
                 setCurrentuser(user)
             } catch (error) {

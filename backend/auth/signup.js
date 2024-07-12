@@ -1,6 +1,7 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
 const bcryptUtils = require("../utils/bcrypt-hashing.js");
+const {Decryption} = require('../utils/AES/AESDecrypt');
 
 const router = express.Router();
 const uri =
@@ -11,9 +12,10 @@ router.post("/", async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
     console.log(name, email, password, role);
+    console.log(Decryption(name), Decryption(email), Decryption(password), role);
     await client.connect();
 
-    const database = client.db("users");
+    const database = client.db("users1");
     var dbRole = role === "patient" ? "patient" : "doctor"; //selects the collections based on role recieved.
 
     const collection = database.collection(dbRole);
@@ -71,6 +73,7 @@ router.post("/", async (req, res) => {
         res.status(401).json({ success: false, message: "Unable to Sign Up" });
       }
     }
+    //res.status(200).json({ success: true, message: "Sign Up successful" });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ success: false, message: "Internal server error" });

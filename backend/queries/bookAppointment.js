@@ -7,13 +7,13 @@ const uri =
 const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
-    const {appointment}= req.body;
+    const {appointment}= req.body;  
     console.log(appointment);
   
     try {
       await client.connect();
   
-      const database = client.db("users");
+      const database = client.db("users1");
       const collection = database.collection("appointments");
       const result = await collection.insertOne(appointment);
 

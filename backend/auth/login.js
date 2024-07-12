@@ -1,6 +1,7 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
 const bcryptUtils = require("../utils/bcrypt-hashing.js");
+const { Decryption } = require("../utils/AES/AESDecrypt.js");
 
 const router = express.Router();
 const uri =
@@ -13,10 +14,12 @@ router.post("/", async (req, res) => {
   try {
     console.log(email, password, role);
     await client.connect();
-    const database = client.db("users");
+    const database = client.db("users1");
     const collection = database.collection(role);
 
     const result = await collection.findOne({ email });
+
+    console.log('Bool = '+Decryption(email));
 
     const isMatch = await bcryptUtils.compareHash(password, result.password);
 
