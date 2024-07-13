@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const { publicKey, privateKey } = require('./utils/keys');
 
 const signupRoute = require("./auth/signup.js");
 const loginRoute = require("./auth/login.js");

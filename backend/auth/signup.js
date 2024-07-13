@@ -14,8 +14,7 @@ router.post("/", async (req, res) => {
     await client.connect();
 
     const database = client.db("users");
-    const dbRole = role === "patient" ? "patient" : "doctor"; //selects the collections based on role received.
-
+    const dbRole = role === "patient" ? "patient" : "doctor";
     const collection = database.collection(dbRole);
     const userExists = await collection.findOne({ email });
 
@@ -23,11 +22,8 @@ router.post("/", async (req, res) => {
       res.status(409).json({ success: false, message: "Email is already in use" });
     } else {
       const encryptedPassword = rsa_encrypt(password, publicKey);
+      console.log("Encrypted password (hex):", encryptedPassword);
 
-      console.log("encrypt: ", encryptedPassword);
-
-      const base64Password = Buffer.from(encryptedPassword, 'hex').toString('base64');
-console.log("Encrypted password (base64):", base64Password);
       let query;
       if (dbRole === "patient") {
         query = {
@@ -64,9 +60,8 @@ console.log("Encrypted password (base64):", base64Password);
       }
 
       const result = await collection.insertOne(query);
-
       if (result) {
-        console.log(result);
+        console.log("Inserted user:", query);
         res.status(200).json({ success: true, message: "Sign Up successful" });
       } else {
         res.status(401).json({ success: false, message: "Unable to Sign Up" });
@@ -81,5 +76,3 @@ console.log("Encrypted password (base64):", base64Password);
 });
 
 module.exports = router;
-
-

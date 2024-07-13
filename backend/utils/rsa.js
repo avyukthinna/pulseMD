@@ -81,24 +81,15 @@ function rsa_decrypt(encryptedMessage, privateKey) {
       const { d, n } = privateKey;
       console.log("Private key components:", { d, n });
   
-      let encryptedHex = encryptedMessage;
-      if (encryptedMessage instanceof Buffer) {
-        encryptedHex = encryptedMessage.toString('hex');
-      } else if (typeof encryptedMessage === 'object' && encryptedMessage.buffer) {
-        encryptedHex = encryptedMessage.buffer.toString('hex');
-      }
-  
-      if (!encryptedHex) {
-        throw new Error("Encrypted message is empty");
-      }
-  
-      console.log("Encrypted hex:", encryptedHex);
-      const encryptedBigInt = BigInt(`0x${encryptedHex}`);
+      const encryptedBigInt = BigInt(`0x${encryptedMessage}`);
       console.log("Encrypted BigInt:", encryptedBigInt);
       const decryptedBigInt = mod_exp(encryptedBigInt, d, n);
       const decryptedHex = decryptedBigInt.toString(16);
-      const decryptedBuffer = Buffer.from(decryptedHex, 'hex');
-      return decryptedBuffer.toString();
+      // Ensure even length
+      const paddedHex = decryptedHex.length % 2 ? '0' + decryptedHex : decryptedHex;
+      const decryptedBuffer = Buffer.from(paddedHex, 'hex');
+      // Remove potential padding
+      return decryptedBuffer.toString().replace(/\0/g, '');
     } catch (error) {
       console.error('Decryption error:', error);
       throw new Error('Failed to decrypt the message');

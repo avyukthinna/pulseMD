@@ -9,30 +9,30 @@ const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {
   const { email, password, role } = req.body;
-  console.log(email);
+  console.log("Login attempt for email:", email);
+
   try {
     console.log(email, password, role);
     await client.connect();
+
     const database = client.db("users");
     const collection = database.collection(role);
-
     const result = await collection.findOne({ email });
-    console.log(result);
-
+    
     if (!result) {
       res.status(401).json({ success: false, message: "Email doesn't exist" });
       return;
     }
 
-    console.log("Retrieved password:", result.password);
-const decryptedPassword = rsa_decrypt(result.password, privateKey);
-console.log("Decrypted password:", decryptedPassword);
-
-    //const decryptedPassword = rsa_decrypt(result.password, privateKey);
+    console.log("Retrieved encrypted password:", result.password);
+    const decryptedPassword = rsa_decrypt(result.password, privateKey);
+    console.log("Decrypted password:", decryptedPassword);
 
     if (password === decryptedPassword) {
+      console.log("Password match:", true);
       res.status(200).json({ success: true, message: "Login successful", user: result });
     } else {
+      console.log("Password match:", false);
       res.status(401).json({ success: false, message: "Invalid password" });
     }
   } catch (error) {
