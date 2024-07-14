@@ -66,19 +66,25 @@ function generate_prime(bits) {
     return primeCandidate;
 }
 
+
 // Encrypt message using RSA
 function rsa_encrypt(message, publicKey) {
     const { e, n } = publicKey;
+    if (!message || message === '') {
+      return '0'; // Handle empty string or null case
+    }
     const messageBigInt = BigInt(`0x${Buffer.from(message).toString('hex')}`);
     const encryptedBigInt = mod_exp(messageBigInt, e, n);
     return encryptedBigInt.toString(16); // Return hex string
-}
+  }
 
-// Decrypt message using RSA
-function rsa_decrypt(encryptedMessage, privateKey) {
+  function rsa_decrypt(encryptedMessage, privateKey) {
     try {
       console.log("Encrypted message received:", encryptedMessage);
       const { d, n } = privateKey;
+      if (encryptedMessage === '0') {
+        return ''; // Handle special case for empty string
+      }
       console.log("Private key components:", { d, n });
   
       const encryptedBigInt = BigInt(`0x${encryptedMessage}`);
@@ -92,11 +98,14 @@ function rsa_decrypt(encryptedMessage, privateKey) {
       return decryptedBuffer.toString().replace(/\0/g, '');
     } catch (error) {
       console.error('Decryption error:', error);
-      throw new Error('Failed to decrypt the message');
+      return ''; // Return empty string on decryption failure
     }
   }
 
-module.exports = { generate_rsa_keys, rsa_encrypt, rsa_decrypt };
+  function normalizeEmail(email) {
+    return email.trim().toLowerCase();
+  }
 
 
 
+module.exports = { generate_rsa_keys, rsa_encrypt, rsa_decrypt,normalizeEmail };

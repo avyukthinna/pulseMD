@@ -1,7 +1,7 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
-const { rsa_decrypt } = require('../utils/rsa');
-const { privateKey } = require('../utils/keys');
+const { rsa_decrypt, rsa_encrypt, normalizeEmail} = require('../utils/rsa');
+const { privateKey, publicKey } = require('../utils/keys');
 
 const router = express.Router();
 const uri = "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
@@ -12,27 +12,40 @@ router.post("/", async (req, res) => {
   console.log("Login attempt for email:", email);
 
   try {
-    console.log(email, password, role);
     await client.connect();
-
+    
+   
     const database = client.db("users2");
     const collection = database.collection(role);
-    const result = await collection.findOne({ email });
+
+    const normalizedEmail = normalizeEmail(email);
+    const encryptedEmail = rsa_encrypt(normalizedEmail, publicKey);
+    const result = await collection.findOne({ email: encryptedEmail });
     
     if (!result) {
       res.status(401).json({ success: false, message: "Email doesn't exist" });
       return;
     }
 
-    console.log("Retrieved encrypted password:", result.password);
     const decryptedPassword = rsa_decrypt(result.password, privateKey);
-    console.log("Decrypted password:", decryptedPassword);
 
     if (password === decryptedPassword) {
-      console.log("Password match:", true);
-      res.status(200).json({ success: true, message: "Login successful", user: result });
+      const decryptedUser = { _id: result._id, email: result.email };
+      for (const [key, value] of Object.entries(result)) {
+        if (key !== '_id') {
+          try{
+            decryptedUser[key] = rsa_decrypt(value, privateKey);
+
+          }catch(error){
+            console.error(`Error decrypting ${key}:`, error);
+            decryptedUser[key] = '';
+          }
+          
+        }
+      }
+      console.log("Decrypted user data:", decryptedUser);
+      res.status(200).json({ success: true, message: "Login successful", user: decryptedUser });
     } else {
-      console.log("Password match:", false);
       res.status(401).json({ success: false, message: "Invalid password" });
     }
   } catch (error) {
