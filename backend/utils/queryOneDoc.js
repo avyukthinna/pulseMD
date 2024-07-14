@@ -9,7 +9,7 @@ async function getOneDocument(toFind, Collection) {
     console.log(toFind);
     await client.connect();
 
-    const database = client.db("users");
+    const database = client.db("users2");
     const collection = database.collection(Collection);
 
     const result = await collection.findOne({ _id: toFind });

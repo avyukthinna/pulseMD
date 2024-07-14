@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
     console.log(name, email, password, role);
     await client.connect();
 
-    const database = client.db("users");
+    const database = client.db("users2");
     const dbRole = role === "patient" ? "patient" : "doctor";
     const collection = database.collection(dbRole);
     const userExists = await collection.findOne({ email });

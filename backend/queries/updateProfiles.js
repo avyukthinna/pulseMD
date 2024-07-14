@@ -25,7 +25,7 @@ async function updateProfileFields(user) {
   try {
     await client.connect();
 
-    const database = client.db("users");
+    const database = client.db("users2");
     const collection = database.collection(user.role);
     console.log(user.email);
     const filter = { email: user.email }; // Filter condition

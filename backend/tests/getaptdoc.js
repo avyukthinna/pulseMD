@@ -15,7 +15,7 @@ async function main() {
     const doctorId = 'avy@gmail.com';
 
     // Database and collections
-    const database = client.db("users");
+    const database = client.db("users2");
     const appointmentsCollection = database.collection("appointments");
     const patientCollection = database.collection("patient");
 

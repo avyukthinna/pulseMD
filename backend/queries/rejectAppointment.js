@@ -13,7 +13,7 @@ router.delete("/", async (req, res) => {
     await client.connect();
 
     // Determine the collection based on user's role
-    const database = client.db("users");
+    const database = client.db("users2");
     const collection = database.collection("appointments");
 
     // Delete the user account based on the provided email

@@ -5,7 +5,7 @@ const uri =
 const client = new MongoClient(uri);
 
 async function insertDoctor() {
-  const dbName = "users";
+  const dbName = "users2";
   const colName = "doctor";
   try {
     await client.connect();

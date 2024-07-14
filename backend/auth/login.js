@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
     console.log(email, password, role);
     await client.connect();
 
-    const database = client.db("users");
+    const database = client.db("users2");
     const collection = database.collection(role);
     const result = await collection.findOne({ email });
     

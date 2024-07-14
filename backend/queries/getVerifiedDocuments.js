@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
     console.log(collectionName);
     await client.connect();
 
-    const database = client.db("users");
+    const database = client.db("users2");
     const collection = database.collection(collectionName);
 
     const resultArray = await collection.find({ isverified: true }).toArray();
