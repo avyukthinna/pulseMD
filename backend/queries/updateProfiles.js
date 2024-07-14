@@ -1,7 +1,9 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
-const { rsa_encrypt } = require('../utils/rsa');
-const { publicKey, privateKey } = require('../utils/keys');
+const { rsa_encrypt, normalizeEmail } = require('../utils/rsa');
+const { publicKey } = require('../utils/keys');
+
+delete require.cache[require.resolve('../utils/rsa')];
 
 const router = express.Router();
 const uri = "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
@@ -27,14 +29,22 @@ async function updateProfileFields(user) {
     const database = client.db("users2");
     const collection = database.collection(user.role);
 
-    const filter = { email: rsa_encrypt(user.email, publicKey) };
+    const normalizedEmail = normalizeEmail(user.email);
+    const encryptedEmail = rsa_encrypt(normalizedEmail, publicKey);
+    console.log("Encrypted Email:", encryptedEmail); 
+
+
+    const filter = { email: encryptedEmail };
 
     const updateFields = {};
     for (const [key, value] of Object.entries(user)) {
       if (key !== '_id' && key !== 'email' && key !== 'password' && key !== 'role') {
-        updateFields[key] = rsa_encrypt(value.toString(), publicKey);
+        updateFields[key] = value ? rsa_encrypt(value.toString(), publicKey) : rsa_encrypt("", publicKey);
       }
     }
+
+    // Explicitly set isverified to "true"
+    updateFields.isverified = rsa_encrypt("true", publicKey);
 
     console.log("Encrypted update fields:", updateFields);
 
@@ -55,3 +65,4 @@ async function updateProfileFields(user) {
 }
 
 module.exports = router;
+

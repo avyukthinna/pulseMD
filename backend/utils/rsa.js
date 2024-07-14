@@ -66,46 +66,39 @@ function generate_prime(bits) {
     return primeCandidate;
 }
 
-
 // Encrypt message using RSA
 function rsa_encrypt(message, publicKey) {
     const { e, n } = publicKey;
     if (!message || message === '') {
-      return '0'; // Handle empty string or null case
+        return '0'; // Handle empty string or null case
     }
-    const messageBigInt = BigInt(`0x${Buffer.from(message).toString('hex')}`);
+    const messageBuffer = Buffer.from(message, 'utf-8'); // Use utf-8 encoding
+    const messageBigInt = BigInt('0x' + messageBuffer.toString('hex'));
     const encryptedBigInt = mod_exp(messageBigInt, e, n);
     return encryptedBigInt.toString(16); // Return hex string
-  }
+}
 
-  function rsa_decrypt(encryptedMessage, privateKey) {
+// Decrypt message using RSA
+function rsa_decrypt(encryptedMessage, privateKey) {
     try {
-      console.log("Encrypted message received:", encryptedMessage);
-      const { d, n } = privateKey;
-      if (encryptedMessage === '0') {
-        return ''; // Handle special case for empty string
-      }
-      console.log("Private key components:", { d, n });
-  
-      const encryptedBigInt = BigInt(`0x${encryptedMessage}`);
-      console.log("Encrypted BigInt:", encryptedBigInt);
-      const decryptedBigInt = mod_exp(encryptedBigInt, d, n);
-      const decryptedHex = decryptedBigInt.toString(16);
-      // Ensure even length
-      const paddedHex = decryptedHex.length % 2 ? '0' + decryptedHex : decryptedHex;
-      const decryptedBuffer = Buffer.from(paddedHex, 'hex');
-      // Remove potential padding
-      return decryptedBuffer.toString().replace(/\0/g, '');
+        const { d, n } = privateKey;
+        if (encryptedMessage === '0') {
+            return ''; // Handle special case for empty string
+        }
+        const encryptedBigInt = BigInt('0x' + encryptedMessage);
+        const decryptedBigInt = mod_exp(encryptedBigInt, d, n);
+        const decryptedHex = decryptedBigInt.toString(16);
+        const paddedHex = decryptedHex.length % 2 ? '0' + decryptedHex : decryptedHex;
+        const decryptedBuffer = Buffer.from(paddedHex, 'hex');
+        return decryptedBuffer.toString('utf-8').replace(/\0/g, ''); // Use utf-8 encoding
     } catch (error) {
-      console.error('Decryption error:', error);
-      return ''; // Return empty string on decryption failure
+        console.error('Decryption error:', error);
+        return ''; // Return empty string on decryption failure
     }
-  }
+}
 
-  function normalizeEmail(email) {
+function normalizeEmail(email) {
     return email.trim().toLowerCase();
-  }
+}
 
-
-
-module.exports = { generate_rsa_keys, rsa_encrypt, rsa_decrypt,normalizeEmail };
+module.exports = { generate_rsa_keys, rsa_encrypt, rsa_decrypt, normalizeEmail };

@@ -1,7 +1,13 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
-const { rsa_encrypt,normalizeEmail } = require('../utils/rsa');
+
+// Clear the require cache
+delete require.cache[require.resolve('../utils/rsa')];
+
+const { rsa_encrypt, normalizeEmail } = require('../utils/rsa'); // Correctly import normalizeEmail
 const { publicKey } = require('../utils/keys');
+
+console.log(typeof normalizeEmail); // Log the type of normalizeEmail
 
 const router = express.Router();
 const uri = "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
@@ -13,14 +19,16 @@ router.post("/", async (req, res) => {
     console.log("Received signup request:", { name, email, role });
     await client.connect();
     
-    
     const database = client.db("users2");
     const dbRole = role === "patient" ? "patient" : "doctor";
     const collection = database.collection(dbRole);
-    const normalizedEmail = normalizeEmail(email);
-    const encryptedEmail = rsa_encrypt(normalizedEmail, publicKey);
+    
+    // Use the normalizeEmail function correctly
+    let normalizedEmail = normalizeEmail(email);
+    console.log('Normalized Email:', normalizedEmail); // Log the normalized email
+    const encryptedEmail = rsa_encrypt(normalizedEmail, publicKey); // Use normalizedEmail directly
+    
     const userExists = await collection.findOne({ email: encryptedEmail });
-   
 
     if (userExists) {
       res.status(409).json({ success: false, message: "Email is already in use" });
@@ -49,16 +57,14 @@ router.post("/", async (req, res) => {
           gender: rsa_encrypt("", publicKey),
           address: rsa_encrypt("", publicKey),
           age: rsa_encrypt("", publicKey),
-          
-          degree:rsa_encrypt ("",publicKey),
-          speciality: rsa_encrypt ("",publicKey),
-          regno: rsa_encrypt("",publicKey),
-          regyear: rsa_encrypt("",publicKey),
-          experience: rsa_encrypt("",publicKey),
-          starttime:rsa_encrypt( "",publicKey),
-          endtime: rsa_encrypt("",publicKey),
+          degree: rsa_encrypt("", publicKey),
+          speciality: rsa_encrypt("", publicKey),
+          regno: rsa_encrypt("", publicKey),
+          regyear: rsa_encrypt("", publicKey),
+          experience: rsa_encrypt("", publicKey),
+          starttime: rsa_encrypt("", publicKey),
+          endtime: rsa_encrypt("", publicKey),
           isverified: rsa_encrypt("false", publicKey),
-         
         };
       }
 

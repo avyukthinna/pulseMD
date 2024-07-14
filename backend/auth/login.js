@@ -1,6 +1,6 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
-const { rsa_decrypt, rsa_encrypt, normalizeEmail} = require('../utils/rsa');
+const { rsa_decrypt, rsa_encrypt, normalizeEmail } = require('../utils/rsa');
 const { privateKey, publicKey } = require('../utils/keys');
 
 const router = express.Router();
@@ -14,33 +14,31 @@ router.post("/", async (req, res) => {
   try {
     await client.connect();
     
-   
     const database = client.db("users2");
     const collection = database.collection(role);
 
     const normalizedEmail = normalizeEmail(email);
-    const encryptedEmail = rsa_encrypt(normalizedEmail, publicKey);
+    const encryptedEmail = rsa_encrypt(normalizedEmail, publicKey); 
     const result = await collection.findOne({ email: encryptedEmail });
-    
+
     if (!result) {
       res.status(401).json({ success: false, message: "Email doesn't exist" });
       return;
     }
 
     const decryptedPassword = rsa_decrypt(result.password, privateKey);
+    const decryptedEmail = rsa_decrypt(result.email, privateKey);
 
     if (password === decryptedPassword) {
-      const decryptedUser = { _id: result._id, email: result.email };
+      const decryptedUser = { _id: result._id, email: decryptedEmail };
       for (const [key, value] of Object.entries(result)) {
         if (key !== '_id') {
-          try{
+          try {
             decryptedUser[key] = rsa_decrypt(value, privateKey);
-
-          }catch(error){
+          } catch (error) {
             console.error(`Error decrypting ${key}:`, error);
             decryptedUser[key] = '';
           }
-          
         }
       }
       console.log("Decrypted user data:", decryptedUser);
