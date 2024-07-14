@@ -6,6 +6,8 @@ import { Alert } from '@mui/material';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
+const {Encryption} = require('../../utils/AES/AESEncrypt');
+const {Decryption} = require('../../utils/AES/AESDecrypt');
 
 const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) => {
     const [open, setOpen] = useState(false)
@@ -13,7 +15,7 @@ const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) 
     const [appointment, setAppointment] = useState({
       date: null,
       symptoms: '',
-      doctor_id:doctor_id,
+      doctor_id: doctor_id,
       doctor_name: doctor_name,
       patient_id: currentUser.email,
       prescriptions: [],
@@ -46,6 +48,16 @@ const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) 
       e.preventDefault()
 
       if (isTimeWithinSchedule(appointment.date) && appointment.symptoms){
+
+        appointment.date = Encryption(appointment.date);
+        appointment.symptoms = Encryption(appointment.symptoms);
+        appointment.doctor_id = Encryption(appointment.doctor_id);
+        appointment.doctor_name = Encryption(appointment.doctor_name);
+        appointment.patient_id = Encryption(currentUser.email);
+        appointment.prescriptions = appointment.prescriptions.map(prescription => Encryption(prescription));
+        appointment.patient_name = Encryption(currentUser.fullname);
+        appointment.isConfirmed = false;
+
         //FUNCTON TO PUSH APPOINTMENT TO DATABASE
         console.log(appointment)
           try {

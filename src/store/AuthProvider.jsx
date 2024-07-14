@@ -7,6 +7,7 @@ import doc_1 from '../images/doc-prof-1.jpg'
 import axios from 'axios';
 const {Encryption} = require('../utils/AES/AESEncrypt');
 const {Decryption} = require('../utils/AES/AESDecrypt');
+const {EncryptPatient,DecryptPatient, DecryptDoctor} = require('../utils/AES/AESHelper');
 
 export const AuthContext = createContext()
 
@@ -98,21 +99,30 @@ export default function AuthProvider({children}){
             
       
             console.log(response.data); // Successful login message
-            const user = await response.data.user;
-            //console.info(user);
+            let user = await response.data.user;
+            // console.info(user);
 
             try { 
                 
 
             if(user.isverified === true) {
                 // Decrypt necessary fields
-                user.email = Decryption(user.email);
-                user.fullname = Decryption(user.fullname);
-                user.age = Decryption(user.age);
-                user.image = Decryption(user.image);
-                user.gender = Decryption(user.gender);
-                user.bloodgroup = Decryption(user.bloodgroup);
-                user.address = Decryption(user.address);
+                // user.email = Decryption(user.email);
+                // user.fullname = Decryption(user.fullname);
+                // user.age = Decryption(user.age);
+                // user.image = Decryption(user.image);
+                // user.gender = Decryption(user.gender);
+                // user.bloodgroup = Decryption(user.bloodgroup);
+                // user.address = Decryption(user.address);
+                if(user.role === 'patient') {
+                    user = DecryptPatient(JSON.stringify(user)); //Works! DO not touch
+                    console.log(user);
+                }
+                if(user.role === 'doctor') {
+                    user = DecryptDoctor(JSON.stringify(user)); //Works! DO not touch
+                    console.log(user);
+                }
+
             } else {
                 user.email = Decryption(user.email);
                 user.fullname = Decryption(user.fullname);
@@ -123,7 +133,7 @@ export default function AuthProvider({children}){
                 console.error(e)
             }
 
-            console.info('nameeeeeeee:'+(user.fullname === 'B'));
+            //console.info('nameeeeeeee:'+(user.fullname === 'B'));
 
             setUserRole('patient')
             sessionStorage.setItem('currentUser', JSON.stringify(user));
@@ -249,13 +259,19 @@ export default function AuthProvider({children}){
                 currentUser.bloodgroup = Encryption(currentUser.bloodgroup);
                 currentUser.address = Encryption(currentUser.address);
                 currentUser.isverified = true;
+
               }
 
             const response = await axios.post('http://localhost:3001/updateProfiles', {
                 currentUser
             });
             //console.log(response.data.message)
-            sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+            if (currentUser.role === "patient") {
+            sessionStorage.setItem('currentUser', JSON.stringify(DecryptPatient(JSON.stringify(currentUser))));
+            }
+            if (currentUser.role === "doctor") {
+                sessionStorage.setItem('currentUser', JSON.stringify(DecryptDoctor(JSON.stringify(currentUser))));
+            }
             setIsEditing(false);
             toast.success("Details Updated!")
             console.info(currentUser);
@@ -266,34 +282,36 @@ export default function AuthProvider({children}){
                     currentUser
                 });
           
-                const user = await response.data;
+                let user = await response.data;
 
                 try { 
                     if(user.isverified === true) {
                         // Decrypt necessary fields
                         if(user.role === "patient"){
-                            user.email = Decryption(user.email);
-                            user.fullname = Decryption(user.fullname);
-                            user.age = Decryption(user.age);
-                            user.image = Decryption(user.image);
-                            user.gender = Decryption(user.gender);
-                            user.bloodgroup = Decryption(user.bloodgroup);
-                            user.address = Decryption(user.address);
+                            // user.email = Decryption(user.email);
+                            // user.fullname = Decryption(user.fullname);
+                            // user.age = Decryption(user.age);
+                            // user.image = Decryption(user.image);
+                            // user.gender = Decryption(user.gender);
+                            // user.bloodgroup = Decryption(user.bloodgroup);
+                            // user.address = Decryption(user.address);
+                            user = DecryptPatient(JSON.stringify(user)); // WORKS!
                         }
                         if(user.role === "doctor"){
-                            user.fullname = Decryption(user.fullname);
-                            user.email = Decryption(user.email);
-                            user.image = Decryption(user.image);
-                            user.gender = Decryption(user.gender);
-                            user.address = Decryption(user.address);
-                            user.age = Decryption(user.age);
-                            user.degree = Decryption(user.degree);
-                            user.speciality = Decryption(user.speciality);
-                            user.regno = Decryption(user.regno);
-                            user.regyear = Decryption(user.regyear);
-                            user.experience = Decryption(user.experience);
-                            user.starttime = Decryption(user.starttime);
-                            user.endtime = Decryption(user.endtime);
+                            // user.fullname = Decryption(user.fullname);
+                            // user.email = Decryption(user.email);
+                            // user.image = Decryption(user.image);
+                            // user.gender = Decryption(user.gender);
+                            // user.address = Decryption(user.address);
+                            // user.age = Decryption(user.age);
+                            // user.degree = Decryption(user.degree);
+                            // user.speciality = Decryption(user.speciality);
+                            // user.regno = Decryption(user.regno);
+                            // user.regyear = Decryption(user.regyear);
+                            // user.experience = Decryption(user.experience);
+                            // user.starttime = Decryption(user.starttime);
+                            // user.endtime = Decryption(user.endtime);
+                            user = DecryptDoctor(JSON.stringify(user));
                         }
                     } else {
                         user.email = Decryption(user.email);

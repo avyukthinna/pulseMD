@@ -9,6 +9,9 @@ import pf1 from '../images/test-1.jpg'
 import pf2 from '../images/test-2.jpg'
 import axios from "axios";
 import { toast } from 'react-toastify';
+import { Encryption } from "../utils/AES/AESEncrypt";
+const {EncryptPatient,DecryptPatient, DecryptDoctor, DecryptAppointment} = require('../utils/AES/AESHelper');
+
 
 
 export const DataContext = createContext()
@@ -163,7 +166,11 @@ export default function DataProvider({children}){
     const fetchDoctors = useCallback(async () => {
         try {
             const response = await axios.post('http://localhost:3001/getVerifiedDocuments', {data:"doctor"});
-            setDoctors(response.data.data);
+            let doctors = response.data.data;
+            for (let i = 0; i < doctors.length; i++) {
+                doctors[i] = DecryptDoctor( JSON.stringify( doctors[i] ) ); // Decrypt and replace the object in the array            
+            }
+            setDoctors(doctors);
           } catch (error) {
             toast.error("Couldn't Fetch Doctors")
             //console.error('Error fetching verified doctors:', error.message);
@@ -171,13 +178,18 @@ export default function DataProvider({children}){
     },[]) 
 
     const fetchUserAppointments = async (user_id,role) => {
-        console.log('called')
+        user_id = Encryption(user_id);
         try {
             const response = await axios.post('http://localhost:3001/getAppointments', {
                 user_id,role
             });
+            //let apts = DecryptAppointment(response.data.data);
             //const result = await response.data.data
-            console.log(response.data.data)
+            let apts = response.data.data;
+            for (let i = 0; i < apts.length; i++) {
+                apts[i] = DecryptAppointment( JSON.stringify( apts[i] ) ); // Decrypt and replace the object in the array            
+            }
+            console.log(apts)
             setUserAppointments(response.data.data);
           } catch (error) {
             //toast.error("No Scheduled Appointments")
@@ -186,12 +198,20 @@ export default function DataProvider({children}){
     }
 
     const fetchYourPatients = async (user_id) => {
+        user_id = Encryption(user_id);
+        console.log("wend");
         try {
             const response = await axios.post('http://localhost:3001/yourpatients', {
                 user_id
             });
+            let apts = response.data;
+            // console.log("hellow = "+JSON.stringify(apts));
+            for (let i = 0; i < apts.length; i++) {
+                apts[i] = DecryptAppointment( apts[i] ); // Decrypt and replace the object in the array            
+            }
             
-            setYourPatients(response.data);
+            setYourPatients(apts);
+            console.log(yourPatients)
           } catch (error) {
             //toast.error("Couldn't Fetch Appointments")
             console.error('Error fetching patients:', error.message);

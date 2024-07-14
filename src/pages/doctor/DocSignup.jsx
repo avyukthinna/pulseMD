@@ -13,15 +13,16 @@ const DocSignup = () => {
 
     const handleDocSignup = (e) => {
         e.preventDefault()
-        if(password !== cpassword){
-            setPasswordError("Passwords don't match!")
-        } else if(/[a-zA-Z]/.test(password) == 0){
-            setPasswordError("Password should contain characters");
-        } else if(/[0-9]/.test(password) == 0){
-            setPasswordError("Password should contain numbers");
-        }else{
-            handleSignup(fullname,email,password,'doctor')
-        }
+        // if(password !== cpassword){
+        //     setPasswordError("Passwords don't match!")
+        // } else if(/[a-zA-Z]/.test(password) == 0){
+        //     setPasswordError("Password should contain characters");
+        // } else if(/[0-9]/.test(password) == 0){
+        //     setPasswordError("Password should contain numbers");
+        // }else{
+        //     handleSignup(fullname,email,password,'doctor')
+        // }
+        handleSignup(fullname,email,password,'doctor');
     }
 
     return (
