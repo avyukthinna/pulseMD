@@ -25,14 +25,14 @@ router.post("/", async (req, res) => {
 async function updateProfileFields(user) {
   try {
     await client.connect();
+    console.log("Connected to MongoDB");
 
     const database = client.db("users2");
     const collection = database.collection(user.role);
 
     const normalizedEmail = normalizeEmail(user.email);
     const encryptedEmail = rsa_encrypt(normalizedEmail, publicKey);
-    console.log("Encrypted Email:", encryptedEmail); 
-
+    console.log("Encrypted Email:", encryptedEmail);
 
     const filter = { email: encryptedEmail };
 
@@ -43,9 +43,7 @@ async function updateProfileFields(user) {
       }
     }
 
-    // Explicitly set isverified to "true"
     updateFields.isverified = rsa_encrypt("true", publicKey);
-
     console.log("Encrypted update fields:", updateFields);
 
     const result = await collection.updateOne(filter, { $set: updateFields });
@@ -61,8 +59,10 @@ async function updateProfileFields(user) {
     throw error;
   } finally {
     await client.close();
+    console.log("Disconnected from MongoDB");
   }
 }
 
 module.exports = router;
+
 

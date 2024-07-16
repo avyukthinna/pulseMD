@@ -1,13 +1,12 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
 
-// Clear the require cache
 delete require.cache[require.resolve('../utils/rsa')];
 
-const { rsa_encrypt, normalizeEmail } = require('../utils/rsa'); // Correctly import normalizeEmail
+const { rsa_encrypt, normalizeEmail } = require('../utils/rsa');
 const { publicKey } = require('../utils/keys');
 
-console.log(typeof normalizeEmail); // Log the type of normalizeEmail
+console.log(typeof normalizeEmail);
 
 const router = express.Router();
 const uri = "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
@@ -18,17 +17,19 @@ router.post("/", async (req, res) => {
   try {
     console.log("Received signup request:", { name, email, role });
     await client.connect();
-    
+    console.log("Connected to MongoDB");
+
     const database = client.db("users2");
     const dbRole = role === "patient" ? "patient" : "doctor";
     const collection = database.collection(dbRole);
-    
-    // Use the normalizeEmail function correctly
+
     let normalizedEmail = normalizeEmail(email);
-    console.log('Normalized Email:', normalizedEmail); // Log the normalized email
-    const encryptedEmail = rsa_encrypt(normalizedEmail, publicKey); // Use normalizedEmail directly
-    
+    console.log('Normalized Email:', normalizedEmail);
+    const encryptedEmail = rsa_encrypt(normalizedEmail, publicKey);
+    console.log('Encrypted Email:', encryptedEmail);
+
     const userExists = await collection.findOne({ email: encryptedEmail });
+    console.log('User exists:', userExists);
 
     if (userExists) {
       res.status(409).json({ success: false, message: "Email is already in use" });
@@ -67,8 +68,11 @@ router.post("/", async (req, res) => {
           isverified: rsa_encrypt("false", publicKey),
         };
       }
+      console.log('User query:', query);
 
       const result = await collection.insertOne(query);
+      console.log('Insert result:', result);
+
       if (result) {
         res.status(200).json({ success: true, message: "Sign Up successful" });
       } else {
@@ -80,7 +84,9 @@ router.post("/", async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   } finally {
     await client.close();
+    console.log("Disconnected from MongoDB");
   }
 });
 
 module.exports = router;
+

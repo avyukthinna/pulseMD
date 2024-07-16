@@ -7,7 +7,10 @@ const KEY_FILE = path.join(__dirname, 'rsa_keys.json');
 if (!fs.existsSync(KEY_FILE)) {
   const keys = generate_rsa_keys(2048);
   
-  // Convert BigInt values to strings
+  console.log("Generated RSA Keys:");
+  console.log("Public Key (e, n):", keys.publicKey.e.toString(), keys.publicKey.n.toString());
+  console.log("Private Key (d, n):", keys.privateKey.d.toString(), keys.privateKey.n.toString());
+
   const serializableKeys = {
     publicKey: {
       e: keys.publicKey.e.toString(),
@@ -18,7 +21,7 @@ if (!fs.existsSync(KEY_FILE)) {
       n: keys.privateKey.n.toString()
     }
   };
-  
+
   fs.writeFileSync(KEY_FILE, JSON.stringify(serializableKeys), 'utf8');
   console.log("Generated and saved new RSA keys");
 } else {

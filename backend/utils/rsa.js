@@ -1,6 +1,5 @@
 const crypto = require('crypto');
 
-// Extended Euclidean algorithm to find modular inverse
 function extended_gcd(a, b) {
     if (b === 0n) {
         return [a, 1n, 0n];
@@ -11,7 +10,6 @@ function extended_gcd(a, b) {
     return [gcd, x, y];
 }
 
-// Modular inverse function
 function mod_inverse(a, m) {
     const [gcd, x] = extended_gcd(a, m);
     if (gcd !== 1n) {
@@ -20,7 +18,6 @@ function mod_inverse(a, m) {
     return (x % m + m) % m;
 }
 
-// Modular exponentiation function
 function mod_exp(base, exp, mod) {
     let result = 1n;
     while (exp > 0n) {
@@ -33,18 +30,18 @@ function mod_exp(base, exp, mod) {
     return result;
 }
 
-// Generate RSA key pair
 function generate_rsa_keys(bits) {
+    console.log("Generating RSA keys");
     const p = generate_prime(bits / 2);
     const q = generate_prime(bits / 2);
     const n = p * q;
     const phi = (p - 1n) * (q - 1n);
-    const e = 65537n; // Public exponent, often a fixed value for simplicity
-    const d = mod_inverse(e, phi); // Private exponent
+    const e = 65537n;
+    const d = mod_inverse(e, phi);
+    console.log("RSA keys generated");
     return { publicKey: { e, n }, privateKey: { d, n } };
 }
 
-// Check if a number is prime (basic implementation)
 function is_prime(num) {
     if (num <= 1n) return false;
     if (num <= 3n) return true;
@@ -57,7 +54,6 @@ function is_prime(num) {
     return true;
 }
 
-// Generate large prime number
 function generate_prime(bits) {
     let primeCandidate;
     do {
@@ -66,38 +62,41 @@ function generate_prime(bits) {
     return primeCandidate;
 }
 
-// Encrypt message using RSA
 function rsa_encrypt(message, publicKey) {
     const { e, n } = publicKey;
     if (!message || message === '') {
-        return '0'; // Handle empty string or null case
+        return '0';
     }
-    const messageBuffer = Buffer.from(message, 'utf-8'); // Use utf-8 encoding
+    console.log("Encrypting message:", message);
+    const messageBuffer = Buffer.from(message, 'utf-8');
     const messageBigInt = BigInt('0x' + messageBuffer.toString('hex'));
     const encryptedBigInt = mod_exp(messageBigInt, e, n);
-    return encryptedBigInt.toString(16); // Return hex string
+    console.log("Message encrypted");
+    return encryptedBigInt.toString(16);
 }
 
-// Decrypt message using RSA
 function rsa_decrypt(encryptedMessage, privateKey) {
     try {
         const { d, n } = privateKey;
         if (encryptedMessage === '0') {
-            return ''; // Handle special case for empty string
+            return '';
         }
+        console.log("Decrypting message:", encryptedMessage);
         const encryptedBigInt = BigInt('0x' + encryptedMessage);
         const decryptedBigInt = mod_exp(encryptedBigInt, d, n);
         const decryptedHex = decryptedBigInt.toString(16);
         const paddedHex = decryptedHex.length % 2 ? '0' + decryptedHex : decryptedHex;
         const decryptedBuffer = Buffer.from(paddedHex, 'hex');
-        return decryptedBuffer.toString('utf-8').replace(/\0/g, ''); // Use utf-8 encoding
+        console.log("Message decrypted");
+        return decryptedBuffer.toString('utf-8').replace(/\0/g, '');
     } catch (error) {
         console.error('Decryption error:', error);
-        return ''; // Return empty string on decryption failure
+        return '';
     }
 }
 
 function normalizeEmail(email) {
+    console.log("Normalizing email:", email);
     return email.trim().toLowerCase();
 }
 

@@ -9,7 +9,6 @@ if (fs.existsSync(KEY_FILE)) {
   const keyData = fs.readFileSync(KEY_FILE, 'utf8');
   const loadedKeys = JSON.parse(keyData);
   
-  // Convert strings back to BigInt
   keys = {
     publicKey: {
       e: BigInt(loadedKeys.publicKey.e),
@@ -21,7 +20,9 @@ if (fs.existsSync(KEY_FILE)) {
     }
   };
   
-  console.log("Loaded existing RSA keys");
+  console.log("Loaded existing RSA keys:");
+  console.log("Public Key (e, n):", keys.publicKey.e.toString(), keys.publicKey.n.toString());
+  console.log("Private Key (d, n):", keys.privateKey.d.toString(), keys.privateKey.n.toString());
 } else {
   throw new Error("RSA keys not found. Please run generateKeys.js first.");
 }
