@@ -27,3 +27,5 @@ if (!fs.existsSync(KEY_FILE)) {
 } else {
   console.log("RSA keys already exist");
 }
+
+

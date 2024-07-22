@@ -39,7 +39,11 @@ async function updateProfileFields(user) {
     const updateFields = {};
     for (const [key, value] of Object.entries(user)) {
       if (key !== '_id' && key !== 'email' && key !== 'password' && key !== 'role') {
-        updateFields[key] = value ? rsa_encrypt(value.toString(), publicKey) : rsa_encrypt("", publicKey);
+        if (key === 'gender') {
+          updateFields[key] = rsa_encrypt("dummy_value", publicKey);
+        } else {
+          updateFields[key] = value ? rsa_encrypt(value.toString(), publicKey) : rsa_encrypt("", publicKey);
+        }
       }
     }
 
@@ -64,5 +68,3 @@ async function updateProfileFields(user) {
 }
 
 module.exports = router;
-
-

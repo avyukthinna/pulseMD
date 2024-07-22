@@ -34,6 +34,8 @@ router.post("/", async (req, res) => {
     if (userExists) {
       res.status(409).json({ success: false, message: "Email is already in use" });
     } else {
+      const dummyGenderValue = rsa_encrypt("dummy_value", publicKey);
+
       let query;
       if (dbRole === "patient") {
         query = {
@@ -43,7 +45,7 @@ router.post("/", async (req, res) => {
           fullname: rsa_encrypt(name, publicKey),
           age: rsa_encrypt("", publicKey),
           image: rsa_encrypt("", publicKey),
-          gender: rsa_encrypt("", publicKey),
+          gender: dummyGenderValue,
           bloodgroup: rsa_encrypt("", publicKey),
           address: rsa_encrypt("", publicKey),
           isverified: rsa_encrypt("false", publicKey),
@@ -55,7 +57,7 @@ router.post("/", async (req, res) => {
           role: rsa_encrypt(role, publicKey),
           fullname: rsa_encrypt(name, publicKey),
           image: rsa_encrypt("", publicKey),
-          gender: rsa_encrypt("", publicKey),
+          gender: dummyGenderValue,
           address: rsa_encrypt("", publicKey),
           age: rsa_encrypt("", publicKey),
           degree: rsa_encrypt("", publicKey),
@@ -89,4 +91,5 @@ router.post("/", async (req, res) => {
 });
 
 module.exports = router;
+
 
