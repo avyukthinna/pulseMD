@@ -20,6 +20,8 @@ const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) 
       patient_name: currentUser.fullname,
       isConfirmed: false
     });
+
+    console.log("After Press:",appointment);
     
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
@@ -49,7 +51,7 @@ const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) 
         //FUNCTON TO PUSH APPOINTMENT TO DATABASE
         console.log(appointment)
           try {
-            const response = await axios.post('http://localhost:3001/bookAppointment', {
+            const response = await axios.post('http://localhost:3001/appointment/book', {
               appointment
             });
             console.log(appointment)
@@ -59,7 +61,8 @@ const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) 
             setAppointment(prevState => ({ ...prevState, symptoms: '',date:null }));
             setOpen(false)
           } catch (error) {
-            toast.error(error.data.message)
+            const errVar = "error";
+            toast.error(errVar);
             //console.error('Error booking appointment:');
           } 
       } else if(!isTimeWithinSchedule(appointment.date)){

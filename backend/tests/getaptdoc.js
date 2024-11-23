@@ -2,8 +2,7 @@ const { MongoClient, ObjectId } = require("mongodb");
 
 async function main() {
   // Connection URI
-  const uri =
-    "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
+  const uri = process.env.MONGO_URI;
 
   // MongoDB client
   const client = new MongoClient(uri);
