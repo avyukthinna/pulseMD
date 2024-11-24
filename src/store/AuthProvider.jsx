@@ -55,7 +55,7 @@ export default function AuthProvider({children}){
 
     const handleSignup = async (name,email,password,role) => {
         try {
-            const response = await axios.post('http://localhost:3001/signup', {
+            const response = await axios.post('http://localhost:3001/auth/signup', {
               role,
               name,
               email,
@@ -83,7 +83,7 @@ export default function AuthProvider({children}){
     const handleLogin = async (email,password,role) => {
         //USER FETCHING FUNCTION 
         try {
-            const response = await axios.post('http://localhost:3001/login', {
+            const response = await axios.post('http://localhost:3001/auth/login', {
               email, 
               password, 
               role
@@ -158,7 +158,7 @@ export default function AuthProvider({children}){
 
     const handleDeleteAccount = async () => {
         try{
-            const response = await axios.delete('http://localhost:3001/deleteAccount', {
+            const response = await axios.delete('http://localhost:3001/auth/delete', {
                data:{
                     email:  currentUser.email,  
                     role:  currentUser.role
@@ -188,7 +188,7 @@ export default function AuthProvider({children}){
         //FUNCTION UPDATE USER DETAILS IN DB
         console.log('Updated user details:', currentUser);
         try{
-            const response = await axios.post('http://localhost:3001/updateProfiles', {
+            const response = await axios.post('http://localhost:3001/auth/updateProfile', {
                 currentUser
             });
             //console.log(response.data.message)

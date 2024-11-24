@@ -29,7 +29,7 @@ export default function Prescribe({patient_name,doctor_id,presc,patient,date}){
             //const validPrescriptions = newPrescriptions.filter(prescription => prescription !== '');
             //setPrescriptions([...prescriptions, ...validPrescriptions]);
             
-            const response = await axios.post('http://localhost:3001/addPrescriptions',{
+            const response = await axios.post('http://localhost:3001/appointment/prescriptions',{
               patient,doctor_id,prescriptions,date
             })
 

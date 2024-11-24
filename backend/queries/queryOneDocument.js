@@ -2,8 +2,7 @@ const { MongoClient } = require("mongodb");
 const express = require("express");
 const router = express.Router();
 
-const uri =
-  "mongodb+srv://Application:catmouse@cluster0.khl9yeo.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
 
 router.post("/", async (req, res) => {

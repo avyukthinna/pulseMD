@@ -3,30 +3,52 @@ import { useState,useEffect } from "react";
 import { useData } from "../../store/DataProvider";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { CircularProgress, Box } from "@mui/material";
 
 export default function ScheduledMeetings(){
     const {userAppointments, fetchUserAppointments} = useData()
     const {currentUser} = useAuth();
+    const [loading, setLoading] = useState(true);
+
+    // useEffect(() => {
+    //     //FETCH APPOINTMENTS
+    //     console.log("fetching...");
+    //     fetchUserAppointments(currentUser.email,currentUser.role)
+    // }, [])
 
     useEffect(() => {
-        //FETCH APPOINTMENTS
-        console.log("fetching...");
-        fetchUserAppointments(currentUser.email,currentUser.role)
-    }, [])
+        const fetchAppointments = async () => {
+            console.log("Fetching appointments...");
+
+            try {
+                setLoading(true);
+                // Call fetchUserAppointments to get appointments and set them
+                await fetchUserAppointments(currentUser.email, currentUser.role);
+                console.log("Appointments fetched successfully.");
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching appointments:", error);
+            }
+        };
+
+        if (currentUser.email && currentUser.role) {
+            fetchAppointments(); // Trigger fetching when `currentUser` is available
+        }
+    }, [currentUser.email, currentUser.role]);
     
     const ScheduledAppointments = userAppointments.filter((app) => {
         const appDate = new Date(app.date)
         const currentDate = new Date()
         if(appDate > currentDate) return app;
     })
-    console.log(userAppointments);
-    console.log(ScheduledAppointments)
+    console.log("user apts",userAppointments);
+    console.log("sche apts",ScheduledAppointments)
 
     const handleAccept = async (patient,date) => {
         console.log(patient,date)
       //FUNCTION SENDS APPOINTMENT ID AND CONFIRMS IT
       try {
-        const response = await axios.post('http://localhost:3001/acceptAppointment', {
+        const response = await axios.post('http://localhost:3001/appointment/accept', {
           patient,date
         });
         console.log("accept handled")
@@ -42,7 +64,7 @@ export default function ScheduledMeetings(){
         console.log(patient)
         //FUNCTION SENDS APPOINTMENT ID AND DELETES IT FROM DB
         try {
-            const response = await axios.delete('http://localhost:3001/rejectAppointment', {
+            const response = await axios.delete('http://localhost:3001/appointment/reject', {
                 data:{
                     patient_id:  patient,
                     date: date
@@ -80,6 +102,13 @@ export default function ScheduledMeetings(){
         }
     ]*/
 
+    if (loading) {
+        return (
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "50vh" }}>
+                     <CircularProgress size={60} color="primary" />
+            </Box>
+        )
+    } else {
     if(currentUser.role === 'patient'){
         if(ScheduledAppointments.length === 0){
             return (
@@ -92,7 +121,7 @@ export default function ScheduledMeetings(){
             <div className="min-h-96 mt-6 font-poppins flex flex-col" data-aos="fade-up">
                 {ScheduledAppointments.map((app) => {
                     return (
-                        <div className="bg-blue-100 mb-4 rounded-md p-3 flex flex-col sm-xl:flex-row items-center justify-between hover:scale-101 hover:duration-200">
+                        <div key={app._id} className="bg-blue-100 mb-4 rounded-md p-3 flex flex-col sm-xl:flex-row items-center justify-between hover:scale-101 hover:duration-200">
                             <div className="text-center sm-xl:text-left">
                                 <div className="font-semibold text-lg text-primary-blue">Dr. {app.doctor_name}</div>
                                 <div className=""><span className="font-semibold">Date:</span> {app.date}</div>
@@ -109,6 +138,7 @@ export default function ScheduledMeetings(){
     }
 
     if(currentUser.role === 'doctor'){
+        console.log("in doctor if");
         if(ScheduledAppointments.length === 0){
             return (
                 <div className="flip min-h-96 mt-8 font-poppins flex items-center justify-center" data-aos="fade-up">
@@ -120,7 +150,7 @@ export default function ScheduledMeetings(){
             <div className="min-h-96 mt-6 font-poppins flex flex-col" data-aos="fade-up">
                 {ScheduledAppointments.map((app) => {
                     return (
-                        <div className="bg-blue-100 mb-4 rounded-md p-3 flex flex-col sm-xl:flex-row items-center justify-between hover:scale-101 hover:duration-200">
+                        <div key={app._id} className="bg-blue-100 mb-4 rounded-md p-3 flex flex-col sm-xl:flex-row items-center justify-between hover:scale-101 hover:duration-200">
                             <div className="text-center sm-xl:text-left"> 
                                 <div className="font-semibold text-lg text-primary-blue">{app.patient_name}</div>
                                 <div className=""><span className="font-semibold">Date:</span> {app.date}</div>  
@@ -139,6 +169,7 @@ export default function ScheduledMeetings(){
             </div>   
         )}
     }
+}
 
     
 }

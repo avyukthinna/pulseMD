@@ -1,3 +1,8 @@
+# How to Run Frontend and Backend
+
+- Frontend: `npm start`
+- Backend: `npx dotenvx run -- node backend/index.js`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

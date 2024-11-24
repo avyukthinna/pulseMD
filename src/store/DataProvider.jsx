@@ -173,7 +173,7 @@ export default function DataProvider({children}){
     const fetchUserAppointments = async (user_id,role) => {
         console.log('called')
         try {
-            const response = await axios.post('http://localhost:3001/getAppointments', {
+            const response = await axios.post('http://localhost:3001/appointment/get', {
                 user_id,role
             });
             //const result = await response.data.data
