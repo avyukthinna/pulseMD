@@ -76,17 +76,15 @@ const FindDoc = () => {
                                 <div>{doctor.degree}</div>
                                 <div>{doctor.starttime} - {doctor.endtime} hrs</div>
 
-                                <button onClick={() => console.log(doctor)}>Click me</button>
-
-                                <BookAppointment
-                                    doctor_name={doctor.fullname}
-                                    doctor_id={doctor.email}
-                                    starttime={doctor.starttime}
-                                    endtime={doctor.endtime}
-                                    currentUser={currentUser}
-                                />
-                            </div>
-                        )) : (
+                                    <BookAppointment 
+                                        doctor_name={doctor.fullname} 
+                                        doctor_id={doctor.email} 
+                                        starttime={doctor.starttime} 
+                                        endtime={doctor.endtime} 
+                                        currentUser={currentUser}
+                                    />
+                                </div>
+                            )) : (
                             <div>No doctors found</div>
                         )}
                     </div>

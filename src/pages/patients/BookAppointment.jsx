@@ -1,5 +1,5 @@
 import Modal from '@mui/material/Modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { Alert } from '@mui/material';
@@ -21,7 +21,13 @@ const BookAppointment = ({doctor_id,doctor_name,starttime,endtime,currentUser}) 
       isConfirmed: false
     });
 
-    console.log("After Press:",appointment);
+    useEffect (() => {
+      setAppointment(prevState => ({
+        ...prevState,
+        doctor_id: doctor_id,
+        doctor_name: doctor_name
+      }));
+    }, [doctor_id, doctor_name]);
     
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
