@@ -1,75 +1,93 @@
-# How to Run Frontend and Backend
+# PulseMD
 
-- Frontend: `npm start`
-- Backend: `npx dotenvx run -- node backend/index.js`
+PulseMD is a healthcare management platform designed to streamline various aspects of medical practice. It enhances the efficiency of patient management, appointment scheduling, medical records management, and communication between healthcare providers and patients. PulseMD aims to improve the quality of care, accessibility, and overall patient experience in healthcare settings.
 
-# Getting Started with Create React App
+## Screenshots
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Website Screenshots
 
-## Available Scripts
+<div style="display: flex; overflow-x: auto; white-space: nowrap;">
 
-In the project directory, you can run:
+  <div style="text-align: center; margin-right: 10px; flex-shrink: 0;">
+    <img src="./public/screenshots/home_page.png" alt="Homepage" style="height: 400px; width: auto;">
+    <p>Homepage</p>
+  </div>
 
-### `npm start`
+  <div style="text-align: center; margin-right: 10px; flex-shrink: 0;">
+    <img src="./public/screenshots/login_page.png" alt="Login Page" style="height: 400px; width: auto;">
+    <p>Login Page</p>
+  </div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+  <div style="text-align: center; margin-right: 10px; flex-shrink: 0;">
+    <img src="./public/screenshots/Patient_Profile.png" alt="Patient Profile" style="height: 400px; width: auto;">
+    <p>Patient Profile</p>
+  </div>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  <div style="text-align: center; margin-right: 10px; flex-shrink: 0;">
+    <img src="./public/screenshots/find_doctors.png" alt="Find Doctors" style="height: 400px; width: auto;">
+    <p>Find Doctors</p>
+  </div>
 
-### `npm test`
+</div>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Technologies Used
+- Frontend: React
+- Backend: Node.js
+- Database: MongoDB
 
-### `npm run build`
+## How to Run Frontend and Backend
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Frontend
+To start the frontend, navigate to the project directory and run the following command:
+```bash
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Backend
+To start the backend, navigate to the project directory and run the following command:
+```bash
+npm run dev
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Installation
+To install and run PulseMD locally, follow these steps:
 
-### `npm run eject`
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/avyukthinna/pulseMD.git
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. Navigate to the project directory:
+   ```bash
+   cd pulsemD
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### MongoDB Setup
+PulseMD requires a MongoDB connection to store data. You'll need to set up your own MongoDB instance. If you're using **MongoDB Atlas** or a local instance, make sure you have the connection URL ready.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Create a `.env` file in the `root` directory (if it doesn’t already exist).
+2. Add the following line to the `.env` file:
+   ```env
+   MONGO_URI=your_mongodb_connection_url
+   ```
+   Replace `your_mongodb_connection_url` with your actual MongoDB connection string.
 
-## Learn More
+For example, if you're using MongoDB Atlas, your connection string will look like:
+   ```env
+   MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/dbname?retryWrites=true&w=majority
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. After adding the connection string, proceed with running the backend as described above.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Acknowledgements
 
-### Code Splitting
+Team Members contributing to this project:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Avyukth Inna](https://github.com/avyukthinna)
+- [Brijesh S G](https://github.com/brijesh-0)
+- [Ayman Khan](https://github.com/AymanKhan9)
