@@ -4,34 +4,13 @@ PulseMD is a healthcare management platform designed to streamline various aspec
 
 ## Screenshots
 
-## Website Screenshots
-
-<div style="display: flex; overflow-x: auto; white-space: nowrap;">
-
-  <div style="text-align: center; margin-right: 10px; flex-shrink: 0;">
-    <img src="./public/screenshots/home_page.png" alt="Homepage" style="height: 400px; width: auto;">
-    <p>Homepage</p>
-  </div>
-
-  <div style="text-align: center; margin-right: 10px; flex-shrink: 0;">
-    <img src="./public/screenshots/login_page.png" alt="Login Page" style="height: 400px; width: auto;">
-    <p>Login Page</p>
-  </div>
-
-  <div style="text-align: center; margin-right: 10px; flex-shrink: 0;">
-    <img src="./public/screenshots/Patient_Profile.png" alt="Patient Profile" style="height: 400px; width: auto;">
-    <p>Patient Profile</p>
-  </div>
-
-  <div style="text-align: center; margin-right: 10px; flex-shrink: 0;">
-    <img src="./public/screenshots/find_doctors.png" alt="Find Doctors" style="height: 400px; width: auto;">
-    <p>Find Doctors</p>
-  </div>
-
-</div>
+![Homepage](./public/screenshots/home_page.png)
+![Login Page](./public/screenshots/login_page.png)
+![Patient Profile](./public/screenshots/Patient_Profile.png)
+![Find Doctors](./public/screenshots/find_doctors.png)
 
 ## Technologies Used
-- Frontend: React
+- Frontend: ReactJS
 - Backend: Node.js
 - Database: MongoDB
 
